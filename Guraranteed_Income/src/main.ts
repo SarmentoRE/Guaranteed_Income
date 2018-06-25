@@ -13,6 +13,7 @@ export function configure(aurelia: Aurelia) {
     .standardConfiguration()
     .feature(PLATFORM.moduleName('resources/index'));
 
+
   // Uncomment the line below to enable animation.
   // aurelia.use.plugin(PLATFORM.moduleName('aurelia-animator-css'));
   // if the css animator is enabled, add swap-order="after" to all router-view elements
@@ -25,7 +26,10 @@ export function configure(aurelia: Aurelia) {
   }
 
   if (environment.testing) {
-    aurelia.use.plugin(PLATFORM.moduleName('aurelia-testing'));
+    aurelia.use
+    .plugin(PLATFORM.moduleName('aurelia-testing'))
+    .plugin(PLATFORM.moduleName('aurelia-bootstrap'));
+
   }
 
   aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
