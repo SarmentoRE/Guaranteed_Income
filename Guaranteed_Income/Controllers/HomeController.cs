@@ -8,30 +8,15 @@ using Guaranteed_Income.Models;
 
 namespace Guaranteed_Income.Controllers
 {
+    [Produces("application/json")]
+    [Route("api")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+       [HttpPost]
+       public JsonResult Post([FromBody]InputModel request)
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var response = request;
+            return Json(response);
         }
     }
 }
