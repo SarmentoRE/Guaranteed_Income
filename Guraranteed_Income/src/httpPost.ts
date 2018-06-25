@@ -1,7 +1,6 @@
 export default class HTTPPost {
 
-  SendData(personOne, personTwo) {
-    var personArray = [personOne, personTwo];
+  SendData(personOne) {
     (async () => {
       const response = await fetch('http://localhost:52079/api/values', {
         method: 'POST',
@@ -9,7 +8,7 @@ export default class HTTPPost {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(personArray)
+        body: JSON.stringify(personOne)
       });
       const content = await response.json();
       
