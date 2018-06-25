@@ -3,13 +3,35 @@
   <head>
     <require from="guaranteedincome.css" rel="stylesheet"></require>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+    <link href="https://fonts.googleapis.com/css?family=Anton|Archivo+Black|Fjalla+One|Lato" rel="stylesheet">
   </head>
 
-  <div class="sidenav">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#clients">Clients</a>
-    <a href="#contact">Contact</a>
+  <div class="sidenav" id="sidebar">
+      <div class="row">
+          <div class="column" style="float:right">
+            <button class="button" click.delegate="CloseSidebar()" style="transform: translate(-50%,-2.5%); width:38px"><span></span></button>
+          </div>
+        </div>
+    <a class="w3-button" click.delegate="HideElement('age','ageInput')" id="age">Age</a>
+    <input class="inputSideBar" id="ageInput" style="display:none">
+
+    <a class="w3-button" click.delegate="HideElement('income','incomeInput')" id="income">Income</a>
+    <input class="inputSideBar" id="incomeInput" style="display:none">
+
+    <a class="w3-button" click.delegate="HideElement('additions','additionsInput')" id="additions">Additions</a>
+    <input class="inputSideBar" id="additionsInput" style="display:none">
+
+    <a class="w3-button" click.delegate="HideElement('retireDate','retireDateInput')" id="retireDate">Date of Retirement</a>
+    <input class="inputSideBar" id="retireDateInput" style="display:none" type="date">
+
+    <a class="w3-button" click.delegate="HideElement()" id="age">Age</a>
+    <input class="inputSideBar" id="ageInput" style="display:none">
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <button class="button" click.delegate="OpenSidebar()"><span> &nbsp; </span></button>
+    </div>
   </div>
 
 

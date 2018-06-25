@@ -1,25 +1,47 @@
+/* font-family: 'Fjalla One', sans-serif;
+font-family: 'Anton', sans-serif;
+font-family: 'Lato', sans-serif;
+font-family: 'Archivo Black', sans-serif; */
+
+.column50 {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 .sidenav {
+  font-family: 'Lato', sans-serif; 
+
   height: 100%;
   width: 20%;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #2f2929;
   overflow-x: hidden;
   padding-top: 20px;
+  display: none;
 }
 
 .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #FAFCF9;
   display: block;
 }
 
 .sidenav a:hover {
   color: #f1f1f1;
+  text-decoration: none;
 }
 
 .main {
@@ -33,9 +55,73 @@
   .sidenav a {font-size: 18px;}
 }
 
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
+
+/* BUTTONS */
+
+.button {
+  border-radius: 4px;
+  position:fixed;
+  background-color: #95AB63;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  height:980px;
+  width: 50px;
+  transition: all 0.5s;
+  cursor: pointer;
 }
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+/* INPUT FIELDS */
+
+.inputSideBar {
+  position:relative;
+  border:0;
+  background: transparent;
+  height: 5%;
+  width: 100%;
+  color: white;
+  text-align: center;
+  transform:translate(0%,0%);
+}
+
+.inputSideBar:focus {color:white!important;background-color:#809F61!important}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.w3-button:hover{color:white!important;background-color:#809F61!important}
+.w3-button:focus{color:white!important;background-color:#809F61!important}
+
+
+
