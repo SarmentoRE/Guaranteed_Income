@@ -9,38 +9,26 @@ namespace Guaranteed_Income.Models
     {
         private double federalYearlyTax;
         private double stateYearlyTax;
+        private double federalDeduction;
+        private double stateDeduction;
         private List<double> rate;
         private List<double> bracket;
 
-        public TaxBracket(int income, FilingStatus status)
+        public TaxBracket(int income, FilingStatus status, State state)
         {
-            switch (status) //add any filing status rates here
-            {
-                case FilingStatus.Joint :
-                    this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
-                    this.bracket = new List<double> { 0, 19050, 77400, 165000, 315000, 400000, 600000 };
-                    break;
-                case FilingStatus.Single :
-                    this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
-                    this.bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 500000 };
-                    break;
-                case FilingStatus.HeadOfHousehold:
-                    this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
-                    this.bracket = new List<double> { 0, 13600, 51800, 82500, 157500, 200000, 500000 };
-                    break;
-                case FilingStatus.Married:
-                    this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
-                    this.bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 300000 };
-                    break;
-            }
-            this.federalYearlyTax = CalculateYearlyFederalTax(income);
-            this.stateYearlyTax = CalculateYearlyStateTax(income);
+            CalculateStandardDeduction(status, state);
+
+            double federalTaxableIncome = (Double)Math.Max((income - federalDeduction),0);
+            double stateTaxableIncome = (Double)Math.Max((income - stateDeduction),0);
+
+            federalYearlyTax = CalculateYearlyFederalTax(federalTaxableIncome);
+            stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome);
         }
 
-        public double CalculateYearlyFederalTax(int income)
+        private double CalculateYearlyFederalTax(double income)
         {
             double tax = 0;
-            double currentAmount = (Double)income;
+            double currentAmount = income;
             int currentBracket = 0;
             double taxable;
             //Find the maximum applicable tax bracket
@@ -61,11 +49,62 @@ namespace Guaranteed_Income.Models
             return tax;
         }
 
-        public double CalculateYearlyStateTax(int income)
+        private double CalculateYearlyStateTax(double income)
         {
-            this.rate = new List<double> { 0.02, .03, .05, .0575 };
-            this.bracket = new List<double> { 0, 3000, 5000, 17000 };
+            rate = new List<double> { 0.02, .03, .05, .0575 };
+            bracket = new List<double> { 0, 3000, 5000, 17000 };
             return CalculateYearlyFederalTax(income);
+        }
+
+        private void CalculateStandardDeduction(FilingStatus status, State state)
+        {
+            switch (status) //add any filing status rates here
+            {
+                case FilingStatus.Joint:
+                    rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
+                    bracket = new List<double> { 0, 19050, 77400, 165000, 315000, 400000, 600000 };
+                    federalDeduction = 12000;
+                    switch (state)
+                    {
+                        case State.Virginia:
+                            stateDeduction = 6000;
+                            break;
+                    }
+                    break;
+                case FilingStatus.Single:
+                    rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
+                    bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 500000 };
+                    federalDeduction = 24000;
+                    switch (state)
+                    {
+                        case State.Virginia:
+                            stateDeduction = 3000;
+                            break;
+                    }
+                    break;
+                case FilingStatus.HeadOfHousehold:
+                    rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
+                    bracket = new List<double> { 0, 13600, 51800, 82500, 157500, 200000, 500000 };
+                    federalDeduction = 18000;
+                    switch (state)
+                    {
+                        case State.Virginia:
+                            stateDeduction = 3000;
+                            break;
+                    }
+                    break;
+                case FilingStatus.Married:
+                    rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
+                    bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 300000 };
+                    federalDeduction = 12000;
+                    switch (state)
+                    {
+                        case State.Virginia:
+                            stateDeduction = 3000;
+                            break;
+                    }
+                    break;
+            }
         }
     }
 
@@ -75,5 +114,10 @@ namespace Guaranteed_Income.Models
         Joint,
         HeadOfHousehold,
         Married
+    }
+
+    public enum State
+    {
+        Virginia
     }
 }
