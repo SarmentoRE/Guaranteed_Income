@@ -7,7 +7,8 @@ namespace Guaranteed_Income.Models
 {
     public class TaxBracket
     {
-        private double yearlyTax;
+        private double federalYearlyTax;
+        private double stateYearlyTax;
         private List<double> rate;
         private List<double> bracket;
 
@@ -24,10 +25,11 @@ namespace Guaranteed_Income.Models
                     this.bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 500000 };
                     break;
             }
-            this.yearlyTax = CalculateYearlyTax(income);
+            this.federalYearlyTax = CalculateYearlyFederalTax(income);
+            this.stateYearlyTax = CalculateYearlyStateTax(income);
         }
 
-        public double CalculateYearlyTax(int income)
+        public double CalculateYearlyFederalTax(int income)
         {
             double tax = 0;
             double currentAmount = (Double)income;
@@ -49,6 +51,13 @@ namespace Guaranteed_Income.Models
                 currentAmount = currentAmount - taxable;
             }
             return tax;
+        }
+
+        public double CalculateYearlyStateTax(int income)
+        {
+            this.rate = new List<double> { 0.02, .03, .05, .0575 };
+            this.bracket = new List<double> { 0, 3000, 5000, 17000 };
+            return CalculateYearlyFederalTax(income);
         }
     }
 
