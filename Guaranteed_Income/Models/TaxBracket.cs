@@ -24,6 +24,14 @@ namespace Guaranteed_Income.Models
                     this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
                     this.bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 500000 };
                     break;
+                case FilingStatus.HeadOfHousehold:
+                    this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
+                    this.bracket = new List<double> { 0, 13600, 51800, 82500, 157500, 200000, 500000 };
+                    break;
+                case FilingStatus.Married:
+                    this.rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
+                    this.bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 300000 };
+                    break;
             }
             this.federalYearlyTax = CalculateYearlyFederalTax(income);
             this.stateYearlyTax = CalculateYearlyStateTax(income);
@@ -64,6 +72,8 @@ namespace Guaranteed_Income.Models
     public enum FilingStatus //currently supported filing statuses
     {
         Single,
-        Joint
+        Joint,
+        HeadOfHousehold,
+        Married
     }
 }
