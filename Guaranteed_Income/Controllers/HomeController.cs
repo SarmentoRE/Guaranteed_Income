@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Guaranteed_Income.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Guaranteed_Income.Services;
+using Guaranteed_Income.Utilities;
 
 namespace Guaranteed_Income.Controllers
 {
@@ -14,6 +16,15 @@ namespace Guaranteed_Income.Controllers
     [Route("api")]
     public class HomeController : Controller
     {
+
+    
+       [HttpGet]
+       public IEnumerable<string> Get()
+        {
+            MonteCarlo x = new MonteCarlo(1,0.0083,.0424,360);
+            return new string[] { "value1", "value2" };
+        }
+
         [HttpPost]
         public JToken Post([FromBody] InputModel request)
         {

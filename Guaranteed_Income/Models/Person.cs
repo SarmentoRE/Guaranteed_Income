@@ -35,7 +35,7 @@ namespace Guaranteed_Income.Models
             this.filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus),model.filingStatus ,true);
             this.retirementDate = model.retirementDate;
             this.deathDate = model.deathDate;
-            this.taxBracket = new TaxBracket(this.income, this.filingStatus);
+            this.taxBracket = new TaxBracket(this.income, this.filingStatus, State.Virginia);
         }
     }
 }
