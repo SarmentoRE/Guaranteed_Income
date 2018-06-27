@@ -17,7 +17,8 @@ namespace Guaranteed_Income.Services
         private double time; //how many days,months, or years
         private int trials = 10000; //how many trials
         IRandom x = SafeRandom.Generator;
-
+        
+        
         public MonteCarlo(double currentValue, double expectedReturn, double standardDeviation, double time)
         {
             this.currentValue = currentValue;
@@ -26,7 +27,11 @@ namespace Guaranteed_Income.Services
             this.time = time;
 
             //Console.WriteLine("Starting monte carlo");
-            Parallel.For(0,trials, x => RunSimulation());
+
+            var iops = new ParallelOptions() { MaxDegreeOfParallelism = System.Environment.ProcessorCount };
+            Parallel.For(0, trials,iops, x => {
+                RunSimulation();
+            });
             //Console.WriteLine("Monte carlo done");
         }
 
@@ -37,16 +42,17 @@ namespace Guaranteed_Income.Services
             List<double> trial;
             trial = new List<double> { }; //record the current trial
 
-                for (int j = 1; j <= time; j++)
-                {
-                    change = currentValue * ((expectedReturn * j) + (standardDeviation * (x.NextDouble(-3.0,3.0)) * Math.Sqrt(j)));
-                    trialValue += change;
-                    trial.Add(trialValue);
-                }
+            for (int j = 0; j < time; j++)
+            {
+                change = trialValue * ((expectedReturn) + (standardDeviation * (x.NextDouble(-3.0, 3.0))));
+                trialValue += change;
+                trialValue = Math.Max(trialValue, 0);
+                trial.Add(trialValue);
+            }
 
-                mutex.WaitOne();
-                trialsList.Add(trial); //make sure only one thread accesses the list at any given time to record its trial
-                mutex.ReleaseMutex();
+            mutex.WaitOne();
+            trialsList.Add(trial); //make sure only one thread accesses the list at any given time to record its trial
+            mutex.ReleaseMutex();
         }
     }
 }
