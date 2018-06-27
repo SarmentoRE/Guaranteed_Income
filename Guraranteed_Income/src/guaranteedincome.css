@@ -5,6 +5,13 @@ font-family: 'Archivo Black', sans-serif; */
 
 
 /* INPUT FIELDS */
+.section {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+.modal {
+  background-image: url(./img/bg-cta.jpg);
+}
 
 .inputSideBar {
   position:relative;

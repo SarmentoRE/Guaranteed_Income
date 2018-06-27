@@ -1,7 +1,20 @@
+import {RouterConfiguration, Router} from 'aurelia-router';
+import {PLATFORM} from 'aurelia-pal';
+import { Script } from 'vm';
 import Person from "person";
-import HTTPPost from "httpPost"
 
 export class App {
+  router:Router;
+  configureRouter(config, router) {
+    config.title = 'Tax Planning';
+    config.options.pushState = true;
+    config.map([
+      {route: ['', 'home'], name: 'home', moduleId: PLATFORM.moduleName('home.html'), nav: true, title: 'Home'},
+      {route: 'results', name: 'results', moduleId:  PLATFORM.moduleName('results.html'), nav: true, title: 'Results'},
+    ]);
+    this.router = router;
+  }
+
   personOne = new Person();
 
   attached() {

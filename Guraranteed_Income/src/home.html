@@ -1,0 +1,141 @@
+<template>
+
+  <body>
+    <section>
+      <div class="modal is-active" id="start">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head" style="background-color: #222222;">
+            <p class="modal-card-title" style="color:white; text-align:center;">Welcome!</p>
+          </header>
+
+          <section class="modal-card-body" style="background-color:hsl(171, 100%, 41%)">
+            <article class="message is-primary">
+              <div class="message-header" click.delegate="Reversal('genderBody')">
+                <p>What Is Your Gender?</p>
+                <button class="delete" aria-label="delete" click.delegate="Reversal('genderBody')"></button>
+              </div>
+              <div class="notification is-primary" style="display:none" id="genderBody">
+                <div class="field">
+                  <div class="control">
+                    <div class="select is-large">
+                      <select>
+                        <option>Select dropdown</option>
+                        <option>With options</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="modal-card-body" style="background-color:hsl(204, 86%, 53%)">
+            <article class="message is-info">
+              <div class="message-header">
+                <p>How Old Are You?</p>
+                <button class="delete" aria-label="delete" click.delegate="Reversal('ageBody')"></button>
+              </div>
+              <div class="notification is-info" style="display:none" id="ageBody">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" placeholder="22">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-medium is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="modal-card-body" style="background-color:hsl(217, 71%, 53%)">
+            <article class="message is-link">
+              <div class="message-header">
+                <p>What Is Your Gross Annual Income?</p>
+                <button class="delete" aria-label="delete" click.delegate="Reversal('incomeBody')"></button>
+              </div>
+              <div class="notification is-link" style="display:none" id="incomeBody">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" placeholder="50000">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-medium is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="modal-card-body" style="background-color:hsl(141, 71%, 48%)">
+            <article class="message is-success">
+              <div class="message-header">
+                <p>When Do You Plan To Retire?</p>
+                <button class="delete" aria-label="delete" click.delegate="Reversal('retireBody')"></button>
+              </div>
+              <div class="notification is-success" style="display:none" id="retireBody">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" type="date">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-medium is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="modal-card-body" style="background-color:hsl(48, 100%, 67%)">
+            <article class="message is-warning">
+              <div class="message-header">
+                <p>When Can Your Money Run Out?</p>
+                <button class="delete" aria-label="delete" click.delegate="Reversal('deathBody')"></button>
+              </div>
+              <div class="notification is-warning" style="display:none" id="deathBody">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" type="date">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-medium is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="modal-card-body" style="background-color:hsl(348, 100%, 61%)	">
+            <article class="message is-danger">
+              <div class="message-header">
+                <p>Are You Filing Jointly?</p>
+                <button class="delete" aria-label="delete" click.delegate="Reversal('filingBody')"></button>
+              </div>
+              <div class="notification is-danger" style="display:none" id="filingBody">
+                <div class="field">
+                  <div class="control">
+                    <div class="select is-large">
+                      <select>
+                        <option>Select dropdown</option>
+                        <option>With options</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <footer class="modal-card-foot" style="background-color: #222222;">
+            <button class="button is-light is-outlined" style="transform:translateX(195%)"> <a href="/results" style="color:white">Submit</a></button>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </body>
+</template>
