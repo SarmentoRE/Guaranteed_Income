@@ -1,38 +1,283 @@
 <template>
 
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
     <require from="guaranteedincome.css" rel="stylesheet"></require>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
-    <link href="https://fonts.googleapis.com/css?family=Anton|Archivo+Black|Fjalla+One|Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+      crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
   </head>
 
-  <div class="sidenav" id="sidebar">
-      <div class="row">
-          <div class="column" style="float:right">
-            <button class="button" click.delegate="CloseSidebar()" style="transform: translate(-50%,-2.5%); width:38px"><span></span></button>
+
+  <!-- START MODAL -->
+  <div class="modal" id="start" >
+    <div class="modal-background" ></div>
+    <div class="modal-card">
+      <header class="modal-card-head" style="background-color: #222222;">
+        <p class="modal-card-title" style="color:white; text-align:center">Welcome!</p>
+      </header>
+
+      <section class="modal-card-body" style="background-color:hsl(171, 100%, 41%)" >
+        <article class="message is-primary" >
+          <div class="message-header" click.delegate="Reversal('genderBody')">
+            <p>What Is Your Gender?</p>
+            <button class="delete" aria-label="delete" click.delegate="Reversal('genderBody')"></button>
           </div>
-        </div>
-    <a class="w3-button" click.delegate="HideElement('age','ageInput')" id="age">Age</a>
-    <input class="inputSideBar" id="ageInput" style="display:none">
+          <div class="notification is-primary" style="display:none" id="genderBody">
+            <div class="field">
+              <div class="control">
+                <div class="select is-large">
+                  <select>
+                    <option>Select dropdown</option>
+                    <option>With options</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
 
-    <a class="w3-button" click.delegate="HideElement('income','incomeInput')" id="income">Income</a>
-    <input class="inputSideBar" id="incomeInput" style="display:none">
+      <section class="modal-card-body" style="background-color:hsl(204, 86%, 53%)">
+        <article class="message is-info">
+          <div class="message-header">
+            <p>How Old Are You?</p>
+            <button class="delete" aria-label="delete" click.delegate="Reversal('ageBody')"></button>
+          </div>
+          <div class="notification is-info" style="display:none" id="ageBody">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" placeholder="22">
+              <span class="icon is-medium is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-medium is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+        </article>
+      </section>
 
-    <a class="w3-button" click.delegate="HideElement('additions','additionsInput')" id="additions">Additions</a>
-    <input class="inputSideBar" id="additionsInput" style="display:none">
+      <section class="modal-card-body" style="background-color:hsl(217, 71%, 53%)">
+        <article class="message is-link">
+          <div class="message-header">
+            <p>What Is Your Gross Annual Income?</p>
+            <button class="delete" aria-label="delete" click.delegate="Reversal('incomeBody')"></button>
+          </div>
+          <div class="notification is-link" style="display:none" id="incomeBody">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" placeholder="50000">
+              <span class="icon is-medium is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-medium is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+        </article>
+      </section>
 
-    <a class="w3-button" click.delegate="HideElement('retireDate','retireDateInput')" id="retireDate">Date of Retirement</a>
-    <input class="inputSideBar" id="retireDateInput" style="display:none" type="date">
+      <section class="modal-card-body" style="background-color:hsl(141, 71%, 48%)">
+        <article class="message is-success">
+          <div class="message-header">
+            <p>When Do You Plan To Retire?</p>
+            <button class="delete" aria-label="delete" click.delegate="Reversal('retireBody')"></button>
+          </div>
+          <div class="notification is-success" style="display:none" id="retireBody">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" type="date">
+              <span class="icon is-medium is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-medium is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+        </article>
+      </section>
 
-    <a class="w3-button" click.delegate="HideElement()" id="age">Age</a>
-    <input class="inputSideBar" id="ageInput" style="display:none">
-  </div>
+      <section class="modal-card-body" style="background-color:hsl(48, 100%, 67%)">
+        <article class="message is-warning">
+          <div class="message-header">
+            <p>When Can Your Money Run Out?</p>
+            <button class="delete" aria-label="delete" click.delegate="Reversal('deathBody')"></button>
+          </div>
+          <div class="notification is-warning" style="display:none" id="deathBody">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" type="date">
+              <span class="icon is-medium is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-medium is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+        </article>
+      </section>
 
-  <div class="row">
-    <div class="column">
-      <button class="button" click.delegate="OpenSidebar()"><span> &nbsp; </span></button>
+      <section class="modal-card-body" style="background-color:hsl(348, 100%, 61%)	">
+        <article class="message is-danger">
+          <div class="message-header">
+            <p>Are You Filing Jointly?</p>
+            <button class="delete" aria-label="delete" click.delegate="Reversal('filingBody')"></button>
+          </div>
+          <div class="notification is-danger" style="display:none" id="filingBody">
+            <div class="field">
+              <div class="control">
+                <div class="select is-large">
+                  <select>
+                    <option>Select dropdown</option>
+                    <option>With options</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="modal-card-foot" style="background-color: #222222;">
+        <button class="button is-light is-outlined" style="transform:translateX(195%)" click.delegate="HideElement('start')">Save changes</button>
+      </footer>
     </div>
   </div>
+  </section>
+
+      <section class="main-content columns" style="position:absolute; z-index:1; display:none" id="menu">
+        <aside class="column is-2 is-narrow-mobilesection is-hidden-mobile" style="background-color:#222222;position:fixed;height:1200px;">
+          <br>
+
+          <p class="menu-label is-hidden-touch">Navigation</p>
+          <ul class="menu-list">
+            <li>
+              <a class="" click.delegate="ShowElement('start')">
+                <span class="icon">
+                  <i class="fa fa-home"></i>
+                </span> Start
+              </a>
+            </li>
+            <li>
+              <a href="#" class="is-active">
+                <span class="icon">
+                  <i class="fa fa-table"></i>
+                </span> About You:
+              </a>
+
+              <ul>
+                <li>
+                  <a href="#">
+                    <span class="icon is-small">
+                      <i class="fa fa-link"></i>
+                    </span> Gender
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <span class="icon is-small">
+                      <i class="fa fa-link"></i>
+                    </span> Age
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <span class="icon is-small">
+                      <i class="fa fa-link"></i>
+                    </span> Income
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <span class="icon is-small">
+                      <i class="fa fa-link"></i>
+                    </span> Retirement Date
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <span class="icon is-small">
+                      <i class="fa fa-link"></i>
+                    </span> End of Plan
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <span class="icon is-small">
+                      <i class="fa fa-link"></i>
+                    </span> Filing Status
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            <li>
+              <a href="#" class="">
+                <span class="icon">
+                  <i class="fa fa-info"></i>
+                </span> Results
+              </a>
+            </li>
+          </ul>
+        </aside>
+      </section>
+
+    
+      <section>
+        <div class="tile is-ancestor" id="results">
+          <div class="tile is-vertical is-9">
+            <div class="tile">
+              <div class="tile is-parent is-vertical">
+                <article class="tile is-child notification is-primary" click.delegate="ToggleMenu()">
+                  <p class="title">Vertical...</p>
+                  <p class="subtitle">Top tile</p>
+                </article>
+                <article class="tile is-child notification is-warning">
+                  <p class="title">...tiles</p>
+                  <p class="subtitle">Bottom tile</p>
+                </article>
+              </div>
+              <div class="tile is-parent">
+                <article class="tile is-child notification is-info">
+                  <p class="title">Middle tile</p>
+                  <p class="subtitle">With an image</p>
+                  <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/640x480.png">
+                  </figure>
+                </article>
+              </div>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child notification is-danger">
+                <p class="title">Wide tile</p>
+                <p class="subtitle">Aligned with the right tile</p>
+                <div class="content">
+                  <!-- Content -->
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-success">
+              <div class="content">
+                <p class="title">Tall tile</p>
+                <p class="subtitle">With even more content</p>
+                <div class="content">
+                  <!-- Content -->
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+
+
+
 
 
 </template>

@@ -1,7 +1,6 @@
 export default class HTTPPost {
 
   SendData(personOne) {
-    console.log(JSON.stringify(personOne));
     (async () => {
       const response = await fetch('http://localhost:52079/api/values', {
         method: 'POST',

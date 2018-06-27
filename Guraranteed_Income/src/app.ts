@@ -5,14 +5,15 @@ export class App {
   personOne = new Person();
 
   attached() {
-    var self = this;
-    this.personOne.income = 50000;
-    this.personOne.age = 60;
+    // var self = this;
+    // this.personOne.income = 50000;
+    // this.personOne.age = 60;
 
-    var post = new HTTPPost();
-    var results = post.SendData(this.personOne)
-    document.getElementById("ageInput").addEventListener("blur", function(){self.ShowElement("age","ageInput")})
-    document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
+    // var post = new HTTPPost();
+    // var results = post.SendData(this.personOne)
+    // document.getElementById("ageInput2").addEventListener("blur", function(){self.ShowElement("age","ageInput")})
+    // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
+    // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
 
   OpenSidebar() {
@@ -23,19 +24,49 @@ export class App {
     document.getElementById("sidebar").style.display = "none";
   }
 
-  HideElement(elementOne, elementTwo) {
+  ShowElement(elementOne) {
     var link = document.getElementById(elementOne);
-    var text = document.getElementById(elementTwo);
-    link.style.display = "none";
-    text.style.display = "block";
-    text.focus();
+    link.classList.add("is-active");
   }
 
-  ShowElement(elementOne, elementTwo) {
+  HideElement(elementOne) {
     var link = document.getElementById(elementOne);
-    var text = document.getElementById(elementTwo);
-    link.style.display = "block";
-    text.style.display = "none";
+    link.classList.remove("is-active");
+  }
+
+  ToggleMenu() {
+    var menu = document.getElementById("menu");
+    if ( menu.style.display == "none" ) {
+      menu.style.display = "block";
+    }
+    else {
+      menu.style.display = "none";
+    }
+  }
+
+  Reversal(elementOne) {
+    var link = document.getElementById(elementOne);
+
+    var genderID = document.getElementById("genderBody");
+    var ageID = document.getElementById("ageBody");
+    var incomeID = document.getElementById("incomeBody");
+    var retireID = document.getElementById("retireBody");
+    var deathID = document.getElementById("deathBody");
+    var filingID = document.getElementById("filingBody");
+
+    var ids= [genderID, ageID, incomeID, retireID, deathID, filingID];
+
+    if(link.style.display == "none") {
+      for (var i = 0; i < ids.length; i++) {
+        if ( ids[i].style.display == "block") {
+          ids[i].style.display = "none";
+        }
+      }
+      link.style.display = "block";
+    }
+    else{
+      link.style.display = "none";
+    }
   }
 
 
