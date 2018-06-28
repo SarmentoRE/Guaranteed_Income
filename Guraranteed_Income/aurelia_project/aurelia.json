@@ -5,6 +5,13 @@
     "id": "webpack",
     "displayName": "Webpack"
   },
+  "bundles": [
+    {
+      "prepend" : [
+        "node_modules/chart.js/dist/Chart.min.js"
+      ]
+  }
+],
   "build": {
     "options": {
       "server": "dev",

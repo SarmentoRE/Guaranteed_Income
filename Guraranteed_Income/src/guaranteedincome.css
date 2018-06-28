@@ -8,9 +8,13 @@ font-family: 'Archivo Black', sans-serif; */
 .section {
   font-family: 'Archivo Black', sans-serif;
 }
+body{
+  /* overflow: hidden; */
+}
 
 .modal {
-  background-image: url(./img/bg-cta.jpg);
+  /* background-image: url(./img/bg-cta.jpg); */
+  /* background-color: #222222 */
 }
 
 .inputSideBar {
@@ -29,25 +33,18 @@ button:focus {
 }
 
 
+
 html, body, #app {
   height: 100%;
 }
-#app {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+
 .main-content {
   flex: 1;
 }
 .footer {
   margin-top: -12px;
 }
-@media screen and (max-width: 768px) {
-  #menu-toggle:checked + .nav-menu {
-    display: block;
-  }
-}
+
 
 
 

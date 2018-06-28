@@ -1,6 +1,7 @@
 import {RouterConfiguration, Router} from 'aurelia-router';
 import {PLATFORM} from 'aurelia-pal';
 import { Script } from 'vm';
+import {Chart} from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
 
 export class App {
@@ -16,6 +17,7 @@ export class App {
   }
 
   personOne = new Person();
+  myLineChart;
 
   attached() {
     // var self = this;
@@ -27,14 +29,6 @@ export class App {
     // document.getElementById("ageInput2").addEventListener("blur", function(){self.ShowElement("age","ageInput")})
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
-  }
-
-  OpenSidebar() {
-    document.getElementById("sidebar").style.width = "20%";
-    document.getElementById("sidebar").style.display = "block";
-  }
-  CloseSidebar() {
-    document.getElementById("sidebar").style.display = "none";
   }
 
   ShowElement(elementOne) {
@@ -55,19 +49,34 @@ export class App {
     else {
       menu.style.display = "none";
     }
+
+    this.myLineChart = new Chart(document.getElementById("line-chart"), {
+      type: 'line',
+      data: {
+        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        datasets: [{
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [2478,5267,734,784,433]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+  });
   }
 
   Reversal(elementOne) {
     var link = document.getElementById(elementOne);
 
-    var genderID = document.getElementById("genderBody");
-    var ageID = document.getElementById("ageBody");
-    var incomeID = document.getElementById("incomeBody");
-    var retireID = document.getElementById("retireBody");
-    var deathID = document.getElementById("deathBody");
-    var filingID = document.getElementById("filingBody");
+    var generalID = document.getElementById("generalBody");
+    var financesID = document.getElementById("financesBody");
 
-    var ids= [genderID, ageID, incomeID, retireID, deathID, filingID];
+
+    var ids= [generalID, financesID];
 
     if(link.style.display == "none") {
       for (var i = 0; i < ids.length; i++) {
