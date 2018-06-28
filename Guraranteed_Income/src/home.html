@@ -1,15 +1,26 @@
 <template>
-  <body >
-    <section class="genInfo-hover genInfo" style="background-color: #49804A;">
-      <br>
-      <br>
-      <div class="message-header genInfo-hover" click.delegate="Reversal('generalBody')" style="background-color:#49804A">
-        <span>General Information</span> <i class="fa fa-arrow-alt-circle-down fa-2x"></i>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <require from="guaranteedincome.css" rel="stylesheet"></require>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+      crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Fjalla+One|Lato" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  </head>
+
+  <body>
+    <section class="genInfo-hover" style="background-color: #49804A; height:25vh" id="generalInfo">
+      <div class="message-header" click.delegate="Reversal('generalBody')" style="background-color:#49804A" id="generalHeader">
+        <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">General Information</span>
       </div>
-      <div class="notification" style="display:none;background-color:#49804A" id="generalBody">
-        <div class="message-header" style="background-color:#49804A">
-          <p>Gender</p>
-        </div>
+      <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
+      <div class="notification" style="display:none;background-color:#49804A;height:100vh" id="generalBody">
+        <div class="message-header" style="background-color:#49804A;">
+            <span style="font-size: 3vh; font-family:Fjalla One;">Gender</span>
+          </div>
         <div class="field">
           <div class="control">
             <div class="select is-large">
@@ -21,8 +32,8 @@
           </div>
         </div>
         <div class="message-header" style="background-color:#49804A">
-          <p>Age</p>
-        </div>
+            <span style="font-size: 3vh; font-family:Fjalla One;">Age</span>
+          </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" placeholder="22" value.bind="client.age">
           <span class="icon is-medium is-left">
@@ -33,8 +44,8 @@
           </span>
         </div>
         <div class="message-header" style="background-color:#49804A">
-          <p>When do you plan to retire?</p>
-        </div>
+            <span style="font-size: 3vh; font-family:Fjalla One;">When do you plan to retire?</span>
+          </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" type="date" value.bind="client.retirementDate">
           <span class="icon is-medium is-left">
@@ -45,8 +56,8 @@
           </span>
         </div>
         <div class="message-header" style="background-color:#49804A">
-          <p>When can the money run out?</p>
-        </div>
+            <span style="font-size: 3vh; font-family:Fjalla One;">When can the money run out?</span>
+          </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" type="date" value.bind="client.deathDate">
           <span class="icon is-medium is-left">
@@ -57,8 +68,8 @@
           </span>
         </div>
         <div class="message-header" style="background-color:#49804A">
-          <p>How will you be filing?</p>
-        </div>
+            <span style="font-size: 3vh; font-family:Fjalla One;">How will you be filing?</span>
+          </div>
         <div class="field">
           <div class="control">
             <div class="select is-large">
@@ -70,19 +81,18 @@
           </div>
         </div>
       </div>
-      <br>
-      <br>
+
     </section>
 
-    <section style="background-color:#89cc66">
-      <br>
-      <br>
-      <div class="message-header" click.delegate="Reversal('financesBody')" style="background-color:#89cc66">
-        <p>Finances</p><i class="fa fa-arrow-alt-circle-down fa-2x"></i>
+    <section class="genInfo-hover" style="background-color:#89cc66; height:25vh" id="financesInfo">
+
+      <div class="message-header" click.delegate="Reversal('financesBody')" style="background-color:#89cc66" id="financesHeader">
+          <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Finances</span>
       </div>
-      <div class="notification is-success" style="display:none; background-color:#89cc66" id="financesBody">
+      <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
+      <div class="notification is-success" style="display:none; background-color:#89cc66; height:100vh" id="financesBody">
         <div class="message-header" style="background-color:#89cc66">
-          <p>What is your gross annual income?</p>
+            <span style="font-size: 3vh; font-family:Fjalla One;">What is your gross annual income?</span>
         </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" placeholder="50000" value.bind="client.income">
@@ -94,59 +104,27 @@
           </span>
         </div>
       </div>
-      <br>
-      <br>
+
     </section>
 
 
-    <section style="background-color: #1e5532;">
-        <br>
-        <br>
-        <div class="message-header"  style="background-color:#1e5532">
-          <p>Other</p><i class="fa fa-arrow-alt-circle-down fa-2x"></i>
-        </div>
-        <br>
-        <br>
-      </section>
+    <section class="genInfo-hover" style="background-color: #1e5532;height:25vh" id="otherInfo">
 
-      <section  style="background-color: #FAFCF9;">
-          <br>
-          <br>
-          <div class="message-header"  style="background-color:#FAFCF9">
-            <p style="color:green"><a click.delegate="Send(client)">Submit</a></p><i class="fa fa-arrow-alt-circle-right fa-2x" style="color:green"></i>
-          </div>
-          <br>
-          <br>
-        </section>
-        <section style="background-color: #49804A;">
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class="message-header"  style="background-color:#49804A">
-            </div>
-            <br>
-            <br>
-          </section>
+      <div class="message-header" style="background-color:#1e5532" id="otherHeader">
+          <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Other</span>
+      </div>
+      <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
+
+    </section>
+
+    <section class="genInfo-hover" style="background-color: #FAFCF9; height:25vh" id="submit">
+
+      <div class="message-header" style="background-color:#FAFCF9" id="submitHeader">
+
+            <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)"><a click.delegate="Send(client)" id="submitText" style="color:hsl(204, 86%, 53%);">Submit</a></span>
+
+      </div>
+      <i class="fa fa-arrow-alt-circle-right fa-4x" style="color:hsl(204, 86%, 53%);float:right;" id="submitArrow"></i>
+    </section>
   </body>
 </template>

@@ -39,7 +39,57 @@ export class App {
     //   console.log("DONE")
     //   this.results = content;
     // })();   
-    // document.getElementById("ageInput2").addEventListener("blur", function(){self.ShowElement("age","ageInput")})
+    document.getElementById("generalInfo").addEventListener("mouseover",     
+    function (){
+      var elm=document.getElementById("generalHeader");
+      elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+  })
+    document.getElementById("generalInfo").addEventListener("mouseout",     
+    function (){
+      var elm=document.getElementById("generalHeader");
+      elm.style.backgroundColor = "#49804A";
+  })
+
+  document.getElementById("financesInfo").addEventListener("mouseover",     
+  function (){
+    var elm=document.getElementById("financesHeader");
+    elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+})
+  document.getElementById("financesInfo").addEventListener("mouseout",     
+  function (){
+    var elm=document.getElementById("financesHeader");
+    elm.style.backgroundColor = "#89cc66";
+})
+
+document.getElementById("otherInfo").addEventListener("mouseover",     
+function (){
+  var elm=document.getElementById("otherHeader");
+  elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+})
+document.getElementById("otherInfo").addEventListener("mouseout",     
+function (){
+  var elm=document.getElementById("otherHeader");
+  elm.style.backgroundColor = "#1e5532";
+})
+
+document.getElementById("submit").addEventListener("mouseover",     
+function (){
+  var elm=document.getElementById("submitHeader");
+  var submitText = document.getElementById("submitText");
+  var submitArrow = document.getElementById("submitArrow");
+  elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+  submitArrow.style.color = "#FAFCF9"
+  submitText.style.color = "#FAFCF9"
+})
+document.getElementById("submit").addEventListener("mouseout",     
+function (){
+  var elm=document.getElementById("submitHeader");
+  var submitText = document.getElementById("submitText");
+  var submitArrow = document.getElementById("submitArrow");
+  submitArrow.style.color = "hsl(204, 86%, 53%)"
+  submitText.style.color = "hsl(204, 86%, 53%)"
+  elm.style.backgroundColor = "#FAFCF9";
+})
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
@@ -95,6 +145,11 @@ export class App {
   Reversal(elementOne) {
     var link = document.getElementById(elementOne);
 
+    var generalHead = document.getElementById("generalInfo");
+    var financeHead = document.getElementById("financesInfo");
+    var otherHead = document.getElementById("otherInfo");
+    var submit = document.getElementById("submit");
+
     var generalID = document.getElementById("generalBody");
     var financesID = document.getElementById("financesBody");
 
@@ -108,11 +163,30 @@ export class App {
         }
       }
       link.style.display = "block";
+      if (elementOne == "generalBody") {
+        financeHead.style.display = "none";
+        otherHead.style.display = "none";
+        submit.style.display = "none";
+        window.location.href = "#generalInfo";
+      }
+      else if (elementOne == "financesBody") {
+        generalHead.style.display = "none";
+        otherHead.style.display = "none";
+        submit.style.display = "none";
+        window.location.href = "#financesInfo"
+      }
     }
     else{
       link.style.display = "none";
+      window.location.href = "#generalInfo";
+      window.location.href = "#generalInfo"
+      financeHead.style.display = "block";
+      otherHead.style.display = "block";
+      submit.style.display = "block";
+      generalHead.style.display = "block";
     }
   }
+
 
   Send(client) {
     var send = new HTTPPost();
