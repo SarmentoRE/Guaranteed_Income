@@ -10,7 +10,7 @@ namespace Guaranteed_Income.Services
     public class MonteCarlo
     {
         private static Mutex mutex = new Mutex();
-        private List<List<double>> trialsList = new List<List<double>> { };
+        public List<List<double>> trialsList = new List<List<double>> { };
         private double currentValue;
         private double expectedReturn;
         private double standardDeviation;
