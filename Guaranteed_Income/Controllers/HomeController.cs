@@ -17,19 +17,18 @@ namespace Guaranteed_Income.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
             MonteCarlo x = new MonteCarlo(30000, 0.0083, .0424, 360);
-            //GC.Collect();
-            return new string[] { "value1", "value2" };
+
+            return JsonConvert.SerializeObject(x.GetTrialsList());
         }
 
         [HttpPost]
         public JToken Post([FromBody] InputModel request)
         {
-            Person p1 = new Person(request);
-
-            return JsonConvert.SerializeObject(p1);
+            MonteCarlo x = new MonteCarlo(30000, 0.0083, .0424, 360);
+            return JsonConvert.SerializeObject(x.GetTrialsList());
         }
     }
 }
