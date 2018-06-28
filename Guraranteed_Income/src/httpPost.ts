@@ -2,7 +2,7 @@ export default class HTTPPost {
 
   SendData(personOne) {
     (async () => {
-      const response = await fetch('http://localhost:52079/api/values', {
+      const response = await fetch('http://localhost:64655/api/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -11,8 +11,7 @@ export default class HTTPPost {
         body: JSON.stringify(personOne)
       });
       const content = await response.json();
-      
-      return JSON.parse(content);
+      return content;
     })();
   }
   

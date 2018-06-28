@@ -9,3 +9,14 @@ C:\Users\asarmento\source\repos\Guaranteed_Income\Guaranteed_Income\obj\Debug\ne
 C:\Users\asarmento\source\repos\Guaranteed_Income\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.AssemblyInfo.cs
 C:\Users\asarmento\source\repos\Guaranteed_Income\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.dll
 C:\Users\asarmento\source\repos\Guaranteed_Income\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.pdb
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\bin\Debug\netcoreapp2.0\Guaranteed_Income.deps.json
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\bin\Debug\netcoreapp2.0\Guaranteed_Income.runtimeconfig.json
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\bin\Debug\netcoreapp2.0\Guaranteed_Income.runtimeconfig.dev.json
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\bin\Debug\netcoreapp2.0\Guaranteed_Income.dll
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\bin\Debug\netcoreapp2.0\Guaranteed_Income.pdb
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.csprojAssemblyReference.cache
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.csproj.CoreCompileInputs.cache
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.AssemblyInfoInputs.cache
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.AssemblyInfo.cs
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.dll
+C:\Users\TPoole\source\repos\annuity\Guaranteed_Income\obj\Debug\netcoreapp2.0\Guaranteed_Income.pdb

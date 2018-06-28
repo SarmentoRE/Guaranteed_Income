@@ -3,6 +3,7 @@ import {PLATFORM} from 'aurelia-pal';
 import { Script } from 'vm';
 import {Chart} from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
+import HTTPPost from "httpPost";
 
 export class App {
   router:Router;
@@ -16,16 +17,28 @@ export class App {
     this.router = router;
   }
 
-  personOne = new Person();
+  client = new Person();
   myLineChart;
+  results;
 
   attached() {
     // var self = this;
     // this.personOne.income = 50000;
     // this.personOne.age = 60;
 
-    // var post = new HTTPPost();
-    // var results = post.SendData(this.personOne)
+    // (async () => {
+    //   const response = await fetch('http://localhost:64655/api/', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify("tash")
+    //   });
+    //   const content = await response.json();
+    //   console.log("DONE")
+    //   this.results = content;
+    // })();   
     // document.getElementById("ageInput2").addEventListener("blur", function(){self.ShowElement("age","ageInput")})
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
@@ -53,10 +66,7 @@ export class App {
     this.myLineChart = new Chart(document.getElementById("line-chart"), {
       type: 'line',
       data: {
-        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
         datasets: [{
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
           data: [2478,5267,734,784,433]
         }]
       },
@@ -64,9 +74,22 @@ export class App {
         title: {
           display: true,
           text: 'Predicted world population (millions) in 2050'
-        }
+        },
+        legend: {
+          display: false
+       },
+       tooltips: {
+          enabled: false
+       }
       }
   });
+    for(var i = 0; i < 100; i ++){
+      this.myLineChart.data.datasets.push({
+        data: this.results.trialsList[i]
+      });
+    }
+    this.myLineChart.update()
+
   }
 
   Reversal(elementOne) {
@@ -91,6 +114,8 @@ export class App {
     }
   }
 
-
-  results;
+  Send(client) {
+    var send = new HTTPPost();
+    send.SendData(client);
+  }
 }

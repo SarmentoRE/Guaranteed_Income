@@ -1,6 +1,6 @@
 <template>
   <body >
-    <section class="genInfo" style="background-color: #49804A;">
+    <section class="genInfo-hover genInfo" style="background-color: #49804A;">
       <br>
       <br>
       <div class="message-header genInfo-hover" click.delegate="Reversal('generalBody')" style="background-color:#49804A">
@@ -13,9 +13,9 @@
         <div class="field">
           <div class="control">
             <div class="select is-large">
-              <select>
-                <option>Select dropdown</option>
-                <option>With options</option>
+              <select value.bind="client.gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
             </div>
           </div>
@@ -24,7 +24,7 @@
           <p>Age</p>
         </div>
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" placeholder="22">
+          <input class="input is-large" placeholder="22" value.bind="client.age">
           <span class="icon is-medium is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -36,7 +36,7 @@
           <p>When do you plan to retire?</p>
         </div>
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="date">
+          <input class="input is-large" type="date" value.bind="client.retirementDate">
           <span class="icon is-medium is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -48,7 +48,7 @@
           <p>When can the money run out?</p>
         </div>
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="date">
+          <input class="input is-large" type="date" value.bind="client.deathDate">
           <span class="icon is-medium is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -62,9 +62,9 @@
         <div class="field">
           <div class="control">
             <div class="select is-large">
-              <select>
-                <option>Select dropdown</option>
-                <option>With options</option>
+              <select value.bind="client.filingStatus">
+                <option value="single">Single</option>
+                <option value="joint">Joint</option>
               </select>
             </div>
           </div>
@@ -85,7 +85,7 @@
           <p>What is your gross annual income?</p>
         </div>
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" placeholder="50000">
+          <input class="input is-large" placeholder="50000" value.bind="client.income">
           <span class="icon is-medium is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -113,7 +113,7 @@
           <br>
           <br>
           <div class="message-header"  style="background-color:#FAFCF9">
-            <p style="color:green">Submit</p><i class="fa fa-arrow-alt-circle-right fa-2x" style="color:green"></i>
+            <p style="color:green"><a click.delegate="Send(client)">Submit</a></p><i class="fa fa-arrow-alt-circle-right fa-2x" style="color:green"></i>
           </div>
           <br>
           <br>
