@@ -16,12 +16,11 @@ namespace Guaranteed_Income.Controllers
     [Route("api")]
     public class HomeController : Controller
     {
-
-    
-       [HttpGet]
-       public IEnumerable<string> Get()
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
-            MonteCarlo x = new MonteCarlo(1,0.0083,.0424,360);
+            MonteCarlo x = new MonteCarlo(30000, 0.0083, .0424, 360);
+            //GC.Collect();
             return new string[] { "value1", "value2" };
         }
 
@@ -29,7 +28,7 @@ namespace Guaranteed_Income.Controllers
         public JToken Post([FromBody] InputModel request)
         {
             Person p1 = new Person(request);
-        
+
             return JsonConvert.SerializeObject(p1);
         }
     }

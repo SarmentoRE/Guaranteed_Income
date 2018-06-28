@@ -105,6 +105,7 @@ namespace Guaranteed_Income.Models
                     }
                     break;
             }
+            int x = (int)state;
         }
     }
 
