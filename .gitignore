@@ -33,3 +33,4 @@ Guaranteed_Income/obj/Debug/netcoreapp2.0/Guaranteed_Income.csprojAssemblyRefere
 *.ide-wal
 *.cache
 *.ide*
+*.ide-shm
