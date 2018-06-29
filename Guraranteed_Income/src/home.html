@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
       crossorigin="anonymous">
-      <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Bowlby+One+SC|Concert+One|Fjalla+One|Francois+One|Lato|Righteous|Russo+One" rel="stylesheet">
-      <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Bowlby+One+SC|Concert+One|Fjalla+One|Francois+One|Lato|Righteous|Russo+One"
+      rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
   </head>
 
   <body>
@@ -19,8 +20,8 @@
       <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
       <div class="notification" style="display:none;background-color:#49804A;height:100vh" id="generalBody">
         <div class="message-header" style="background-color:#49804A;">
-            <span style="font-size: 3vh; font-family:Fjalla One;">Gender</span>
-          </div>
+          <span style="font-size: 3vh; font-family:Fjalla One;">Gender</span>
+        </div>
         <div class="field">
           <div class="control">
             <div class="select is-large">
@@ -32,8 +33,8 @@
           </div>
         </div>
         <div class="message-header" style="background-color:#49804A">
-            <span style="font-size: 3vh; font-family:Fjalla One;">Age</span>
-          </div>
+          <span style="font-size: 3vh; font-family:Fjalla One;">Age</span>
+        </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" placeholder="22" value.bind="client.age">
           <span class="icon is-medium is-left">
@@ -44,8 +45,8 @@
           </span>
         </div>
         <div class="message-header" style="background-color:#49804A">
-            <span style="font-size: 3vh; font-family:Fjalla One;">When do you plan to retire?</span>
-          </div>
+          <span style="font-size: 3vh; font-family:Fjalla One;">When do you plan to retire?</span>
+        </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" type="date" value.bind="client.retirementDate">
           <span class="icon is-medium is-left">
@@ -56,8 +57,8 @@
           </span>
         </div>
         <div class="message-header" style="background-color:#49804A">
-            <span style="font-size: 3vh; font-family:Fjalla One;">When can the money run out?</span>
-          </div>
+          <span style="font-size: 3vh; font-family:Fjalla One;">When can the money run out?</span>
+        </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" type="date" value.bind="client.deathDate">
           <span class="icon is-medium is-left">
@@ -68,8 +69,8 @@
           </span>
         </div>
         <div class="message-header" style="background-color:#49804A">
-            <span style="font-size: 3vh; font-family:Fjalla One;">How will you be filing?</span>
-          </div>
+          <span style="font-size: 3vh; font-family:Fjalla One;">How will you be filing?</span>
+        </div>
         <div class="field">
           <div class="control">
             <div class="select is-large">
@@ -87,12 +88,12 @@
     <section class="genInfo-hover" style="background-color:#89cc66; height:25vh" id="financesInfo">
 
       <div class="message-header" click.delegate="Reversal('financesBody')" style="background-color:#89cc66" id="financesHeader">
-          <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Finances</span>
+        <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Finances</span>
       </div>
       <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
       <div class="notification is-success" style="display:none; background-color:#89cc66; height:100vh" id="financesBody">
         <div class="message-header" style="background-color:#89cc66">
-            <span style="font-size: 3vh; font-family:Fjalla One;">What is your gross annual income?</span>
+          <span style="font-size: 3vh; font-family:Fjalla One;">What is your gross annual income?</span>
         </div>
         <div class="control has-icons-left has-icons-right">
           <input class="input is-large" placeholder="50000" value.bind="client.income">
@@ -103,6 +104,80 @@
             <i class="fas fa-check"></i>
           </span>
         </div>
+
+
+
+        <div class="message-header" style="background-color:#89cc66">
+          <span style="font-size: 3vh; font-family:Fjalla One;">What is your gross annual income?</span>
+        </div>
+        <table class="table" stlye="width: 50%" id="appendHere">
+          <thead>
+            <tr>
+              <th>Asset Type</th>
+              <th>Current Amount</th>
+              <th>Annual Additions</th>
+            </tr>
+          </thead>
+          <tbody id="cloneMe0">
+            <tr>
+              <td>
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select value.bind="assetHolder[i]" id="inputAsset0">
+                        <option repeat.for="product of products" model.bind="product.id">
+                          ${product.id} - ${product.name}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" placeholder="50000" value.bind="amountHolder[i]" id="inputAmount0">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" placeholder="50000" value.bind="additionsHolder[i]" id="inputAdd0">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <i class="fas fa-plus fa-2x" click.delegate="AddRow()" id="appendCheck0"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="table" stlye="width: 50%" >
+            <thead>
+              <tr>
+                <th>Asset Type</th>
+                <th>Current Amount</th>
+                <th>Annual Additions</th>
+              </tr>
+            </thead>
+            <tbody id="appendThis">
+              </tbody>
+              </table>
+
+
+
+
+
       </div>
 
     </section>
@@ -111,7 +186,7 @@
     <section class="genInfo-hover" style="background-color: #1e5532;height:25vh" id="otherInfo">
 
       <div class="message-header" style="background-color:#1e5532" id="otherHeader">
-          <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Other</span>
+        <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Other</span>
       </div>
       <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
 
@@ -121,10 +196,24 @@
 
       <div class="message-header" style="background-color:#FAFCF9" id="submitHeader">
 
-            <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)"><a click.delegate="Send(client)" id="submitText" style="color:hsl(204, 86%, 53%);">Submit</a></span>
+        <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">
+          <a click.delegate="Send(client)" id="submitText" style="color:hsl(204, 86%, 53%);">Submit</a>
+        </span>
 
       </div>
       <i class="fa fa-arrow-alt-circle-right fa-4x" style="color:hsl(204, 86%, 53%);float:right;" id="submitArrow"></i>
     </section>
   </body>
+
+
+
+
+
+
+
+
+
+
+
+
 </template>
