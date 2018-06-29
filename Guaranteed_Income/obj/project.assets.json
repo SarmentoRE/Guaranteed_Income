@@ -12399,23 +12399,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\TPoole\\.nuget\\packages\\": {},
+    "C:\\Users\\asarmento\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TPoole\\source\\repos\\annuity\\Guaranteed_Income\\Guaranteed_Income.csproj",
+      "projectUniqueName": "C:\\Users\\asarmento\\source\\repos\\Guaranteed_Income\\Guaranteed_Income\\Guaranteed_Income.csproj",
       "projectName": "Guaranteed_Income",
-      "projectPath": "C:\\Users\\TPoole\\source\\repos\\annuity\\Guaranteed_Income\\Guaranteed_Income.csproj",
-      "packagesPath": "C:\\Users\\TPoole\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TPoole\\source\\repos\\annuity\\Guaranteed_Income\\obj\\",
+      "projectPath": "C:\\Users\\asarmento\\source\\repos\\Guaranteed_Income\\Guaranteed_Income\\Guaranteed_Income.csproj",
+      "packagesPath": "C:\\Users\\asarmento\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\asarmento\\source\\repos\\Guaranteed_Income\\Guaranteed_Income\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\TPoole\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\asarmento\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
