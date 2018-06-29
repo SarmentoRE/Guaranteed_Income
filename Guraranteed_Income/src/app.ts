@@ -1,18 +1,19 @@
-import {RouterConfiguration, Router} from 'aurelia-router';
-import {PLATFORM} from 'aurelia-pal';
+import { RouterConfiguration, Router } from 'aurelia-router';
+import { PLATFORM } from 'aurelia-pal';
 import { Script } from 'vm';
-import {Chart} from '../node_modules/chart.js/dist/Chart.js';
+import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
 import HTTPPost from "httpPost";
+import { resolveTxt } from 'dns';
 
 export class App {
-  router:Router;
+  router: Router;
   configureRouter(config, router) {
     config.title = 'Tax Planning';
     config.options.pushState = true;
     config.map([
-      {route: ['', 'home'], name: 'home', moduleId: PLATFORM.moduleName('home.html'), nav: true, title: 'Home'},
-      {route: 'results', name: 'results', moduleId:  PLATFORM.moduleName('results.html'), nav: true, title: 'Results'},
+      { route: ['', 'home'], name: 'home', moduleId: PLATFORM.moduleName('home.html'), nav: true, title: 'Home' },
+      { route: 'results', name: 'results', moduleId: PLATFORM.moduleName('results.html'), nav: true, title: 'Results' },
     ]);
     this.router = router;
   }
@@ -39,57 +40,75 @@ export class App {
     //   console.log("DONE")
     //   this.results = content;
     // })();   
-    document.getElementById("generalInfo").addEventListener("mouseover",     
-    function (){
-      var elm=document.getElementById("generalHeader");
-      elm.style.backgroundColor = "hsl(204, 86%, 53%)";
-  })
-    document.getElementById("generalInfo").addEventListener("mouseout",     
-    function (){
-      var elm=document.getElementById("generalHeader");
-      elm.style.backgroundColor = "#49804A";
-  })
+    // document.getElementById("generalInfo").addEventListener("mouseover",
+    //   function () {
+    //     var elm = document.getElementById("generalHeader");
+    //     elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+    //   })
+    // document.getElementById("generalInfo").addEventListener("mouseout",
+    //   function () {
+    //     var elm = document.getElementById("generalHeader");
+    //     elm.style.backgroundColor = "#49804A";
+    //   })
 
-  document.getElementById("financesInfo").addEventListener("mouseover",     
-  function (){
-    var elm=document.getElementById("financesHeader");
-    elm.style.backgroundColor = "hsl(204, 86%, 53%)";
-})
-  document.getElementById("financesInfo").addEventListener("mouseout",     
-  function (){
-    var elm=document.getElementById("financesHeader");
-    elm.style.backgroundColor = "#89cc66";
-})
+    // document.getElementById("financesInfo").addEventListener("mouseover",
+    //   function () {
+    //     var elm = document.getElementById("financesHeader");
+    //     elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+    //   })
+    // document.getElementById("financesInfo").addEventListener("mouseout",
+    //   function () {
+    //     var elm = document.getElementById("financesHeader");
+    //     elm.style.backgroundColor = "#89cc66";
+    //   })
 
-document.getElementById("otherInfo").addEventListener("mouseover",     
-function (){
-  var elm=document.getElementById("otherHeader");
-  elm.style.backgroundColor = "hsl(204, 86%, 53%)";
-})
-document.getElementById("otherInfo").addEventListener("mouseout",     
-function (){
-  var elm=document.getElementById("otherHeader");
-  elm.style.backgroundColor = "#1e5532";
-})
+    // document.getElementById("otherInfo").addEventListener("mouseover",
+    //   function () {
+    //     var elm = document.getElementById("otherHeader");
+    //     elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+    //   })
+    // document.getElementById("otherInfo").addEventListener("mouseout",
+    //   function () {
+    //     var elm = document.getElementById("otherHeader");
+    //     elm.style.backgroundColor = "#1e5532";
+    //   })
 
-document.getElementById("submit").addEventListener("mouseover",     
-function (){
-  var elm=document.getElementById("submitHeader");
-  var submitText = document.getElementById("submitText");
-  var submitArrow = document.getElementById("submitArrow");
-  elm.style.backgroundColor = "hsl(204, 86%, 53%)";
-  submitArrow.style.color = "#FAFCF9"
-  submitText.style.color = "#FAFCF9"
-})
-document.getElementById("submit").addEventListener("mouseout",     
-function (){
-  var elm=document.getElementById("submitHeader");
-  var submitText = document.getElementById("submitText");
-  var submitArrow = document.getElementById("submitArrow");
-  submitArrow.style.color = "hsl(204, 86%, 53%)"
-  submitText.style.color = "hsl(204, 86%, 53%)"
-  elm.style.backgroundColor = "#FAFCF9";
-})
+    // document.getElementById("submit").addEventListener("mouseover",
+    //   function () {
+    //     var elm = document.getElementById("submitHeader");
+    //     var submitText = document.getElementById("submitText");
+    //     var submitArrow = document.getElementById("submitArrow");
+    //     elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+    //     submitArrow.style.color = "#FAFCF9"
+    //     submitText.style.color = "#FAFCF9"
+    //   })
+    // document.getElementById("submit").addEventListener("mouseout",
+    //   function () {
+    //     var elm = document.getElementById("submitHeader");
+    //     var submitText = document.getElementById("submitText");
+    //     var submitArrow = document.getElementById("submitArrow");
+    //     submitArrow.style.color = "hsl(204, 86%, 53%)"
+    //     submitText.style.color = "hsl(204, 86%, 53%)"
+    //     elm.style.backgroundColor = "#FAFCF9";
+    //   })
+
+    // document.getElementById("tile1").addEventListener("mouseover",
+    //   function () {
+    //     console.log("SEEN")
+    //     var icon = document.getElementById("icon1");
+    //     var text = document.getElementById("fig1");
+    //     icon.style.display = "none";
+    //     text.style.display = "block";
+    //   })
+    // document.getElementById("tile1").addEventListener("mouseout",
+    //   function () {
+    //     var icon = document.getElementById("icon1");
+    //     var text = document.getElementById("fig1");
+    //     icon.style.display = "block";
+    //     text.style.display = "none";
+    //   })
+
+
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
@@ -106,7 +125,7 @@ function (){
 
   ToggleMenu() {
     var menu = document.getElementById("menu");
-    if ( menu.style.display == "none" ) {
+    if (menu.style.display == "none") {
       menu.style.display = "block";
     }
     else {
@@ -117,7 +136,7 @@ function (){
       type: 'line',
       data: {
         datasets: [{
-          data: [2478,5267,734,784,433]
+          data: [2478, 5267, 734, 784, 433]
         }]
       },
       options: {
@@ -127,13 +146,13 @@ function (){
         },
         legend: {
           display: false
-       },
-       tooltips: {
+        },
+        tooltips: {
           enabled: false
-       }
+        }
       }
-  });
-    for(var i = 0; i < 100; i ++){
+    });
+    for (var i = 0; i < 100; i++) {
       this.myLineChart.data.datasets.push({
         data: this.results.trialsList[i]
       });
@@ -154,11 +173,11 @@ function (){
     var financesID = document.getElementById("financesBody");
 
 
-    var ids= [generalID, financesID];
+    var ids = [generalID, financesID];
 
-    if(link.style.display == "none") {
+    if (link.style.display == "none") {
       for (var i = 0; i < ids.length; i++) {
-        if ( ids[i].style.display == "block") {
+        if (ids[i].style.display == "block") {
           ids[i].style.display = "none";
         }
       }
@@ -176,7 +195,7 @@ function (){
         window.location.href = "#financesInfo"
       }
     }
-    else{
+    else {
       link.style.display = "none";
       window.location.href = "#generalInfo";
       window.location.href = "#generalInfo"
