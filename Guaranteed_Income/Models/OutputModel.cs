@@ -20,7 +20,7 @@ namespace Guaranteed_Income.Models
         public List<double> confident50 { get; set; }
         public List<double> confident75 { get; set; }
         public List<double> confident95 { get; set; }
-
+ 
         public OutputModel()
         {
             GenerateOutput();

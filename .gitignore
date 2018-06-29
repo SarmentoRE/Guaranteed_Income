@@ -36,3 +36,4 @@ Guaranteed_Income/obj/Debug/netcoreapp2.0/Guaranteed_Income.csprojAssemblyRefere
 *.ide-shm
 *.dtbcache
 *.prop
+*.lock
