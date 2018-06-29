@@ -13,7 +13,7 @@ namespace Guaranteed_Income.Models
 
         private String gender { get; set; }
 
-        private List<Concerns> concerns { get; set; } //subject to chage heavily 
+        private List<Concerns> concerns { get; set; } //subject to change heavily 
 
         private int additions { get; set; }
 
@@ -32,7 +32,7 @@ namespace Guaranteed_Income.Models
             //this.concerns = StringToConcerns(model.concerns)
             this.gender = model.gender;
             this.additions = model.additions;
-            this.filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus),model.filingStatus ,true);
+            this.filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus), model.filingStatus, true);
             this.retirementDate = model.retirementDate;
             this.deathDate = model.deathDate;
             this.taxBracket = new TaxBracket(this.income, this.filingStatus, State.Virginia);
