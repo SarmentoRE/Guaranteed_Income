@@ -3,6 +3,7 @@ import {PLATFORM} from 'aurelia-pal';
 import { Script } from 'vm';
 import {Chart} from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
+import HTTPPost from "httpPost";
 
 export class App {
   router:Router;
@@ -16,17 +17,79 @@ export class App {
     this.router = router;
   }
 
-  personOne = new Person();
+  client = new Person();
   myLineChart;
+  results;
 
   attached() {
     // var self = this;
     // this.personOne.income = 50000;
     // this.personOne.age = 60;
 
-    // var post = new HTTPPost();
-    // var results = post.SendData(this.personOne)
-    // document.getElementById("ageInput2").addEventListener("blur", function(){self.ShowElement("age","ageInput")})
+    // (async () => {
+    //   const response = await fetch('http://localhost:64655/api/', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify("tash")
+    //   });
+    //   const content = await response.json();
+    //   console.log("DONE")
+    //   this.results = content;
+    // })();   
+    document.getElementById("generalInfo").addEventListener("mouseover",     
+    function (){
+      var elm=document.getElementById("generalHeader");
+      elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+  })
+    document.getElementById("generalInfo").addEventListener("mouseout",     
+    function (){
+      var elm=document.getElementById("generalHeader");
+      elm.style.backgroundColor = "#49804A";
+  })
+
+  document.getElementById("financesInfo").addEventListener("mouseover",     
+  function (){
+    var elm=document.getElementById("financesHeader");
+    elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+})
+  document.getElementById("financesInfo").addEventListener("mouseout",     
+  function (){
+    var elm=document.getElementById("financesHeader");
+    elm.style.backgroundColor = "#89cc66";
+})
+
+document.getElementById("otherInfo").addEventListener("mouseover",     
+function (){
+  var elm=document.getElementById("otherHeader");
+  elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+})
+document.getElementById("otherInfo").addEventListener("mouseout",     
+function (){
+  var elm=document.getElementById("otherHeader");
+  elm.style.backgroundColor = "#1e5532";
+})
+
+document.getElementById("submit").addEventListener("mouseover",     
+function (){
+  var elm=document.getElementById("submitHeader");
+  var submitText = document.getElementById("submitText");
+  var submitArrow = document.getElementById("submitArrow");
+  elm.style.backgroundColor = "hsl(204, 86%, 53%)";
+  submitArrow.style.color = "#FAFCF9"
+  submitText.style.color = "#FAFCF9"
+})
+document.getElementById("submit").addEventListener("mouseout",     
+function (){
+  var elm=document.getElementById("submitHeader");
+  var submitText = document.getElementById("submitText");
+  var submitArrow = document.getElementById("submitArrow");
+  submitArrow.style.color = "hsl(204, 86%, 53%)"
+  submitText.style.color = "hsl(204, 86%, 53%)"
+  elm.style.backgroundColor = "#FAFCF9";
+})
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
@@ -53,10 +116,7 @@ export class App {
     this.myLineChart = new Chart(document.getElementById("line-chart"), {
       type: 'line',
       data: {
-        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
         datasets: [{
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
           data: [2478,5267,734,784,433]
         }]
       },
@@ -64,13 +124,31 @@ export class App {
         title: {
           display: true,
           text: 'Predicted world population (millions) in 2050'
-        }
+        },
+        legend: {
+          display: false
+       },
+       tooltips: {
+          enabled: false
+       }
       }
   });
+    for(var i = 0; i < 100; i ++){
+      this.myLineChart.data.datasets.push({
+        data: this.results.trialsList[i]
+      });
+    }
+    this.myLineChart.update()
+
   }
 
   Reversal(elementOne) {
     var link = document.getElementById(elementOne);
+
+    var generalHead = document.getElementById("generalInfo");
+    var financeHead = document.getElementById("financesInfo");
+    var otherHead = document.getElementById("otherInfo");
+    var submit = document.getElementById("submit");
 
     var generalID = document.getElementById("generalBody");
     var financesID = document.getElementById("financesBody");
@@ -85,12 +163,33 @@ export class App {
         }
       }
       link.style.display = "block";
+      if (elementOne == "generalBody") {
+        financeHead.style.display = "none";
+        otherHead.style.display = "none";
+        submit.style.display = "none";
+        window.location.href = "#generalInfo";
+      }
+      else if (elementOne == "financesBody") {
+        generalHead.style.display = "none";
+        otherHead.style.display = "none";
+        submit.style.display = "none";
+        window.location.href = "#financesInfo"
+      }
     }
     else{
       link.style.display = "none";
+      window.location.href = "#generalInfo";
+      window.location.href = "#generalInfo"
+      financeHead.style.display = "block";
+      otherHead.style.display = "block";
+      submit.style.display = "block";
+      generalHead.style.display = "block";
     }
   }
 
 
-  results;
+  Send(client) {
+    var send = new HTTPPost();
+    send.SendData(client);
+  }
 }

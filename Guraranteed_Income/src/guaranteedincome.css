@@ -45,7 +45,8 @@ html, body, #app {
   margin-top: -12px;
 }
 
-.genInfo-hover:hover{color:#fff!important;background-color:#ffc400!important}
+.genInfo-hover:hover{color:#fff!important;background-color:hsl(204, 86%, 53%)!important}
+
 
 
 .genInfo span {

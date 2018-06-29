@@ -2,65 +2,65 @@
 
   <head>
     <require from="./menu.html"></require>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <require from="guaranteedincome.css" rel="stylesheet"></require>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+      crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Fjalla+One|Lato" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
   </head>
+
   <menu id="menu" style="display:none"></menu>
   <div class="tile is-ancestor">
     <div class="tile is-10">
       <div class="tile is-vertical">
         <div class="tile is-parent is-vertical">
-          <article class="tile is-child notification is-primary" click.delegate="ToggleMenu()">
-            <p class="title">Vertical...</p>
-            <p class="subtitle">Top tile</p>
+          <article class="tile is-child notification" click.delegate="ToggleMenu()" style="background-color: #1e5532">
+              <span style="font-size: 4vh; font-family:Fjalla One;color:#FAFCF9">Tile one</span>
+
           </article>
-          <article class="tile is-child notification is-warning">
-            <p class="title">...tiles</p>
-            <p class="subtitle">Bottom tile</p>
+          <article class="tile is-child notification" style="background-color:#89cc66;">
+              <span style="font-size: 4vh; font-family:Fjalla One;">...tile two</span>
+
           </article>
         </div>
         <div class="tile is-parent">
-          <article class="tile is-child notification is-info">
+          <article class="tile is-child notification" style="background-color: #49804A;">
             <canvas id="line-chart" width="640" height="480"></canvas>
           </article>
         </div>
       </div>
       <div class="tile is-vertical">
           <div class="tile is-parent is-vertical">
-            <article class="tile is-child notification is-primary" click.delegate="ToggleMenu()">
-              <p class="title">Vertical...</p>
-              <p class="subtitle">Top tile</p>
-            </article>
-            <article class="tile is-child notification is-warning">
-              <p class="title">...tiles</p>
-              <p class="subtitle">Bottom tile</p>
+            <article class="tile is-child notification" click.delegate="ToggleMenu()" style="background-color: #1e5532">
+                <span style="font-size: 4vh; font-family:Fjalla One;color:#FAFCF9">Tile one</span>
+              </article>
+            <article class="tile is-child notification" style="background-color:#89cc66;">
+                <span style="font-size: 4vh; font-family:Fjalla One;">...tile two</span>
+
             </article>
           </div>
           <div class="tile is-parent">
-              <article class="tile is-child notification is-info">
+              <article class="tile is-child notification" style="background-color: #49804A;">
                   <canvas id="line-chart" width="640" height="480"></canvas>
                 </article>
           </div>
         </div>
     </div>
     <div class="tile is-parent is-vertical">
-      <article class="tile is-child notification is-success">
-          <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
-            </figure>
+      <article class="tile is-child notification genInfo-hover" style="background-color: #5E005E;">
+          <i class="fas fa-church" style="font-size:19vh; color:#FAFCF9"></i>
       </article>
-      <article class="tile is-child notification is-success">
-          <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
-            </figure>
+      <article class="tile is-child notification genInfo-hover" style="background-color: #AB2F52;">
+          <i class="fas fa-stopwatch" style="font-size:19vh; color:#FAFCF9"></i>
         </article>
-        <article class="tile is-child notification is-success">
-            <figure class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/640x480.png">
-              </figure>
+        <article class="tile is-child notification genInfo-hover" style="background-color: #E55D4A;">
+            <i class="fas fa-chart-area" style="font-size:19vh; color:#FAFCF9"></i>
           </article>
-          <article class="tile is-child notification is-success">
-              <figure class="image is-4by3">
-                  <img src="https://bulma.io/images/placeholders/640x480.png">
-                </figure>
+          <article class="tile is-child notification genInfo-hover" style="background-color: #E88554;">
+                  <i class="fas fa-ambulance" style="font-size:19vh; color:#FAFCF9"></i>
             </article>
 
     </div>
