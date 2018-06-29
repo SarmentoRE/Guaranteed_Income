@@ -18,8 +18,8 @@ namespace Guaranteed_Income.Models
         {
             CalculateStandardDeduction(status, state);
 
-            double federalTaxableIncome = (Double)Math.Max((income - federalDeduction),0);
-            double stateTaxableIncome = (Double)Math.Max((income - stateDeduction),0);
+            double federalTaxableIncome = (Double)Math.Max((income - federalDeduction), 0);
+            double stateTaxableIncome = (Double)Math.Max((income - stateDeduction), 0);
 
             federalYearlyTax = CalculateYearlyFederalTax(federalTaxableIncome);
             stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome);

@@ -26,3 +26,8 @@ Guaranteed_Income/obj/project.assets.json
 Guaranteed_Income/obj/Debug/netcoreapp2.0/Guaranteed_Income.csproj.CoreCompileInputs.cache
 Guaranteed_Income/obj/Debug/netcoreapp2.0/Guaranteed_Income.csproj.FileListAbsolute.txt
 Guaranteed_Income/obj/Debug/netcoreapp2.0/Guaranteed_Income.csprojAssemblyReference.cache
+.vs/Guaranteed_Income/v15/.suo
+*.suo
+*storage.ide
+*.dll
+*.ide-wal
