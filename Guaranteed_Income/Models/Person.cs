@@ -18,18 +18,20 @@ namespace Guaranteed_Income.Models
         public List<IAsset> Assets { get; set; }
         public State state { get; set; } = State.Virginia;
         public List<Concerns> concerns { get; set; }
+        public double lumpSum;
     
         public Person(InputModel model)
         {
             this.income = model.income;
             this.age = model.age;
-            this.concerns = model.concerns.Select(x => (Concerns)Enum.Parse(typeof(Concerns), x, true)).ToList();
+            //this.concerns = model.concerns.Select(x => (Concerns)Enum.Parse(typeof(Concerns), x, true)).ToList();
             this.gender = (Gender)Enum.Parse(typeof(Gender), model.gender, true);
             this.additions = model.additions;
             this.filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus), model.filingStatus, true);
             this.retirementDate = model.retirementDate;
             this.deathDate = model.deathDate;
             this.taxBracket = new TaxBracket(this.income, this.filingStatus, this.state, this.age);
+            this.lumpSum = model.lumpSum;
         }
     }
 }

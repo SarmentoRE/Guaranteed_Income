@@ -22,6 +22,9 @@ namespace Guaranteed_Income.Models
         public int additions { get; set; }
 
         [Required]
+        public int lumpSum { get; set; }
+
+        [Required]
         public int age { get; set; }
 
         [Required]
