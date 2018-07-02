@@ -3,7 +3,6 @@ import { PLATFORM } from 'aurelia-pal';
 import { Script } from 'vm';
 import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
-import HTTPPost from "httpPost";
 import { resolveTxt } from 'dns';
 
 
@@ -23,6 +22,7 @@ export class App {
 
   client = new Person();
   myLineChart;
+  myLineChart2;
 
   rider1 = false;
   rider2 = false;
@@ -44,23 +44,7 @@ export class App {
   results;
 
   attached() {
-    // var self = this;
-    // this.personOne.income = 50000;
-    // this.personOne.age = 60;
-
-    // (async () => {
-    //   const response = await fetch('http://localhost:64655/api/', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify("tash")
-    //   });
-    //   const content = await response.json();
-    //   console.log("DONE")
-    //   this.results = content;
-    // })();   
+    var self = this;
 
     var url = window.location.href;
 
@@ -70,8 +54,11 @@ export class App {
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
       this.HomeListener();
     }
+    this.SendData();
 
-
+    window.onload = function() { 
+      self.PopulateCharts();
+    }
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
@@ -94,8 +81,10 @@ export class App {
     else {
       menu.style.display = "none";
     }
+  }
 
-    this.myLineChart = new Chart(document.getElementById("line-chart"), {
+  PopulateCharts() {
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
       type: 'line',
       data: {
         datasets: [{
@@ -120,8 +109,32 @@ export class App {
         data: this.results.trialsList[i]
       });
     }
-    this.myLineChart.update()
 
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [2478, 5267, 734, 784, 433]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        }
+      }
+    });
+    for (var i = 0; i < 100; i++) {
+      this.myLineChart.data.datasets.push({
+        data: this.results.trialsList[i]
+      });
+    }
   }
 
   Reversal(elementOne) {
@@ -338,8 +351,122 @@ export class App {
     }
   }
 
+  ShowQFixedImm() {
+    this.myLineChart.destroy();
+    var years = [];
+    for (var z = 0; z < this.results.confident25.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident25,
+            label: "Confident 25",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 25'
+        }
+      }
+    });
+
+  }
+
+  ShowQFixedDeff() {
+    this.myLineChart.destroy();
+    var years = [];
+    for (var z = 0; z < this.results.confident50.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident50,
+            label: "Confident 50",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 50'
+        }
+      }
+    });
+  }
+
+  ShowQVarImm() {
+    this.myLineChart.destroy()
+    var years = [];
+    for (var z = 0; z < this.results.confident75.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident75,
+            label: "Confident 75",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 75'
+        }
+      }
+    });
+
+  }
+
+  ShowQVarDeff() {
+    this.myLineChart.destroy()
+    var years = [];
+    for (var z = 0; z < this.results.confident90.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident90,
+            label: "Confident 90",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 90'
+        }
+      }
+    });
+
+  }
+
   AddRow() {
-    console.log("IM<HERE")
     var table = document.getElementById("appendThis");
     table.innerHTML +=
     '<tr>' +
@@ -386,8 +513,17 @@ export class App {
   }
 
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
-  Send(client) {
-    var send = new HTTPPost();
-    send.SendData(client);
+  SendData() {
+    (async () => {
+      const response = await fetch('http://localhost:64655/api/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.client)
+      });
+      this.results = await response.json();
+    })();
   }
 }
