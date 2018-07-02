@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Guaranteed_Income.Models
 {
-    public class Concerns
+    public interface IRider
     {
     }
 }

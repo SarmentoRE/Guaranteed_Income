@@ -10,13 +10,13 @@ namespace Guaranteed_Income.Models
     public class InputModel
     {
         [Required]
-        public String gender { get; set; }
+        public string gender { get; set; }
 
         [Required]
         public List<String> concerns { get; set; }
 
         [Required]
-        public int income { get; set; }
+        public double income { get; set; }
 
         [Required]
         public int additions { get; set; }
@@ -25,12 +25,13 @@ namespace Guaranteed_Income.Models
         public int age { get; set; }
 
         [Required]
-        public String filingStatus { get; set; }
+        public string filingStatus { get; set; }
 
         [Required]
-        public String retirementDate { get; set; }
+        public string retirementDate { get; set; }
 
         [Required]
-        public String deathDate { get; set; }
+        public string deathDate { get; set; }
+
     }
 }

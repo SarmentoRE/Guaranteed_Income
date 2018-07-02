@@ -10,7 +10,7 @@ namespace Guaranteed_Income.Utilities
         private const int InsertionSortBlockSize = 64;
         private readonly IComparer<T> _comparer;
         private readonly int _maxParallelDepth;
-        private bool _ascending = true;
+        private bool _ascending = false;
 
         /// <summary>
         /// Initializes a new instance of the StoParallelMergeSort class.
