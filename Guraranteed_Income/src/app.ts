@@ -89,9 +89,11 @@ export class App {
     };
   }
 
-  ShowElement(elementOne) {
+  ShowElement(elementOne , elementTwo) {
     var link = document.getElementById(elementOne);
-    link.classList.add("is-active");
+    var refer = document.getElementById(elementTwo)
+    link.style.display = "block";
+    refer.style.display = "none";
   }
 
   HideElement(elementOne) {
@@ -130,11 +132,6 @@ export class App {
         }
       }
     });
-    for (var i = 0; i < 100; i++) {
-      this.myLineChart.data.datasets.push({
-        data: this.results.trialsList[i]
-      });
-    }
 
     this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
       type: 'line',
@@ -156,11 +153,7 @@ export class App {
         }
       }
     });
-    for (var i = 0; i < 100; i++) {
-      this.myLineChart.data.datasets.push({
-        data: this.results.trialsList[i]
-      });
-    }
+
   }
 
   Reversal(elementOne) {
@@ -330,6 +323,7 @@ export class App {
 
   // THIS FUNCTION CONTROLS THE TILES AND BOOLEAN FOR DISPLAYING THE RIDERS
   DepressTile(number) {
+    //RIDERS
     var tile1 = document.getElementById("tile1")
     var tile2 = document.getElementById("tile2")
     var tile3 = document.getElementById("tile3")
@@ -346,6 +340,22 @@ export class App {
     }
     else if (number == 4) {
       this.rider4 = !this.rider4
+    }
+    else if (number > 4) {
+      var graphButton = document.getElementById("tile" + number)
+      if (graphButton.style.backgroundColor == "hsl(204, 86%, 53%)") {
+        graphButton.style.backgroundColor = "#1e5532"
+      }
+      else {
+        for (var e = 5; e < 13; e++) {
+          var otherTiles = document.getElementById("tile" + e)
+          console.log("tile" + e)
+          otherTiles.style.backgroundColor = "#1e5532";
+          console.log("HERE")
+        }
+        graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
+
+      }
     }
 
     if (this.rider1 == true) {
@@ -378,6 +388,7 @@ export class App {
   }
 
   ShowQFixedImm() {
+    this.DepressTile(5);
     this.myLineChart.destroy();
     var years = [];
     for (var z = 0; z < this.results.confident25.length; z++) {
@@ -407,6 +418,7 @@ export class App {
   }
 
   ShowQFixedDeff() {
+    this.DepressTile(6);
     this.myLineChart.destroy();
     var years = [];
     for (var z = 0; z < this.results.confident50.length; z++) {
@@ -435,6 +447,7 @@ export class App {
   }
 
   ShowQVarImm() {
+    this.DepressTile(7);
     this.myLineChart.destroy()
     var years = [];
     for (var z = 0; z < this.results.confident75.length; z++) {
@@ -464,6 +477,7 @@ export class App {
   }
 
   ShowQVarDeff() {
+    this.DepressTile(8);
     this.myLineChart.destroy()
     var years = [];
     for (var z = 0; z < this.results.confident90.length; z++) {
