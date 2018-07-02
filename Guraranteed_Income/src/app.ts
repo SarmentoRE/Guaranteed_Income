@@ -55,12 +55,38 @@ export class App {
       this.HomeListener();
     }
     this.SendData();
+    this.Validate();
 
     window.onload = function() { 
       self.PopulateCharts();
+
+      
     }
+
+
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
+  }
+
+  Validate() {
+      document.onkeydown = function(e) {
+      if (e.shiftKey) {
+        e.preventDefault();
+      }
+      if(!((e.keyCode > 95 && e.keyCode < 106)
+        || (e.keyCode > 47 && e.keyCode < 58) 
+        || e.keyCode == 8 || e.keyCode == 9)) {
+          return false;
+      }
+    }
+  }
+
+  ConstantRun(){
+    var self = this;
+    var element = document.getElementById("final")
+    element.onkeyup = function(event) {
+      self.SendData();
+    };
   }
 
   ShowElement(elementOne) {
