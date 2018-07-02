@@ -1,9 +1,6 @@
 ﻿using Guaranteed_Income.Services;
 using Guaranteed_Income.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Guaranteed_Income.Models
 {
@@ -19,7 +16,7 @@ namespace Guaranteed_Income.Models
         public List<double> confident25 { get; set; }
         public List<double> confident50 { get; set; }
         public List<double> confident75 { get; set; }
-        public List<double> confident95 { get; set; }
+        public List<double> confident90 { get; set; }
  
         public OutputModel()
         {
@@ -44,7 +41,7 @@ namespace Guaranteed_Income.Models
             confident25 = confidence.FindInterval(25);
             confident50 = confidence.FindInterval(50);
             confident75 = confidence.FindInterval(75);
-            confident95 = confidence.FindInterval(95);
+            confident90 = confidence.FindInterval(90);
         }
     }
 }

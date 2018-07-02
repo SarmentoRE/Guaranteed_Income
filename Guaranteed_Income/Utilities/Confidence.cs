@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guaranteed_Income.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,13 +14,13 @@ namespace Guaranteed_Income.Utilities
         {
             MonteCompare comparer = new MonteCompare();
             StoParallelMergeSort<List<double>> mergeSort = new StoParallelMergeSort<List<double>>(comparer);
-            mergeSort.Sort(data);
+            mergeSort.Sort(data,false);
             this.data = data;
         }
 
         public List<double> FindInterval(int confidence)
         {
-            return data[confidence * 100];
+            return data[confidence * (MonteCarlo.trials / 100)];
         }
     }
 }

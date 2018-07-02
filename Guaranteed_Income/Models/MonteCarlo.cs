@@ -1,7 +1,6 @@
 ﻿using Guaranteed_Income.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +14,7 @@ namespace Guaranteed_Income.Services
         private double expectedReturn;
         private double standardDeviation;
         private double time; //how many days,months, or years
-        private int trials = 10000; //how many trials
+        public static int trials = 10000; //how many trials
 
 
         public MonteCarlo(double currentValue, double expectedReturn, double standardDeviation, double time)
@@ -28,7 +27,7 @@ namespace Guaranteed_Income.Services
 
             //Console.WriteLine("Starting monte carlo");
 
-            var iops = new ParallelOptions() { MaxDegreeOfParallelism = System.Environment.ProcessorCount };
+            var iops = new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount };
             Parallel.For(0, trials, iops, element =>
             {
                 RunSimulation();
