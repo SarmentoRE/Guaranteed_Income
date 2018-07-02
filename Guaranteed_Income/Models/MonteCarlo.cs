@@ -27,7 +27,7 @@ namespace Guaranteed_Income.Services
 
             //Console.WriteLine("Starting monte carlo");
 
-            var iops = new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            var iops = new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }; //if this server were to run other things this could be turned down
             Parallel.For(0, trials, iops, element =>
             {
                 RunSimulation();

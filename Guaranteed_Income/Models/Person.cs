@@ -7,8 +7,6 @@ namespace Guaranteed_Income.Models
 {
     public class Person
     {
-        private List<IAsset> _assets;
-
         public double income { get; set; }
         public int age { get; set; }
         public Gender gender { get; set; }

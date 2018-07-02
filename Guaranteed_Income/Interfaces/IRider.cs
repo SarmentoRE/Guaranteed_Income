@@ -7,5 +7,6 @@ namespace Guaranteed_Income.Models
 {
     public interface IRider
     {
+        void GetFees();
     }
 }
