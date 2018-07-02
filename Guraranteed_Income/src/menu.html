@@ -1,10 +1,10 @@
 <template>
-    <aside class="column is-2" style="background-color:#222222;position:fixed;z-index:1;height:1200px;transform: translate(-11%,-3%);width:415px">
+    <aside class="column is-2" style="background-color:#222222;position:fixed;z-index:1;height:1200px;transform: translate(-9%,-3%);width:415px">
       <br>
       <p class="menu-label">Navigation</p>
       <ul class="menu-list">
         <li>
-          <a class="" click.delegate="ShowElement('modal')">
+          <a class="" click.delegate="ShowElement('genderInput','genderBtn')">
             <span class="icon">
               <i class="fa fa-home"></i>
             </span> Start
@@ -19,55 +19,91 @@
 
           <ul>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <i class="fa fa-link"></i>
-                </span> Gender
-              </a>
+              Gender
+              <div class="field" id="genderInput">
+                  <div class="control">
+                    <div class="select is-large">
+                      <select value.bind="client.gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
             </li>
+            <br>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <i class="fa fa-link"></i>
-                </span> Age
-              </a>
+              Age
+              <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" value.bind="client.age">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-medium is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
             </li>
+            <br>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <i class="fa fa-link"></i>
-                </span> Income
-              </a>
+              Retirement Date
+              <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" type="date" value.bind="client.retirementDate">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-medium is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
             </li>
+            <br>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <i class="fa fa-link"></i>
-                </span> Retirement Date
-              </a>
+              End of Plan
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input is-large" type="date" value.bind="client.deathDate">
+                    <span class="icon is-medium is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="icon is-medium is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </div>
             </li>
+            <br>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <i class="fa fa-link"></i>
-                </span> End of Plan
-              </a>
+              Filing Status
+                <div class="field">
+                    <div class="control">
+                      <div class="select is-large">
+                        <select value.bind="client.filingStatus">
+                          <option value="single">Single</option>
+                          <option value="joint">Joint</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
             </li>
+            <br>
             <li>
-              <a href="#">
-                <span class="icon is-small">
-                  <i class="fa fa-link"></i>
-                </span> Filing Status
-              </a>
-            </li>
-
+                Income
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input is-large" placeholder="50000" value.bind="client.income">
+                    <span class="icon is-medium is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="icon is-medium is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </div>
+              </li>
           </ul>
         </li>
         <li>
           <a href="#" class="">
             <span class="icon">
               <i class="fa fa-info"></i>
-            </span> Results
+            </span> Recalculate
           </a>
         </li>
       </ul>

@@ -3,7 +3,6 @@ import { PLATFORM } from 'aurelia-pal';
 import { Script } from 'vm';
 import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
-import HTTPPost from "httpPost";
 import { resolveTxt } from 'dns';
 
 
@@ -23,6 +22,7 @@ export class App {
 
   client = new Person();
   myLineChart;
+  myLineChart2;
 
   rider1 = false;
   rider2 = false;
@@ -44,23 +44,7 @@ export class App {
   results;
 
   attached() {
-    // var self = this;
-    // this.personOne.income = 50000;
-    // this.personOne.age = 60;
-
-    // (async () => {
-    //   const response = await fetch('http://localhost:64655/api/', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify("tash")
-    //   });
-    //   const content = await response.json();
-    //   console.log("DONE")
-    //   this.results = content;
-    // })();   
+    var self = this;
 
     var url = window.location.href;
 
@@ -70,15 +54,46 @@ export class App {
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
       this.HomeListener();
     }
+    this.SendData();
+    this.Validate();
+
+    window.onload = function() { 
+      self.PopulateCharts();
+
+      
+    }
 
 
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
 
-  ShowElement(elementOne) {
+  Validate() {
+      document.onkeydown = function(e) {
+      if (e.shiftKey) {
+        e.preventDefault();
+      }
+      if(!((e.keyCode > 95 && e.keyCode < 106)
+        || (e.keyCode > 47 && e.keyCode < 58) 
+        || e.keyCode == 8 || e.keyCode == 9)) {
+          return false;
+      }
+    }
+  }
+
+  ConstantRun(){
+    var self = this;
+    var element = document.getElementById("final")
+    element.onkeyup = function(event) {
+      self.SendData();
+    };
+  }
+
+  ShowElement(elementOne , elementTwo) {
     var link = document.getElementById(elementOne);
-    link.classList.add("is-active");
+    var refer = document.getElementById(elementTwo)
+    link.style.display = "block";
+    refer.style.display = "none";
   }
 
   HideElement(elementOne) {
@@ -94,8 +109,10 @@ export class App {
     else {
       menu.style.display = "none";
     }
+  }
 
-    this.myLineChart = new Chart(document.getElementById("line-chart"), {
+  PopulateCharts() {
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
       type: 'line',
       data: {
         datasets: [{
@@ -115,12 +132,27 @@ export class App {
         }
       }
     });
-    for (var i = 0; i < 100; i++) {
-      this.myLineChart.data.datasets.push({
-        data: this.results.trialsList[i]
-      });
-    }
-    this.myLineChart.update()
+
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [2478, 5267, 734, 784, 433]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        }
+      }
+    });
 
   }
 
@@ -291,6 +323,7 @@ export class App {
 
   // THIS FUNCTION CONTROLS THE TILES AND BOOLEAN FOR DISPLAYING THE RIDERS
   DepressTile(number) {
+    //RIDERS
     var tile1 = document.getElementById("tile1")
     var tile2 = document.getElementById("tile2")
     var tile3 = document.getElementById("tile3")
@@ -307,6 +340,22 @@ export class App {
     }
     else if (number == 4) {
       this.rider4 = !this.rider4
+    }
+    else if (number > 4) {
+      var graphButton = document.getElementById("tile" + number)
+      if (graphButton.style.backgroundColor == "hsl(204, 86%, 53%)") {
+        graphButton.style.backgroundColor = "#1e5532"
+      }
+      else {
+        for (var e = 5; e < 13; e++) {
+          var otherTiles = document.getElementById("tile" + e)
+          console.log("tile" + e)
+          otherTiles.style.backgroundColor = "#1e5532";
+          console.log("HERE")
+        }
+        graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
+
+      }
     }
 
     if (this.rider1 == true) {
@@ -338,17 +387,145 @@ export class App {
     }
   }
 
+  ShowQFixedImm() {
+    this.DepressTile(5);
+    this.myLineChart.destroy();
+    var years = [];
+    for (var z = 0; z < this.results.confident25.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident25,
+            label: "Confident 25",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 25'
+        }
+      }
+    });
+
+  }
+
+  ShowQFixedDeff() {
+    this.DepressTile(6);
+    this.myLineChart.destroy();
+    var years = [];
+    for (var z = 0; z < this.results.confident50.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident50,
+            label: "Confident 50",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 50'
+        }
+      }
+    });
+  }
+
+  ShowQVarImm() {
+    this.DepressTile(7);
+    this.myLineChart.destroy()
+    var years = [];
+    for (var z = 0; z < this.results.confident75.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident75,
+            label: "Confident 75",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 75'
+        }
+      }
+    });
+
+  }
+
+  ShowQVarDeff() {
+    this.DepressTile(8);
+    this.myLineChart.destroy()
+    var years = [];
+    for (var z = 0; z < this.results.confident90.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{ 
+            data: this.results.confident90,
+            label: "Confident 90",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Confidence Interval 90'
+        }
+      }
+    });
+
+  }
+
   AddRow() {
-    console.log("IM<HERE")
     var table = document.getElementById("appendThis");
     table.innerHTML +=
     '<tr>' +
       '<td>' +
-      this.assetHolder[this.i] +
+      '<div class="field">' +
+                  '<div class="control">' +
+                    '<div class="select">' +
+                      '<select id="inputAsset0">' +
+                        '<option selected= "' + this.assetHolder[this.i] + '" disabled>' +
+                          this.assetHolder[this.i] +
+                        '</option>' +
+                      '</select>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
       '</td>' +
       '<td>' +
       '<div class="control has-icons-left has-icons-right">' +
-      '<input class="input" placeholder="' + this.amountHolder[this.i] + '" value.bind="amountHolder[' + this.i + ']" id="inputAmount0">' +
+      '<input class="input" placeholder="' + this.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
       '<span class="icon is-small is-left">' +
         '<i class="fas fa-envelope"></i>' +
       '</span>' +
@@ -359,7 +536,7 @@ export class App {
       '</td>' +
       '<td>' +
       '<div class="control has-icons-left has-icons-right">' +
-      '<input class="input" placeholder="' + this.additionsHolder[this.i] + '" value.bind="additionsHolder[' + this.i + ']" id="inputAmount0">' +
+      '<input class="input" placeholder="' + this.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
       '<span class="icon is-small is-left">' +
         '<i class="fas fa-envelope"></i>' +
       '</span>' +
@@ -376,8 +553,17 @@ export class App {
   }
 
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
-  Send(client) {
-    var send = new HTTPPost();
-    send.SendData(client);
+  SendData() {
+    (async () => {
+      const response = await fetch('http://localhost:64655/api/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.client)
+      });
+      this.results = await response.json();
+    })();
   }
 }
