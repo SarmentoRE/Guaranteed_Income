@@ -344,11 +344,21 @@ export class App {
     table.innerHTML +=
     '<tr>' +
       '<td>' +
-      this.assetHolder[this.i] +
+      '<div class="field">' +
+                  '<div class="control">' +
+                    '<div class="select">' +
+                      '<select id="inputAsset0">' +
+                        '<option selected= "' + this.assetHolder[this.i] + '" disabled>' +
+                          this.assetHolder[this.i] +
+                        '</option>' +
+                      '</select>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
       '</td>' +
       '<td>' +
       '<div class="control has-icons-left has-icons-right">' +
-      '<input class="input" placeholder="' + this.amountHolder[this.i] + '" value.bind="amountHolder[' + this.i + ']" id="inputAmount0">' +
+      '<input class="input" placeholder="' + this.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
       '<span class="icon is-small is-left">' +
         '<i class="fas fa-envelope"></i>' +
       '</span>' +
@@ -359,7 +369,7 @@ export class App {
       '</td>' +
       '<td>' +
       '<div class="control has-icons-left has-icons-right">' +
-      '<input class="input" placeholder="' + this.additionsHolder[this.i] + '" value.bind="additionsHolder[' + this.i + ']" id="inputAmount0">' +
+      '<input class="input" placeholder="' + this.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
       '<span class="icon is-small is-left">' +
         '<i class="fas fa-envelope"></i>' +
       '</span>' +
