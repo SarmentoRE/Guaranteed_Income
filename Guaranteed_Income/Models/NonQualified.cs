@@ -24,7 +24,7 @@ namespace Guaranteed_Income.Models
 
             fixedIm = nonImFix.GetYearlyBreakdown(carlo);
             fixedDef = nonDefFix.GetYearlyBreakdown(carlo);
-            varIm = nonImFix.GetYearlyBreakdown(carlo);
+            varIm = nonImVar.GetYearlyBreakdown(carlo);
             varDef = nonDefVar.GetYearlyBreakdown(carlo);
         }
     }

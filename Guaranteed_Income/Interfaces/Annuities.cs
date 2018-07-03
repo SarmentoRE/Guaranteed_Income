@@ -119,16 +119,15 @@ namespace Guaranteed_Income.Interfaces
         public List<List<double>> GetYearlyBreakdown(MonteCarlo carlo)
         {
             double currentAmount = initialAmount;
-            List<List<double>> yearlyBreakdown;
+            List<List<double>> yearlyBreakdown = new List<List<double>>();
             Confidence confidence = new Confidence(carlo.trialsList);
             List<int> intervals = new List<int> { 25, 50, 75, 90 };
-            yearlyBreakdown = new List<List<double>>();
             List<double> currentYear = new List<double>();
             double carloRate;
             List<double> currentInterval = new List<double>();
             double retirementAmount;
 
-            if (!var)
+            if (var == false)
             {
                 for (int i = 0; i < yearsToRetirement; i++)
                 {
