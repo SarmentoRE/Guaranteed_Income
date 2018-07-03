@@ -5,6 +5,12 @@ export default class Person {
   age : number;
   retirementDate : string;
   deathDate : string;
-  concerns : Array<string>
   filingStatus : string = "single";
+  concerns = [false, false, false, false]
+  assetHolder = [];
+  matchHolder = [];
+  capHolder = [];
+  amountHolder = [];
+  additionsHolder = [];
+  htmlHolder = [];
 }
