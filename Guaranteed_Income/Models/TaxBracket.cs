@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Guaranteed_Income.Models
 {
@@ -16,7 +14,7 @@ namespace Guaranteed_Income.Models
 
         public TaxBracket(double income, FilingStatus status, State state, int age)
         {
-            CalculateStandardDeduction(status, state, age); //find what the persons deductions are
+            CalculateStandardDeduction(status, state, age); //find what the deductions are
 
             double federalTaxableIncome = (Double)Math.Max((income - federalDeduction), 0); //find what you can tax them on
             double stateTaxableIncome = (Double)Math.Max((income - stateDeduction), 0);

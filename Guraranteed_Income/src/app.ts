@@ -392,7 +392,7 @@ export class App {
     this.DepressTile(5);
     this.myLineChart.destroy();
     var years = [];
-    for (var z = 0; z < this.results.confident25.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
@@ -401,7 +401,7 @@ export class App {
       data: {
         labels: years,
         datasets: [{ 
-            data: this.results.confident25,
+            data: this.results.brokerage.confident25,
             label: "Confident 25",
             borderColor: "#3e95cd",
             fill: false
@@ -422,7 +422,7 @@ export class App {
     this.DepressTile(6);
     this.myLineChart.destroy();
     var years = [];
-    for (var z = 0; z < this.results.confident50.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident50.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
@@ -431,7 +431,7 @@ export class App {
       data: {
         labels: years,
         datasets: [{ 
-            data: this.results.confident50,
+            data: this.results.brokerage.confident50,
             label: "Confident 50",
             borderColor: "#3e95cd",
             fill: false
@@ -451,7 +451,7 @@ export class App {
     this.DepressTile(7);
     this.myLineChart.destroy()
     var years = [];
-    for (var z = 0; z < this.results.confident75.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
@@ -460,7 +460,7 @@ export class App {
       data: {
         labels: years,
         datasets: [{ 
-            data: this.results.confident75,
+            data: this.results.brokerage.confident75,
             label: "Confident 75",
             borderColor: "#3e95cd",
             fill: false
@@ -481,7 +481,7 @@ export class App {
     this.DepressTile(8);
     this.myLineChart.destroy()
     var years = [];
-    for (var z = 0; z < this.results.confident90.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
@@ -490,7 +490,7 @@ export class App {
       data: {
         labels: years,
         datasets: [{ 
-            data: this.results.confident90,
+            data: this.results.brokerage.confident90,
             label: "Confident 90",
             borderColor: "#3e95cd",
             fill: false

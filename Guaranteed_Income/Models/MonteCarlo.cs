@@ -1,6 +1,7 @@
 ﻿using Guaranteed_Income.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace Guaranteed_Income.Services
 
             //Console.WriteLine("Starting monte carlo");
 
-            var iops = new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            var iops = new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }; //if this server were to run other things this could be turned down
             Parallel.For(0, trials, iops, element =>
             {
                 RunSimulation();
@@ -46,10 +47,10 @@ namespace Guaranteed_Income.Services
             {
                 change = trialValue * ((expectedReturn) + (standardDeviation * (SafeRandom.NextDouble(-3.0, 3.0))));
                 trialValue += change;
-                trialValue = Math.Max(trialValue, 0.001);
-                trialValue = Math.Round(trialValue, 2);
+
                 trial.Add(trialValue);
             }
+            trial = trial.Select(x => Math.Round(x, 2)).ToList();
 
             mutex.WaitOne();
             trialsList.Add(trial); //make sure only one thread accesses the list at any given time to record its trial

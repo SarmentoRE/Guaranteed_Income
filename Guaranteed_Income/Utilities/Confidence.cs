@@ -1,8 +1,5 @@
 ﻿using Guaranteed_Income.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Guaranteed_Income.Utilities
 {
@@ -20,7 +17,7 @@ namespace Guaranteed_Income.Utilities
 
         public List<double> FindInterval(int confidence)
         {
-            return data[confidence * (MonteCarlo.trials / 100)];
+            return data[(confidence * (MonteCarlo.trials / 100))-1];
         }
     }
 }

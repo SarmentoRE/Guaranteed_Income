@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Guaranteed_Income.Models;
 
-
 namespace Guaranteed_Income.Controllers
 {
     [Produces("application/json")]
@@ -23,7 +22,7 @@ namespace Guaranteed_Income.Controllers
         [HttpPost]
         public JsonResult Post([FromBody] InputModel request)
         {
-            OutputModel output = new OutputModel();
+            OutputModel output = new OutputModel(request);
             return Json(output);
         }
     }
