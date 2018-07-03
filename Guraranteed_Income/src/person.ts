@@ -3,8 +3,8 @@ export default class Person {
   gender : string = "male";
   income : number;
   age : number;
-  retirementDate : string;
-  deathDate : string;
+  retirementDate;
+  deathDate;
   filingStatus : string = "single";
   concerns = [false, false, false, false]
   assetHolder = [];
@@ -14,6 +14,9 @@ export default class Person {
   additionsHolder = [];
   htmlHolder = [];
 
+
+  retirementDateYear = this.retirementDate.getFullYear();
+  deathDateYear = this.deathDate.getFullYear();;
   assets = {  "assets" : this.assetHolder,
                       "matching" : this.matchHolder,
                       "caps" : this.capHolder,
