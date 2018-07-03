@@ -9,18 +9,18 @@ namespace Guaranteed_Income.Models
     public class AssetModel
     {
         [Required]
-        public List<string> assetHolder;
+        public List<string> assets;
 
         [Required]
-        public List<string> amountHolder;
+        public List<string> amounts;
 
         [Required]
-        public List<string> additionsHolder;
+        public List<string> additions;
 
         [Required]
-        public List<string> matchHolder;
+        public List<string> matching;
 
         [Required]
-        public List<string> capHolder;
+        public List<string> caps;
     }
 }

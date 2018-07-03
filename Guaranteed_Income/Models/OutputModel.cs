@@ -23,8 +23,8 @@ namespace Guaranteed_Income.Models
 
         public OutputModel(InputModel input)
         {
-            time = (Int32.Parse(person.deathDate) - DateTime.Now.Year);
             person = new Person(input);
+            time = (Int32.Parse(person.deathDate) - DateTime.Now.Year);
             carlo = new MonteCarlo(person.lumpSum, expectedReturn, standardDeviation, time);
             brokerage = new Brokerage(carlo);
             //qualified = new Qualified(carlo, person);

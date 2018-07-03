@@ -27,12 +27,12 @@ namespace Guaranteed_Income.Models
             //concerns = model.concerns.Select(x => (Concerns)Enum.Parse(typeof(Concerns), x, true)).ToList();
             gender = (Gender)Enum.Parse(typeof(Gender), model.gender, true);
             filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus), model.filingStatus, true);
-            retirementDate = model.retirementDate;
-            deathDate = model.deathDate;
+            retirementDate = model.retirementDate.Substring(0,4);
+            deathDate = model.deathDate.Substring(0, 4);
             taxBracket = new TaxBracket(income, filingStatus, state, age);
             lumpSum = model.lumpSum;
             assetIncome = new AssetFactory(model.assets, retirementDate, deathDate, income).yearlyIncome;
-            assetType = (AssetType)Int32.Parse(model.assets.assetHolder[0]);
+            assetType = (AssetType)Enum.Parse(typeof(AssetType),model.assets.assets[0],true);
         }
     }
 }

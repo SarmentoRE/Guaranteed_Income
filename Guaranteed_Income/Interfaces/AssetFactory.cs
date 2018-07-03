@@ -15,10 +15,10 @@ namespace Guaranteed_Income.Models
             int yearsToRetirement = Int32.Parse(retirementDate) - currentYear;
             int yearsOfRetirement = Int32.Parse(deathDate) - Int32.Parse(retirementDate);
 
-            double additions = double.Parse(assets.additionsHolder[0]);
-            double currentValue = double.Parse(assets.amountHolder[0]);
+            double additions = double.Parse(assets.additions[0]);
+            double currentValue = double.Parse(assets.amounts[0]);
 
-            additions += Math.Min((double.Parse(assets.matchHolder[0]) * additions), (double.Parse(assets.capHolder[0])*income*double.Parse(assets.matchHolder[0])));
+            additions += Math.Min((double.Parse(assets.matching[0]) * additions), (double.Parse(assets.caps[0])*income*double.Parse(assets.matching[0])));
 
             for (int i = yearsToRetirement; i > 0; i--)
             {

@@ -15,8 +15,8 @@ export default class Person {
   htmlHolder = [];
 
 
-  retirementDateYear = this.retirementDate.getFullYear();
-  deathDateYear = this.deathDate.getFullYear();;
+  // retirementDateYear = this.retirementDate.getFullYear();
+  // deathDateYear = this.deathDate.getFullYear();
   assets = {  "assets" : this.assetHolder,
                       "matching" : this.matchHolder,
                       "caps" : this.capHolder,

@@ -28,10 +28,10 @@ export class App {
   iter = 0;
 
   products = [
-    { id: '401(k)', name: '401(k)' },
-    { id: 'R401(k)', name: 'R401(k)' },
-    { id: 'IRA', name: 'IRA' },
-    { id: 'RIRA', name: 'RIRA' },
+    { id: '1', name: '401(k)' },
+    { id: '2', name: 'R401(k)' },
+    { id: '3', name: 'IRA' },
+    { id: '4', name: 'RIRA' },
   ];
 
   results;
@@ -611,13 +611,14 @@ export class App {
 
       localStorage.setItem('results', JSON.stringify(this.results));
       localStorage.setItem('client', JSON.stringify(this.client));
+      console.log(this.results);
     })();
 
     var url = window.location.href;
 
-    if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
-      window.location.href = "http://localhost:8080/results/#"
-    }
+    // if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
+    //   window.location.href = "http://localhost:8080/results/#"
+    // }
 
   }
 }
