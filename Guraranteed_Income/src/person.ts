@@ -13,6 +13,7 @@ export default class Person {
   amountHolder = [];
   additionsHolder = [];
   htmlHolder = [];
+  lumpSum : number;
 
 
   // retirementDateYear = this.retirementDate.getFullYear();
