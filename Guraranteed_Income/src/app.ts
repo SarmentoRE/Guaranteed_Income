@@ -54,14 +54,9 @@ export class App {
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
       this.HomeListener();
     }
-    this.SendData();
+    // this.SendData();
     this.Validate();
 
-    window.onload = function() { 
-      self.PopulateCharts();
-
-      
-    }
 
 
     // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
@@ -258,6 +253,12 @@ export class App {
 
   // A LISTENER TO CONTROL EVENTS ON THE RESULTS PAGE
   ResultsListener() {
+    var self = this;
+
+    window.onload = function() { 
+      self.PopulateCharts();
+    }
+
     document.getElementById("tile1").addEventListener("mouseover",
       function () {
         var icon = document.getElementById("icon1");
@@ -554,6 +555,12 @@ export class App {
 
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
   SendData() {
+    var url = window.location.href;
+
+    if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
+      window.location.href = "http://localhost:8080/results"
+    }
+
     (async () => {
       const response = await fetch('http://localhost:64655/api/', {
         method: 'POST',
