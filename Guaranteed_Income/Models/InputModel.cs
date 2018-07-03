@@ -12,7 +12,6 @@ namespace Guaranteed_Income.Models
         [Required]
         public string gender { get; set; }
 
-        [Required]
         public List<String> concerns { get; set; }
 
         [Required]
@@ -36,5 +35,6 @@ namespace Guaranteed_Income.Models
         [Required]
         public string deathDate { get; set; }
 
+        public AssetModel assets { get; set; }
     }
 }

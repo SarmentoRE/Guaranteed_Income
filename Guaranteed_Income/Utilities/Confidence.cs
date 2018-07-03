@@ -5,7 +5,7 @@ namespace Guaranteed_Income.Utilities
 {
     public class Confidence
     {
-        List<List<double>> data;
+        private List<List<double>> data;
 
         public Confidence(List<List<double>> data)
         {

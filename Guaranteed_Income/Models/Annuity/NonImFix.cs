@@ -11,9 +11,9 @@ namespace Guaranteed_Income.Models.Annuity
         public NonImFix(Person person) : base(person)
         {
             NonQualified();
-            Immediate();
-            CalculateData();
+            Immediate();            
             Fixed();
+            CalculateData();
         }
     }
 }

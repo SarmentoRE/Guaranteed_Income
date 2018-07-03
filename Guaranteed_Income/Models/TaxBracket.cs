@@ -23,6 +23,20 @@ namespace Guaranteed_Income.Models
             stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome, state);
         }
 
+        public TaxBracket(double income, FilingStatus status, State state, int age, List<double> rate, List<double> bracket)
+        {
+            CalculateStandardDeduction(status, state, age); //find what the deductions are
+
+            this.rate = rate; //calculate standard deduction changes rate and bracket so lets set a custom one this is useful for capitol gains taxing
+            this.bracket = bracket;
+
+            double federalTaxableIncome = (Double)Math.Max((income - federalDeduction), 0); //find what you can tax them on
+            double stateTaxableIncome = (Double)Math.Max((income - stateDeduction), 0);
+
+            federalYearlyTax = CalculateYearlyFederalTax(federalTaxableIncome); //TAX THEM
+            stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome, state);
+        }
+
         private double CalculateYearlyFederalTax(double income)
         {
             double tax = 0;
@@ -42,7 +56,7 @@ namespace Guaranteed_Income.Models
             {
                 taxable = currentAmount - bracket[i];
                 tax += taxable * rate[i];
-                currentAmount = currentAmount - taxable;
+                currentAmount -= taxable;
             }
             return tax;
         }
@@ -130,7 +144,7 @@ namespace Guaranteed_Income.Models
         Married
     }
 
-    public enum State
+    public enum State //currently supported states
     {
         Virginia
     }
