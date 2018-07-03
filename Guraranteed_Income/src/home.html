@@ -108,7 +108,7 @@
 
 
         <div class="message-header" style="background-color:#89cc66">
-          <span style="font-size: 3vh; font-family:Fjalla One;">What is your gross annual income?</span>
+          <span style="font-size: 3vh; font-family:Fjalla One;">What are your assets?</span>
         </div>
         <table class="table" stlye="width: 50%" id="appendHere">
           <thead>
@@ -124,7 +124,7 @@
                 <div class="field">
                   <div class="control">
                     <div class="select">
-                      <select value.bind="assetHolder[i]" id="inputAsset0">
+                      <select value.bind="client.assetHolder[i]" id="inputAsset0">
                         <option repeat.for="product of products" model.bind="product.id">
                           ${product.id} - ${product.name}
                         </option>
@@ -135,7 +135,7 @@
               </td>
               <td>
                 <div class="control has-icons-left has-icons-right">
-                  <input class="input" placeholder="50000" value.bind="amountHolder[i]" id="inputAmount0">
+                  <input class="input" placeholder="50000" value.bind="client.amountHolder[i]" id="inputAmount0">
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -146,7 +146,7 @@
               </td>
               <td>
                 <div class="control has-icons-left has-icons-right">
-                  <input class="input" placeholder="50000" value.bind="additionsHolder[i]" id="inputAdd0">
+                  <input class="input" placeholder="50000" value.bind="client.additionsHolder[i]" id="inputAdd0">
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -177,13 +177,65 @@
     </section>
 
 
-    <section class="genInfo-hover" style="background-color: #1e5532;height:25vh" id="otherInfo">
 
-      <div class="message-header" style="background-color:#1e5532" id="otherHeader">
-        <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Other</span>
+    <section class="genInfo-hover" style="background-color:#1e5532; height:25vh" id="otherInfo">
+
+      <div class="message-header" click.delegate="Reversal('otherBody')" style="background-color:#1e5532" id="otherHeader">
+        <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">Concerns</span>
       </div>
       <i class="fa fa-arrow-alt-circle-down fa-4x" style="color:#FAFCF9;float:right;"></i>
-
+      <div class="notification is-success" style="display:none; background-color:#FAFCF9; height:100vh" id="otherBody">
+        <div class="message-header" style="background-color:#FAFCF9; color:#222222">
+          <span style="font-size: 3vh; font-family:Fjalla One;">What are you afraid of?</span>
+        </div>
+        <div class="tile is-ancestor">
+          <div class="tile is-8">
+            <div class="tile is-vertical">
+              <div class="tile is-parent is-vertical">
+      
+      
+                <div class="tile">
+                  <div class="tile is-parent">
+                    <article class="tile is-child box genInfo-hover" click.delegate="DepressTile(1)" style="background-color: #5E005E" id="tile1">
+                      <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">?????
+                        <span class="icon is-small is-right" style="float:right">
+                          <i class="fas fa-check" style="transform: translateY(30%)"></i>
+                        </span>
+                      </span>
+                    </article>
+                  </div>
+                  <div class="tile is-parent">
+                    <article class="tile is-child box genInfo-hover" click.delegate="DepressTile(2)" style="background-color: #AB2F52" id="tile2">
+                    <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Live Too Long
+                      <span class="icon is-small is-right" style="float:right">
+                        <i class="fas fa-wheelchair" style="transform: translateY(30%)"></i>
+                      </span>
+                    </span>
+                    </article>
+                  </div>
+              </div>
+      
+              <div class="tile">
+                  <div class="tile is-parent">
+                    <article class="tile is-child box genInfo-hover" click.delegate="DepressTile(3)" style="background-color: #E55D4A" id="tile3">
+                      <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Market Crash
+                        <span class="icon is-small is-right" style="float:right">
+                          <i class="fas fa-signal" style="transform:scaleX(-1) translateY(30%)"></i>
+                        </span>
+                      </span>
+                    </article>
+                  </div>
+                  <div class="tile is-parent">
+                    <article class="tile is-child box genInfo-hover" click.delegate="DepressTile(4)" style="background-color: #E88554" id="tile4">
+                    <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Die Too Early
+                      <span class="icon is-small is-right" style="float:right">
+                        <i class="fas fa-church" style="transform: translateY(30%)"></i>
+                      </span>
+                    </span>
+                    </article>
+                  </div>
+              </div>
+            </div>
     </section>
 
     <section class="genInfo-hover" style="background-color: #FAFCF9; height:25vh" id="submit">

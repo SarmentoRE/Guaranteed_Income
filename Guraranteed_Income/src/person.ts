@@ -5,6 +5,10 @@ export default class Person {
   age : number;
   retirementDate : string;
   deathDate : string;
-  concerns : Array<string>
   filingStatus : string = "single";
+  concerns = [false, false, false, false]
+  assetHolder = []
+  amountHolder = [];
+  additionsHolder = [];
+  htmlHolder = [];
 }

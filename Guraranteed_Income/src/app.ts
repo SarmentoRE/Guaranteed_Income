@@ -30,9 +30,7 @@ export class App {
   rider4 = false;
 
   i = 0;
-  assetHolder = []
-  amountHolder = [];
-  additionsHolder = [];
+
 
   products = [
     { id: 1, name: '401(k)' },
@@ -165,9 +163,10 @@ export class App {
     var submit = document.getElementById("submit");
     var generalID = document.getElementById("generalBody");
     var financesID = document.getElementById("financesBody");
+    var otherID = document.getElementById("otherBody")
 
 
-    var ids = [generalID, financesID];
+    var ids = [generalID, financesID, otherID];
 
     if (link.style.display == "none") {
       for (var i = 0; i < ids.length; i++) {
@@ -188,6 +187,12 @@ export class App {
         submit.style.display = "none";
         window.location.href = "#financesInfo"
       }
+      else {
+        generalHead.style.display = "none";
+        financeHead.style.display = "none";
+        submit.style.display = "none";
+        window.location.href = "#otherInfo"
+      }
     }
     else {
       link.style.display = "none";
@@ -205,6 +210,8 @@ export class App {
 
     if (document.referrer == "http://localhost:8080/results") {
       this.client = JSON.parse(localStorage.getItem('client'));
+      this.ReconstructTable();
+      this.i = this.client.assetHolder.length;
     }
 
 
@@ -343,17 +350,8 @@ export class App {
     var tile3 = document.getElementById("tile3")
     var tile4 = document.getElementById("tile4")
 
-    if (number == 1) {
-      this.rider1 = !this.rider1
-    }
-    else if (number == 2) {
-      this.rider2 = !this.rider2
-    }
-    else if (number == 3) {
-      this.rider3 = !this.rider3
-    }
-    else if (number == 4) {
-      this.rider4 = !this.rider4
+    if (number < 5) {
+      this.client.concerns[number - 1] = !this.client.concerns[number - 1]
     }
     else if (number > 4) {
       var graphButton = document.getElementById("tile" + number)
@@ -372,28 +370,28 @@ export class App {
       }
     }
 
-    if (this.rider1 == true) {
+    if (this.client.concerns[0] == true) {
       tile1.style.backgroundColor = "hsl(204, 86%, 53%)"
     }
     else {
       tile1.style.backgroundColor = "#5E005E"
     }
 
-    if (this.rider2 == true) {
+    if (this.client.concerns[1] == true) {
       tile2.style.backgroundColor = "hsl(204, 86%, 53%)"
     }
     else {
       tile2.style.backgroundColor = "#AB2F52"
     }
 
-    if (this.rider3 == true) {
+    if (this.client.concerns[2] == true) {
       tile3.style.backgroundColor = "hsl(204, 86%, 53%)"
     }
     else {
       tile3.style.backgroundColor = "#E55D4A"
     }
 
-    if (this.rider4 == true) {
+    if (this.client.concerns[3] == true) {
       tile4.style.backgroundColor = "hsl(204, 86%, 53%)"
     }
     else {
@@ -522,47 +520,57 @@ export class App {
 
   AddRow() {
     var table = document.getElementById("appendThis");
-    table.innerHTML +=
-      '<tr>' +
-      '<td>' +
-      '<div class="field">' +
-      '<div class="control">' +
-      '<div class="select">' +
-      '<select id="inputAsset0">' +
-      '<option selected= "' + this.assetHolder[this.i] + '" disabled>' +
-      this.assetHolder[this.i] +
-      '</option>' +
-      '</select>' +
-      '</div>' +
-      '</div>' +
-      '</div>' +
-      '</td>' +
-      '<td>' +
-      '<div class="control has-icons-left has-icons-right">' +
-      '<input class="input" placeholder="' + this.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
-      '<span class="icon is-small is-left">' +
-      '<i class="fas fa-envelope"></i>' +
-      '</span>' +
-      '<span class="icon is-small is-right">' +
-      '<i class="fas fa-check"></i>' +
-      '</span>' +
-      '</div>' +
-      '</td>' +
-      '<td>' +
-      '<div class="control has-icons-left has-icons-right">' +
-      '<input class="input" placeholder="' + this.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
-      '<span class="icon is-small is-left">' +
-      '<i class="fas fa-envelope"></i>' +
-      '</span>' +
-      '<span class="icon is-small is-right">' +
-      '<i class="fas fa-check"></i>' +
-      '</span>' +
-      '</div>' +
-      '</td>' +
-      '</tr>'
+    var html = 
+    '<tr>' +
+    '<td>' +
+    '<div class="field">' +
+    '<div class="control">' +
+    '<div class="select">' +
+    '<select id="inputAsset0">' +
+    '<option selected= "' + this.client.assetHolder[this.i] + '" disabled>' +
+    this.client.assetHolder[this.i] +
+    '</option>' +
+    '</select>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '</td>' +
+    '<td>' +
+    '<div class="control has-icons-left has-icons-right">' +
+    '<input class="input" placeholder="' + this.client.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
+    '<span class="icon is-small is-left">' +
+    '<i class="fas fa-envelope"></i>' +
+    '</span>' +
+    '<span class="icon is-small is-right">' +
+    '<i class="fas fa-check"></i>' +
+    '</span>' +
+    '</div>' +
+    '</td>' +
+    '<td>' +
+    '<div class="control has-icons-left has-icons-right">' +
+    '<input class="input" placeholder="' + this.client.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
+    '<span class="icon is-small is-left">' +
+    '<i class="fas fa-envelope"></i>' +
+    '</span>' +
+    '<span class="icon is-small is-right">' +
+    '<i class="fas fa-check"></i>' +
+    '</span>' +
+    '</div>' +
+    '</td>' +
+    '</tr>'
+    table.innerHTML += html
+
+    this.client.htmlHolder[this.i] = html
     this.i++;
     for (var e = 0; e < this.i; e++) {
-      console.log(this.assetHolder[e] + " " + this.amountHolder[e] + " " + this.additionsHolder[e])
+      console.log(this.client.assetHolder[e] + " " + this.client.amountHolder[e] + " " + this.client.additionsHolder[e])
+    }
+  }
+
+  ReconstructTable() {
+    var table = document.getElementById("appendThis");
+    for (var e= 0; e < this.client.htmlHolder.length; e++) {
+      table.innerHTML += this.client.htmlHolder[e];
     }
   }
 
