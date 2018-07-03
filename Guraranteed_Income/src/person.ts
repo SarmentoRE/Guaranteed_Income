@@ -13,4 +13,10 @@ export default class Person {
   amountHolder = [];
   additionsHolder = [];
   htmlHolder = [];
+
+  assets = {  "assets" : this.assetHolder,
+                      "matching" : this.matchHolder,
+                      "caps" : this.capHolder,
+                      "amounts" : this.amountHolder,
+                      "additions" : this.additionsHolder }
 }

@@ -357,13 +357,13 @@ export class App {
     else if (number > 4) {
       var graphButton = document.getElementById("tile" + number)
       if (graphButton.style.backgroundColor == "hsl(204, 86%, 53%)") {
-        graphButton.style.backgroundColor = "#1e5532"
+        graphButton.style.backgroundColor = "#49804A"
       }
       else {
         for (var e = 5; e < 13; e++) {
           var otherTiles = document.getElementById("tile" + e)
           console.log("tile" + e)
-          otherTiles.style.backgroundColor = "#1e5532";
+          otherTiles.style.backgroundColor = "#49804A";
           console.log("HERE")
         }
         graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
