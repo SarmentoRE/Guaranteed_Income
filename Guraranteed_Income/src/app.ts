@@ -63,28 +63,32 @@ export class App {
     // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
 
+  Start() {
+    window.location.href = "http://localhost:8080"
+  }
+
   Validate() {
-      document.onkeydown = function(e) {
+    document.onkeydown = function (e) {
       if (e.shiftKey) {
         e.preventDefault();
       }
-      if(!((e.keyCode > 95 && e.keyCode < 106)
-        || (e.keyCode > 47 && e.keyCode < 58) 
+      if (!((e.keyCode > 95 && e.keyCode < 106)
+        || (e.keyCode > 47 && e.keyCode < 58)
         || e.keyCode == 8 || e.keyCode == 9)) {
-          return false;
+        return false;
       }
     }
   }
 
-  ConstantRun(){
+  ConstantRun() {
     var self = this;
     var element = document.getElementById("final")
-    element.onkeyup = function(event) {
+    element.onkeyup = function (event) {
       self.SendData();
     };
   }
 
-  ShowElement(elementOne , elementTwo) {
+  ShowElement(elementOne, elementTwo) {
     var link = document.getElementById(elementOne);
     var refer = document.getElementById(elementTwo)
     link.style.display = "block";
@@ -149,6 +153,7 @@ export class App {
       }
     });
 
+    this.ShowQFixedImm();
   }
 
   Reversal(elementOne) {
@@ -197,6 +202,12 @@ export class App {
 
   // A LISTENER TO CONTROL EVENTS ON THE HOME PAGE
   HomeListener() {
+
+    if (document.referrer == "http://localhost:8080/results") {
+      this.client = JSON.parse(localStorage.getItem('client'));
+    }
+
+
     document.getElementById("generalInfo").addEventListener("mouseover",
       function () {
         var elm = document.getElementById("generalHeader");
@@ -255,7 +266,9 @@ export class App {
   ResultsListener() {
     var self = this;
 
-    window.onload = function() { 
+    this.results = JSON.parse(localStorage.getItem('results'));
+
+    window.onload = function () {
       self.PopulateCharts();
     }
 
@@ -400,12 +413,12 @@ export class App {
       type: 'line',
       data: {
         labels: years,
-        datasets: [{ 
-            data: this.results.brokerage.confident25,
-            label: "Confident 25",
-            borderColor: "#3e95cd",
-            fill: false
-          }
+        datasets: [{
+          data: this.results.brokerage.confident25,
+          label: "Confident 25",
+          borderColor: "#3e95cd",
+          fill: false
+        }
         ]
       },
       options: {
@@ -430,12 +443,12 @@ export class App {
       type: 'line',
       data: {
         labels: years,
-        datasets: [{ 
-            data: this.results.brokerage.confident50,
-            label: "Confident 50",
-            borderColor: "#3e95cd",
-            fill: false
-          }
+        datasets: [{
+          data: this.results.brokerage.confident50,
+          label: "Confident 50",
+          borderColor: "#3e95cd",
+          fill: false
+        }
         ]
       },
       options: {
@@ -459,12 +472,12 @@ export class App {
       type: 'line',
       data: {
         labels: years,
-        datasets: [{ 
-            data: this.results.brokerage.confident75,
-            label: "Confident 75",
-            borderColor: "#3e95cd",
-            fill: false
-          }
+        datasets: [{
+          data: this.results.brokerage.confident75,
+          label: "Confident 75",
+          borderColor: "#3e95cd",
+          fill: false
+        }
         ]
       },
       options: {
@@ -489,12 +502,12 @@ export class App {
       type: 'line',
       data: {
         labels: years,
-        datasets: [{ 
-            data: this.results.brokerage.confident90,
-            label: "Confident 90",
-            borderColor: "#3e95cd",
-            fill: false
-          }
+        datasets: [{
+          data: this.results.brokerage.confident90,
+          label: "Confident 90",
+          borderColor: "#3e95cd",
+          fill: false
+        }
         ]
       },
       options: {
@@ -510,43 +523,43 @@ export class App {
   AddRow() {
     var table = document.getElementById("appendThis");
     table.innerHTML +=
-    '<tr>' +
+      '<tr>' +
       '<td>' +
       '<div class="field">' +
-                  '<div class="control">' +
-                    '<div class="select">' +
-                      '<select id="inputAsset0">' +
-                        '<option selected= "' + this.assetHolder[this.i] + '" disabled>' +
-                          this.assetHolder[this.i] +
-                        '</option>' +
-                      '</select>' +
-                    '</div>' +
-                  '</div>' +
-                '</div>' +
+      '<div class="control">' +
+      '<div class="select">' +
+      '<select id="inputAsset0">' +
+      '<option selected= "' + this.assetHolder[this.i] + '" disabled>' +
+      this.assetHolder[this.i] +
+      '</option>' +
+      '</select>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
       '</td>' +
       '<td>' +
       '<div class="control has-icons-left has-icons-right">' +
       '<input class="input" placeholder="' + this.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
       '<span class="icon is-small is-left">' +
-        '<i class="fas fa-envelope"></i>' +
+      '<i class="fas fa-envelope"></i>' +
       '</span>' +
       '<span class="icon is-small is-right">' +
-        '<i class="fas fa-check"></i>' +
+      '<i class="fas fa-check"></i>' +
       '</span>' +
-    '</div>' +
+      '</div>' +
       '</td>' +
       '<td>' +
       '<div class="control has-icons-left has-icons-right">' +
       '<input class="input" placeholder="' + this.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
       '<span class="icon is-small is-left">' +
-        '<i class="fas fa-envelope"></i>' +
+      '<i class="fas fa-envelope"></i>' +
       '</span>' +
       '<span class="icon is-small is-right">' +
-        '<i class="fas fa-check"></i>' +
+      '<i class="fas fa-check"></i>' +
       '</span>' +
-    '</div>' +
+      '</div>' +
       '</td>' +
-    '</tr>'
+      '</tr>'
     this.i++;
     for (var e = 0; e < this.i; e++) {
       console.log(this.assetHolder[e] + " " + this.amountHolder[e] + " " + this.additionsHolder[e])
@@ -555,11 +568,6 @@ export class App {
 
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
   SendData() {
-    var url = window.location.href;
-
-    if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
-      window.location.href = "http://localhost:8080/results"
-    }
 
     (async () => {
       const response = await fetch('http://localhost:64655/api/', {
@@ -570,7 +578,18 @@ export class App {
         },
         body: JSON.stringify(this.client)
       });
+
       this.results = await response.json();
+
+      localStorage.setItem('results', JSON.stringify(this.results));
+      localStorage.setItem('client', JSON.stringify(this.client));
     })();
+
+    var url = window.location.href;
+
+    if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
+      window.location.href = "http://localhost:8080/results"
+    }
+
   }
 }
