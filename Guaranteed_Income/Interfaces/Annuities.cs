@@ -1,6 +1,8 @@
 ﻿using Guaranteed_Income.Models;
+using Guaranteed_Income.Services;
 using Guaranteed_Income.Utilities;
 using System;
+using System.Collections.Generic;
 
 namespace Guaranteed_Income.Interfaces
 {
@@ -11,11 +13,10 @@ namespace Guaranteed_Income.Interfaces
         public double initialAmount { get; set; }
         public double extraPayments { get; set; }
         public double accumulationYears { get; set; }
-        public double growthPercentage { get; set; }
         public double lumpSumAtRetirement { get; set; }
         public double extraFees { get; set; }
         public double addedRider { get; set; }
-        public double yearsAfterRetirement { get; set; }
+        public int yearsAfterRetirement { get; set; }
         public double distributionsBeforeTax { get; set; }
         public double exclusionRatio { get; set; }
         public double irsLife { get; set; }
@@ -27,11 +28,15 @@ namespace Guaranteed_Income.Interfaces
         public double yearlyTaxable { get; set; }
         public double yearlyNonTaxable { get; set; }
         public double yearsOfPayments { get; set; }
+        public double afterTaxIncome { get; set; }
+        public int yearsToRetirement { get; set; }
+        private Person person { get; set; }
+        private bool var;
 
         public Annuities(Person person)
         {
             int currentYear = DateTime.Now.Year;
-            int yearsToRetirement = Int32.Parse(person.retirementDate) - currentYear;
+            yearsToRetirement = Int32.Parse(person.retirementDate) - currentYear;
 
             irsLife = LifeExpectancy.GetLifeExpectancy(person.age, person.gender);
             annuityLife = LifeExpectancy.GetLifeExpectancy(person.age + defferedTime, person.gender);
@@ -40,15 +45,19 @@ namespace Guaranteed_Income.Interfaces
             accumulationYears = Math.Max(yearsToRetirement, defferedTime);
             effectiveRate = person.income / (person.taxBracket.stateYearlyTax + person.taxBracket.federalYearlyTax);
             yearsAfterRetirement = (Int32.Parse(person.deathDate) - Int32.Parse(person.retirementDate));
+            this.person = person;
         }
 
         public void CalculateData()
         {
+            rate -= extraFees;
+
             distributionsBeforeTax = new PaymentCalculator(lumpSumAtRetirement, rate, yearsOfPayments).GetPayments();
             totalExpectedReturn = distributionsBeforeTax * yearsOfPayments;
-           
+
             yearlyTaxable = (1 - exclusionRatio) * distributionsBeforeTax;
-            yearlyNonTaxable = distributionsBeforeTax = yearlyTaxable;
+            yearlyNonTaxable = distributionsBeforeTax - yearlyTaxable;
+            CalculateTaxes();
         }
 
         public void NonQualified()
@@ -64,6 +73,7 @@ namespace Guaranteed_Income.Interfaces
 
         public void Deferred()
         {
+            yearsOfPayments = Math.Min((int)annuityLife, (int)retireLife);
             lumpSumAtRetirement = new FutureValue(initialAmount, rate, accumulationYears).GetFutureValue();
         }
 
@@ -75,12 +85,91 @@ namespace Guaranteed_Income.Interfaces
 
         public void Fixed()
         {
+            extraFees = 0;
+            var = false;
 
         }
 
         public void Variable()
         {
+            extraFees = 0.025;
+            var = true;
+        }
 
+        public void CalculateTaxes()
+        {
+            double totalYearlyTax;
+            double taxable;
+            if (person.assetType == AssetType.RIRA || person.assetType == AssetType.R401k)
+            {
+                taxable = yearlyTaxable;
+                yearlyNonTaxable += person.assetIncome;
+            }
+            else
+            {
+                taxable = yearlyTaxable + person.assetIncome;
+            }
+
+            TaxBracket tax = new TaxBracket(taxable, person.filingStatus, person.state, (person.age + yearsToRetirement));
+            totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
+
+            afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
+        }
+
+        public List<List<double>> GetYearlyBreakdown(MonteCarlo carlo)
+        {
+            double currentAmount = initialAmount;
+            List<List<double>> yearlyBreakdown;
+            Confidence confidence = new Confidence(carlo.trialsList);
+            List<int> intervals = new List<int> { 25, 50, 75, 90 };
+            yearlyBreakdown = new List<List<double>>();
+            List<double> currentYear = new List<double>();
+            double carloRate;
+            List<double> currentInterval = new List<double>();
+            double retirementAmount;
+
+            if (!var)
+            {
+                for (int i = 0; i < yearsToRetirement; i++)
+                {
+                    currentAmount += lumpSumAtRetirement / yearsToRetirement;
+                    currentYear.Add(currentAmount);
+                }
+
+                for (int i = 0; i < yearsOfPayments; i++)
+                {
+                    currentAmount -= distributionsBeforeTax;
+                    currentYear.Add(currentAmount);
+                }
+
+                yearlyBreakdown.Add(currentYear);
+            }
+            else if (var)
+            {
+                for (int j = 0; j < intervals.Count; j++)
+                {
+                    currentInterval = confidence.FindInterval(intervals[j]);
+                    carloRate = ((currentInterval[currentInterval.Count - 1] / currentInterval[0]) - 1) / currentInterval.Count;
+                    currentAmount = initialAmount;
+
+                    for (int i = 0; i < yearsToRetirement; i++)
+                    {
+                        currentAmount = currentAmount * (1 + (.6 * rate + .4 * carloRate));
+                        currentYear.Add(currentAmount);
+                    }
+
+                    retirementAmount = new PaymentCalculator(currentAmount, (.6 * rate + .4 * carloRate), yearsOfPayments).GetPayments();
+
+                    for (int i = 0; i < yearsOfPayments; i++)
+                    {
+                        currentAmount -= retirementAmount;
+                        currentYear.Add(currentAmount);
+                    }
+
+                    yearlyBreakdown.Add(currentYear);
+                }
+            }
+            return yearlyBreakdown;
         }
     }
 }

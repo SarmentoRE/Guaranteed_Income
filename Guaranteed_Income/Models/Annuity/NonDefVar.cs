@@ -11,9 +11,9 @@ namespace Guaranteed_Income.Models.Annuity
         public NonDefVar(Person person) : base(person)
         {
             NonQualified();
-            Deferred();
-            CalculateData();
+            Deferred();            
             Variable();
+            CalculateData();
         }
     }
 }

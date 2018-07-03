@@ -19,7 +19,7 @@ namespace Guaranteed_Income.Utilities
         }
 
         public double GetFutureValue()
-        {
+        { 
             double value = cashFlow * (Math.Pow( (1 + rate), periods));
             return value;
         }

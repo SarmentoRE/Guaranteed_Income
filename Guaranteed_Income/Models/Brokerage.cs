@@ -5,11 +5,8 @@ using System.Collections.Generic;
 namespace Guaranteed_Income.Models
 {
     public class Brokerage
-    {
-        private double currentValue = 30000;
-        private double expectedReturn = 0.0084;
-        private double standardDeviation = 0.0424;
-        private double time = 360;
+    { 
+        private MonteCarlo carlo;
 
         //Some variable asset with a confidence level
         public List<double> confident25 { get; set; }
@@ -17,25 +14,16 @@ namespace Guaranteed_Income.Models
         public List<double> confident75 { get; set; }
         public List<double> confident90 { get; set; }
 
-        public Brokerage()
+        public Brokerage(MonteCarlo carlo)
         {
+            this.carlo = carlo;
             GenerateOutput();
         }
 
-        public Brokerage(double currentValue, double expectedReturn, double standardDeviation, double time)
-        {
-            this.currentValue = currentValue;
-            this.expectedReturn = expectedReturn;
-            this.standardDeviation = standardDeviation;
-            this.time = time;
-
-            GenerateOutput();
-        }
 
         private void GenerateOutput()
         {
-            MonteCarlo monteCarlo = new MonteCarlo(currentValue, expectedReturn, standardDeviation, time);
-            Confidence confidence = new Confidence(monteCarlo.trialsList);
+            Confidence confidence = new Confidence(carlo.trialsList);
 
             confident25 = confidence.FindInterval(1);
             confident50 = confidence.FindInterval(50);

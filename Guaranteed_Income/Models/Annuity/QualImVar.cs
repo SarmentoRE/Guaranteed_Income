@@ -12,8 +12,8 @@ namespace Guaranteed_Income.Models.Annuity
         {
             Qualified();
             Immediate();
-            CalculateData();
             Variable();
+            CalculateData();
         }
     }
 }

@@ -12,9 +12,9 @@ namespace Guaranteed_Income.Models.Annuity
         public NonDefFix(Person person) : base(person)
         {
             NonQualified();
-            Deferred();
-            CalculateData();
+            Deferred();            
             Fixed();
+            CalculateData();
         }
     }
 }
