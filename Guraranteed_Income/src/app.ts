@@ -24,13 +24,8 @@ export class App {
   myLineChart;
   myLineChart2;
 
-  rider1 = false;
-  rider2 = false;
-  rider3 = false;
-  rider4 = false;
-
   i = 0;
-
+  iter = 0;
 
   products = [
     { id: '401(k)', name: '401(k)' },
@@ -46,7 +41,7 @@ export class App {
 
     var url = window.location.href;
 
-    if (url == "http://localhost:8080/results") {
+    if (url == "http://localhost:8080/results/") {
       this.ResultsListener();
     }
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
@@ -275,7 +270,7 @@ export class App {
     var self = this;
 
     this.results = JSON.parse(localStorage.getItem('results'));
-
+    this.client = JSON.parse(localStorage.getItem('client'))
     window.onload = function () {
       self.PopulateCharts();
       self.DepressTile(-1);
@@ -569,6 +564,29 @@ export class App {
     }
   }
 
+  DetermineScroll(direction) {
+    if (direction == -1) {
+      this.iter--;
+    }
+    else if (direction == 1) {
+      this.iter++;
+    }
+
+    if (this.iter < 0) {
+      this.iter = 0;
+    }
+
+    if (this.iter > 2) {
+      this.iter = 2;
+    }
+
+    var jumpIDs = ['results/#Qualified', 'results/#Nonqualified', 'results/#tile1']
+    console.log(this.iter)
+    console.log(jumpIDs[this.iter])
+    
+    window.location.href = jumpIDs[this.iter];
+  }
+
   ReconstructTable() {
     var table = document.getElementById("appendThis");
     for (var e= 0; e < this.client.htmlHolder.length; e++) {
@@ -598,7 +616,7 @@ export class App {
     var url = window.location.href;
 
     if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
-      window.location.href = "http://localhost:8080/results"
+      window.location.href = "http://localhost:8080/results/#"
     }
 
   }

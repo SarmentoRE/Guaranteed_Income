@@ -14,33 +14,33 @@
   </head>
 
   <div class="tile is-ancestor">
-      <div class="tile is-12">
-        <div class="tile is-vertical">
-          <div class="tile is-parent is-vertical">
-  
-  
-          <article class="tile is-child notification" style="background-color:#89cc66;">
+    <div class="tile is-12">
+      <div class="tile is-vertical">
+        <div class="tile is-parent is-vertical">
+
+
+          <article class="tile is-child notification" style="background-color:#89cc66;" id="Qualified">
             <span style="font-size: 4vh; font-family:Fjalla One;">Qualified</span>
           </article>
-  
+
           <div class="tile">
-              <div class="tile is-parent">
-                <article class="tile is-child box genInfo-hover" click.delegate="ShowQFixedImm()" style="background-color: #1e5532" id="tile5">
-                  <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Fixed Immediate</span>
-                </article>
-              </div>
-              <div class="tile is-parent">
-                <article class="tile is-child box genInfo-hover" click.delegate="ShowQFixedDeff()" style="background-color: #1e5532" id="tile6">
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowQFixedImm()" style="background-color: #1e5532" id="tile5">
+                <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Fixed Immediate</span>
+              </article>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowQFixedDeff()" style="background-color: #1e5532" id="tile6">
                 <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Fixed Deffered</span>
-                </article>
-              </div>
-              <div class="tile is-parent">
-              <article class="tile is-child box genInfo-hover" click.delegate="ShowQVarImm()" style="background-color: #1e5532" id="tile7">
+              </article>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowQVarImm()" style="background-color: #1e5532" id="tile7">
                 <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Variable Immediate</span>
               </article>
             </div>
-              <div class="tile is-parent">
-              <article class="tile is-child box genInfo-hover" click.delegate="ShowQVarDeff()" style="background-color: #1e5532" id="tile8">
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowQVarDeff()" style="background-color: #1e5532" id="tile8">
                 <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Variable Defferred</span>
               </article>
             </div>
@@ -53,31 +53,31 @@
         </div>
       </div>
       <div class="tile is-vertical">
-          <div class="tile is-parent is-vertical">
-  
-  
-          <article class="tile is-child notification" style="background-color:#89cc66;">
+        <div class="tile is-parent is-vertical">
+
+
+          <article class="tile is-child notification" style="background-color:#89cc66;" id="Nonqualified">
             <span style="font-size: 4vh; font-family:Fjalla One;">Non-Qualified</span>
           </article>
-  
+
           <div class="tile">
-              <div class="tile is-parent">
-                <article class="tile is-child box genInfo-hover" click.delegate="ShowNQFixedImm()" style="background-color: #1e5532" id=tile9>
-                  <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Fixed Immediate</span>
-                </article>
-              </div>
-              <div class="tile is-parent">
-                <article class="tile is-child box genInfo-hover" click.delegate="ShowNQFixedDeff()" style="background-color: #1e5532" id=tile10>
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowNQFixedImm()" style="background-color: #1e5532" id=tile9>
+                <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Fixed Immediate</span>
+              </article>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowNQFixedDeff()" style="background-color: #1e5532" id=tile10>
                 <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Fixed Deffered</span>
-                </article>
-              </div>
-              <div class="tile is-parent">
-              <article class="tile is-child box genInfo-hover" click.delegate="ShowNQVarImm()" style="background-color: #1e5532" id=tile11>
+              </article>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowNQVarImm()" style="background-color: #1e5532" id=tile11>
                 <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Variable Immediate</span>
               </article>
             </div>
-              <div class="tile is-parent">
-              <article class="tile is-child box genInfo-hover" click.delegate="ShowNQVarDeff()" style="background-color: #1e5532" id=tile12>
+            <div class="tile is-parent">
+              <article class="tile is-child box" click.delegate="ShowNQVarDeff()" style="background-color: #1e5532" id=tile12>
                 <span style="font-size: 3vh; font-family:Fjalla One;color:#FAFCF9">Variable Defferred</span>
               </article>
             </div>
@@ -85,50 +85,76 @@
         </div>
         <div class="tile is-parent">
           <article class="tile is-child notification" style="background-color: #49804A;">
-              <canvas id="line-chart-nq" width="640" height="480" style="background-color: rgba(250, 252, 249, 0.562); border-radius:20px"></canvas>
-            </article>
+            <canvas id="line-chart-nq" width="640" height="480" style="background-color: rgba(250, 252, 249, 0.562); border-radius:20px"></canvas>
+          </article>
         </div>
       </div>
-    <div class="tile is-parent is-vertical">
-      <article class="tile is-child box genInfo-hover" style="background-color: #5E005E;"  id="tile1" click.delegate="DepressTile(1)">
-        <figure>
-          <i class="fas fa-stopwatch" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%); display:block" id="icon1"></i>
-          <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id="fig1">??? <br>???</figcaption>
-        </figure>
-      </article>
-      <article class="tile is-child box genInfo-hover" style="background-color: #AB2F52;" id="tile2" click.delegate="DepressTile(2)">
-        <figure>
-          <i class="fas fa-wheelchair" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%); display:block" id=icon2></i>
-          <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id=fig2>Live Too <br> Long</figcaption>
-        </figure>
-      </article>
-      <article class="tile is-child box genInfo-hover" style="background-color: #E55D4A;" id="tile3" click.delegate="DepressTile(3)">
-        <figure>
-          <i class="fas fa-signal" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%) rotateX(-1); display:block" id=icon3></i>
-          <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id=fig3>Market <br> Crash</figcaption>
-        </figure>
-      </article>
-      <article class="tile is-child box genInfo-hover" style="background-color: #E88554;" id="tile4" click.delegate="DepressTile(4)">
-        <figure>
-          <i class="fas fa-church" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%); display:block" id=icon4></i>
-          <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id=fig4>Die Too <br> Early</figcaption>
-        </figure>
-      </article>
-  
-    </div>
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child box" style="background-color: #5E005E;" id="tile1" click.delegate="DepressTile(1)" id="Riders">
+          <figure>
+            <i class="fas fa-stopwatch" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%); display:block" id="icon1"></i>
+            <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id="fig1">???
+              <br>???</figcaption>
+          </figure>
+        </article>
+        <article class="tile is-child box" style="background-color: #AB2F52;" id="tile2" click.delegate="DepressTile(2)">
+          <figure>
+            <i class="fas fa-wheelchair" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%); display:block" id=icon2></i>
+            <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id=fig2>Live Too
+              <br> Long</figcaption>
+          </figure>
+        </article>
+        <article class="tile is-child box" style="background-color: #E55D4A;" id="tile3" click.delegate="DepressTile(3)">
+          <figure>
+            <i class="fas fa-signal" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%) rotateX(-1); display:block" id=icon3></i>
+            <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id=fig3>Market
+              <br> Crash</figcaption>
+          </figure>
+        </article>
+        <article class="tile is-child box" style="background-color: #E88554;" id="tile4" click.delegate="DepressTile(4)">
+          <figure>
+            <i class="fas fa-church" style="font-size:17.9vh; color:#FAFCF9; transform:translateX(20%); display:block" id=icon4></i>
+            <figcaption style="font-size:6vh; color:#FAFCF9;font-family:Helvetica; text-align:center;display:none" id=fig4>Die Too
+              <br> Early</figcaption>
+          </figure>
+        </article>
+
+      </div>
     </div>
 
 
-  <div id="menuToggle" style="position: fixed" click.delegate="Start()">
+    <div id="menuToggle" style="position: fixed" click.delegate="Start()">
 
       <input type="checkbox">
 
 
-      <span></span>
-      <span></span>
-      <span></span>
+      <span>
+        <i class="fas fa-home fa-2x" style="color:#cdcdcd"></i>
+      </span>
 
-      </div>
 
-  
+    </div>
+
+    <div id="nextArr" style="position: fixed" click.delegate="DetermineScroll(1)">
+      <input type="checkbox">
+
+
+      <span>
+        <i class="fas fa-chevron-right fa-2x" style="color:#cdcdcd"></i>
+      </span>
+
+    </div>
+
+    <div id="prevArr" style="position: fixed" click.delegate="DetermineScroll(-1)">
+
+      <input type="checkbox">
+
+
+      <span>
+        <i class="fas fa-chevron-left fa-2x" style="color:#cdcdcd"></i>
+      </span>
+
+    </div>
+
+
 </template>
