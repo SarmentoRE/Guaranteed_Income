@@ -7,7 +7,9 @@ export default class Person {
   deathDate : string;
   filingStatus : string = "single";
   concerns = [false, false, false, false]
-  assetHolder = []
+  assetHolder = [];
+  matchHolder = [];
+  capHolder = [];
   amountHolder = [];
   additionsHolder = [];
   htmlHolder = [];

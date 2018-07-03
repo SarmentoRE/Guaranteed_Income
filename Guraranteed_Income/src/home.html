@@ -113,9 +113,10 @@
         <table class="table" stlye="width: 50%" id="appendHere">
           <thead>
             <tr>
-              <th>Asset Type</th>
-              <th>Current Amount</th>
-              <th>Annual Additions</th>
+              <th>Type</th>
+              <th>%/Cap</th>
+              <th>Current</th>
+              <th>Annual+</th>
             </tr>
           </thead>
           <tbody id="cloneMe0">
@@ -123,10 +124,10 @@
               <td>
                 <div class="field">
                   <div class="control">
-                    <div class="select">
+                    <div class="select is-small">
                       <select value.bind="client.assetHolder[i]" id="inputAsset0">
                         <option repeat.for="product of products" model.bind="product.id">
-                          ${product.id} - ${product.name}
+                          ${product.name}
                         </option>
                       </select>
                     </div>
@@ -134,25 +135,21 @@
                 </div>
               </td>
               <td>
-                <div class="control has-icons-left has-icons-right">
-                  <input class="input" placeholder="50000" value.bind="client.amountHolder[i]" id="inputAmount0">
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                  <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                  </span>
+                <div class="control">
+                  <input class="input is-small" value.bind="client.matchHolder[i]" id="inputAmount0" style="width:80%">
+                </div>
+                      <div class="control">
+                        <input class="input is-small" value.bind="client.capHolder[i]" id="inputAmount0" style="width:80%">
+                      </div>
+                    </td>
+              <td>
+                <div class="control">
+                  <input class="input is-small" value.bind="client.amountHolder[i]" id="inputAmount0">
                 </div>
               </td>
               <td>
-                <div class="control has-icons-left has-icons-right">
-                  <input class="input" placeholder="50000" value.bind="client.additionsHolder[i]" id="inputAdd0">
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                  <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                  </span>
+                <div class="control">
+                  <input class="input is-small" value.bind="client.additionsHolder[i]" id="inputAdd0">
                 </div>
               </td>
             </tr>

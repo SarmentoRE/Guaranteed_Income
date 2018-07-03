@@ -33,10 +33,10 @@ export class App {
 
 
   products = [
-    { id: 1, name: '401(k)' },
-    { id: 2, name: 'R401(k)' },
-    { id: 3, name: 'IRA' },
-    { id: 4, name: 'RIRA' },
+    { id: '401(k)', name: '401(k)' },
+    { id: 'R401(k)', name: 'R401(k)' },
+    { id: 'IRA', name: 'IRA' },
+    { id: 'RIRA', name: 'RIRA' },
   ];
 
   results;
@@ -211,6 +211,7 @@ export class App {
     if (document.referrer == "http://localhost:8080/results") {
       this.client = JSON.parse(localStorage.getItem('client'));
       this.ReconstructTable();
+      this.DepressTile(-1)
       this.i = this.client.assetHolder.length;
     }
 
@@ -277,6 +278,7 @@ export class App {
 
     window.onload = function () {
       self.PopulateCharts();
+      self.DepressTile(-1);
     }
 
     document.getElementById("tile1").addEventListener("mouseover",
@@ -350,7 +352,11 @@ export class App {
     var tile3 = document.getElementById("tile3")
     var tile4 = document.getElementById("tile4")
 
-    if (number < 5) {
+    for (var e = 0; e < 4; e++) {
+      console.log(this.client.concerns[e]);
+    }
+
+    if (number < 5 && number > 0) {
       this.client.concerns[number - 1] = !this.client.concerns[number - 1]
     }
     else if (number > 4) {
@@ -525,7 +531,7 @@ export class App {
     '<td>' +
     '<div class="field">' +
     '<div class="control">' +
-    '<div class="select">' +
+    '<div class="select is-small">' +
     '<select id="inputAsset0">' +
     '<option selected= "' + this.client.assetHolder[this.i] + '" disabled>' +
     this.client.assetHolder[this.i] +
@@ -536,25 +542,21 @@ export class App {
     '</div>' +
     '</td>' +
     '<td>' +
-    '<div class="control has-icons-left has-icons-right">' +
-    '<input class="input" placeholder="' + this.client.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
-    '<span class="icon is-small is-left">' +
-    '<i class="fas fa-envelope"></i>' +
-    '</span>' +
-    '<span class="icon is-small is-right">' +
-    '<i class="fas fa-check"></i>' +
-    '</span>' +
+    '<div class="control">' +
+    '<input class="input is-small" placeholder="' + this.client.matchHolder[this.i] + '" id="inputAmount0" disabled style="width:80%">' +
+    '</div>' +
+    '<div class="control">' +
+    '<input class="input is-small" placeholder="' + this.client.capHolder[this.i] + '" id="inputAmount0" disabled style="width:80%">' +
     '</div>' +
     '</td>' +
     '<td>' +
-    '<div class="control has-icons-left has-icons-right">' +
-    '<input class="input" placeholder="' + this.client.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
-    '<span class="icon is-small is-left">' +
-    '<i class="fas fa-envelope"></i>' +
-    '</span>' +
-    '<span class="icon is-small is-right">' +
-    '<i class="fas fa-check"></i>' +
-    '</span>' +
+    '<div class="control">' +
+    '<input class="input is-small" placeholder="' + this.client.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
+    '</div>' +
+    '</td>' +
+    '<td>' +
+    '<div class="control">' +
+    '<input class="input is-small" placeholder="' + this.client.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
     '</div>' +
     '</td>' +
     '</tr>'
