@@ -48,26 +48,26 @@
           <span style="font-size: 3vh; font-family:Fjalla One;">When do you plan to retire?</span>
         </div>
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="date" value.bind="client.retirementDate">
-          <span class="icon is-medium is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-medium is-right">
-            <i class="fas fa-check"></i>
-          </span>
-        </div>
+            <input class="input is-large" placeholder="2055" value.bind="client.retirementDate">
+            <span class="icon is-medium is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-medium is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
         <div class="message-header" style="background-color:#49804A">
           <span style="font-size: 3vh; font-family:Fjalla One;">When can the money run out?</span>
         </div>
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="date" value.bind="client.deathDate">
-          <span class="icon is-medium is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-medium is-right">
-            <i class="fas fa-check"></i>
-          </span>
-        </div>
+            <input class="input is-large" placeholder="2067" value.bind="client.deathDate">
+            <span class="icon is-medium is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-medium is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
         <div class="message-header" style="background-color:#49804A">
           <span style="font-size: 3vh; font-family:Fjalla One;">How will you be filing?</span>
         </div>
@@ -77,6 +77,9 @@
               <select value.bind="client.filingStatus">
                 <option value="single">Single</option>
                 <option value="joint">Joint</option>
+                <option value="HoH">Head of Household</option>
+                <option value="jointSep">Joint/Filing Separate</option>
+
               </select>
             </div>
           </div>

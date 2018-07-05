@@ -1,9 +1,7 @@
-import { RouterConfiguration, Router } from 'aurelia-router';
+import { RouterConfiguration, Router, Redirect } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
-import { Script } from 'vm';
 import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
-import { resolveTxt } from 'dns';
 
 
 
@@ -35,11 +33,13 @@ export class App {
   ];
 
   results;
+  selected = "WHY";
 
   attached() {
     var self = this;
 
     var url = window.location.href;
+    console.log(url)
 
     if (url == "http://localhost:8080/results/") {
       this.ResultsListener();
@@ -47,13 +47,6 @@ export class App {
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
       this.HomeListener();
     }
-    // this.SendData();
-    this.Validate();
-
-
-
-    // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
-    // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
 
   Start() {
@@ -70,36 +63,6 @@ export class App {
         || e.keyCode == 8 || e.keyCode == 9)) {
         return false;
       }
-    }
-  }
-
-  ConstantRun() {
-    var self = this;
-    var element = document.getElementById("final")
-    element.onkeyup = function (event) {
-      self.SendData();
-    };
-  }
-
-  ShowElement(elementOne, elementTwo) {
-    var link = document.getElementById(elementOne);
-    var refer = document.getElementById(elementTwo)
-    link.style.display = "block";
-    refer.style.display = "none";
-  }
-
-  HideElement(elementOne) {
-    var link = document.getElementById(elementOne);
-    link.classList.remove("is-active");
-  }
-
-  ToggleMenu() {
-    var menu = document.getElementById("menu");
-    if (menu.style.display == "none") {
-      menu.style.display = "block";
-    }
-    else {
-      menu.style.display = "none";
     }
   }
 
@@ -202,9 +165,10 @@ export class App {
 
   // A LISTENER TO CONTROL EVENTS ON THE HOME PAGE
   HomeListener() {
-
-    if (document.referrer == "http://localhost:8080/results") {
+    console.log(document.referrer);
+    if (document.referrer == "http://localhost:8080/results/") {
       this.client = JSON.parse(localStorage.getItem('client'));
+      console.log(this.client)
       this.ReconstructTable();
       this.DepressTile(-1)
       this.i = this.client.assetHolder.length;
@@ -268,7 +232,6 @@ export class App {
   // A LISTENER TO CONTROL EVENTS ON THE RESULTS PAGE
   ResultsListener() {
     var self = this;
-
     this.results = JSON.parse(localStorage.getItem('results'));
     this.client = JSON.parse(localStorage.getItem('client'))
     window.onload = function () {
@@ -403,6 +366,7 @@ export class App {
   ShowQFixedImm() {
     this.DepressTile(5);
     this.myLineChart.destroy();
+    this.selected = "Fixed Immediate";
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
       years[z] = 2018 + z;
@@ -433,6 +397,7 @@ export class App {
   ShowQFixedDeff() {
     this.DepressTile(6);
     this.myLineChart.destroy();
+    this.selected = "Fixed Deferred"
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident50.length; z++) {
       years[z] = 2018 + z;
@@ -461,7 +426,8 @@ export class App {
 
   ShowQVarImm() {
     this.DepressTile(7);
-    this.myLineChart.destroy()
+    this.myLineChart.destroy();
+    this.selected = "Variable Immediate";
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -491,7 +457,8 @@ export class App {
 
   ShowQVarDeff() {
     this.DepressTile(8);
-    this.myLineChart.destroy()
+    this.myLineChart.destroy();
+    this.selected = "Variable Deferred";
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
       years[z] = 2018 + z;
@@ -516,45 +483,44 @@ export class App {
         }
       }
     });
-
   }
 
   AddRow() {
     var table = document.getElementById("appendThis");
-    var html = 
-    '<tr>' +
-    '<td>' +
-    '<div class="field">' +
-    '<div class="control">' +
-    '<div class="select is-small">' +
-    '<select id="inputAsset0">' +
-    '<option selected= "' + this.client.assetHolder[this.i] + '" disabled>' +
-    this.client.assetHolder[this.i] +
-    '</option>' +
-    '</select>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '</td>' +
-    '<td>' +
-    '<div class="control">' +
-    '<input class="input is-small" placeholder="' + this.client.matchHolder[this.i] + '" id="inputAmount0" disabled style="width:80%">' +
-    '</div>' +
-    '<div class="control">' +
-    '<input class="input is-small" placeholder="' + this.client.capHolder[this.i] + '" id="inputAmount0" disabled style="width:80%">' +
-    '</div>' +
-    '</td>' +
-    '<td>' +
-    '<div class="control">' +
-    '<input class="input is-small" placeholder="' + this.client.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
-    '</div>' +
-    '</td>' +
-    '<td>' +
-    '<div class="control">' +
-    '<input class="input is-small" placeholder="' + this.client.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
-    '</div>' +
-    '</td>' +
-    '</tr>'
+    var html =
+      '<tr>' +
+      '<td>' +
+      '<div class="field">' +
+      '<div class="control">' +
+      '<div class="select is-small">' +
+      '<select id="inputAsset0">' +
+      '<option selected= "' + this.client.assetHolder[this.i] + '" disabled>' +
+      this.client.assetHolder[this.i] +
+      '</option>' +
+      '</select>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '</td>' +
+      '<td>' +
+      '<div class="control">' +
+      '<input class="input is-small" placeholder="' + this.client.matchHolder[this.i] + '" id="inputAmount0" disabled style="width:80%">' +
+      '</div>' +
+      '<div class="control">' +
+      '<input class="input is-small" placeholder="' + this.client.capHolder[this.i] + '" id="inputAmount0" disabled style="width:80%">' +
+      '</div>' +
+      '</td>' +
+      '<td>' +
+      '<div class="control">' +
+      '<input class="input is-small" placeholder="' + this.client.amountHolder[this.i] + '" id="inputAmount0" disabled>' +
+      '</div>' +
+      '</td>' +
+      '<td>' +
+      '<div class="control">' +
+      '<input class="input is-small" placeholder="' + this.client.additionsHolder[this.i] + '" id="inputAmount0" disabled>' +
+      '</div>' +
+      '</td>' +
+      '</tr>'
     table.innerHTML += html
 
     this.client.htmlHolder[this.i] = html
@@ -583,42 +549,45 @@ export class App {
     var jumpIDs = ['results/#Qualified', 'results/#Nonqualified', 'results/#tile1']
     console.log(this.iter)
     console.log(jumpIDs[this.iter])
-    
+
     window.location.href = jumpIDs[this.iter];
   }
 
   ReconstructTable() {
     var table = document.getElementById("appendThis");
-    for (var e= 0; e < this.client.htmlHolder.length; e++) {
+    for (var e = 0; e < this.client.htmlHolder.length; e++) {
       table.innerHTML += this.client.htmlHolder[e];
     }
   }
 
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
   SendData() {
-
-    (async () => {
+    var self = this;
+    async function f () {
       const response = await fetch('http://localhost:64655/api/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.client)
+        body: JSON.stringify(self.client)
       });
+      self.results = await response.json();
+    }
 
-      this.results = await response.json();
+    function Redirect() {
+      console.log("seen");
+      localStorage.setItem('results', JSON.stringify(self.results));
+      localStorage.setItem('client', JSON.stringify(self.client));
+      var url = window.location.href;
+      if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
+        window.location.href = "http://localhost:8080/results/#"
+      }
+      return 1;
+    }
 
-      localStorage.setItem('results', JSON.stringify(this.results));
-      localStorage.setItem('client', JSON.stringify(this.client));
-      console.log(this.results);
-    })();
-
-    var url = window.location.href;
-
-    // if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
-    //   window.location.href = "http://localhost:8080/results/#"
-    // }
-
+    f().then(Redirect)
   }
 }
+
+
