@@ -6,10 +6,10 @@ namespace Guaranteed_Income.Models
 {
     public class NonQualified
     {
-        public List<List<double>> fixedIm;
-        public List<List<double>> fixedDef;
-        public List<List<double>> varIm;
-        public List<List<double>> varDef;
+        public double fixedIm;
+        public double fixedDef;
+        public double varIm;
+        public double varDef;
         private NonDefFix nonDefFix;
         private NonDefVar nonDefVar;
         private NonImFix nonImFix;

@@ -32,6 +32,7 @@ namespace Guaranteed_Income.Interfaces
         public int yearsToRetirement { get; set; }
         private Person person { get; set; }
         private bool var;
+        private bool qual;
 
         public Annuities(Person person)
         {
@@ -43,7 +44,7 @@ namespace Guaranteed_Income.Interfaces
             retireLife = LifeExpectancy.GetLifeExpectancy(person.age + yearsToRetirement, person.gender);
             initialAmount = person.lumpSum;
             accumulationYears = Math.Max(yearsToRetirement, defferedTime);
-            effectiveRate = person.income / (person.taxBracket.stateYearlyTax + person.taxBracket.federalYearlyTax);
+            effectiveRate = (person.taxBracket.stateYearlyTax + person.taxBracket.federalYearlyTax) / person.income;
             yearsAfterRetirement = (Int32.Parse(person.deathDate) - Int32.Parse(person.retirementDate));
             this.person = person;
         }
@@ -54,7 +55,8 @@ namespace Guaranteed_Income.Interfaces
 
             distributionsBeforeTax = new PaymentCalculator(lumpSumAtRetirement, rate, yearsOfPayments).GetPayments();
             totalExpectedReturn = distributionsBeforeTax * yearsOfPayments;
-
+            exclusionRatio = 0;
+            if (qual == false) exclusionRatio = initialAmount / totalExpectedReturn;
             yearlyTaxable = (1 - exclusionRatio) * distributionsBeforeTax;
             yearlyNonTaxable = distributionsBeforeTax - yearlyTaxable;
             CalculateTaxes();
@@ -63,12 +65,13 @@ namespace Guaranteed_Income.Interfaces
         public void NonQualified()
         {
             initialAmount = initialAmount * (1 - effectiveRate);
-            exclusionRatio = initialAmount / totalExpectedReturn;
+            qual = false;
+           
         }
 
         public void Qualified()
         {
-            exclusionRatio = 0;
+            qual = true;
         }
 
         public void Deferred()
@@ -116,7 +119,7 @@ namespace Guaranteed_Income.Interfaces
             afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
         }
 
-        public List<List<double>> GetYearlyBreakdown(MonteCarlo carlo)
+        public double GetYearlyBreakdown(MonteCarlo carlo)
         {
             double currentAmount = initialAmount;
             List<List<double>> yearlyBreakdown = new List<List<double>>();
@@ -168,7 +171,7 @@ namespace Guaranteed_Income.Interfaces
                     yearlyBreakdown.Add(currentYear);
                 }
             }
-            return yearlyBreakdown;
+            return Math.Round(afterTaxIncome,2);
         }
     }
 }

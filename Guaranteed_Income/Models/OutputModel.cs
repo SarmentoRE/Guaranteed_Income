@@ -27,7 +27,7 @@ namespace Guaranteed_Income.Models
             time = (Int32.Parse(person.deathDate) - DateTime.Now.Year);
             carlo = new MonteCarlo(person.lumpSum, expectedReturn, standardDeviation, time);
             brokerage = new Brokerage(carlo);
-            //qualified = new Qualified(carlo, person);
+            qualified = new Qualified(carlo, person);
             nonQualified = new NonQualified(carlo, person);
         }
     }
