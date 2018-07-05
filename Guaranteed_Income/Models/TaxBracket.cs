@@ -80,7 +80,7 @@ namespace Guaranteed_Income.Models
                 case FilingStatus.Joint:
                     rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
                     bracket = new List<double> { 0, 19050, 77400, 165000, 315000, 400000, 600000 };
-                    federalDeduction = 12000;
+                    federalDeduction = 24000;
                     if (age >= 65) federalDeduction += 1600;
 
                     switch (state)
@@ -94,7 +94,7 @@ namespace Guaranteed_Income.Models
                 case FilingStatus.Single:                    
                     rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
                     bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 500000 };
-                    federalDeduction = 24000;
+                    federalDeduction = 12000;
                     if (age >= 65) federalDeduction += 1300;
 
                     switch (state)

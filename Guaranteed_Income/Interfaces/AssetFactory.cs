@@ -15,17 +15,24 @@ namespace Guaranteed_Income.Models
             int yearsToRetirement = Int32.Parse(retirementDate) - currentYear;
             int yearsOfRetirement = Int32.Parse(deathDate) - Int32.Parse(retirementDate);
 
-            double additions = double.Parse(assets.additions[0]);
-            double currentValue = double.Parse(assets.amounts[0]);
-
-            additions += Math.Min((double.Parse(assets.matching[0]) * additions), (double.Parse(assets.caps[0])*income*double.Parse(assets.matching[0])));
-
-            for (int i = yearsToRetirement; i > 0; i--)
+            try
             {
-                currentValue += additions;
-                currentValue += (currentValue * rate);
+                double additions = double.Parse(assets.additions[0]);
+                double currentValue = double.Parse(assets.amounts[0]);
+
+                additions += Math.Min((double.Parse(assets.matching[0]) * additions), (double.Parse(assets.caps[0]) * income * double.Parse(assets.matching[0])));
+
+                for (int i = yearsToRetirement; i > 0; i--)
+                {
+                    currentValue += additions;
+                    currentValue += (currentValue * rate);
+                }
+                yearlyIncome = Math.Round((currentValue / (double)yearsOfRetirement), 2);
             }
-            yearlyIncome = Math.Round((currentValue / (double)yearsOfRetirement),2);
+            catch(ArgumentOutOfRangeException e)
+            {
+                yearlyIncome = 0;
+            }
         }
     }
 
