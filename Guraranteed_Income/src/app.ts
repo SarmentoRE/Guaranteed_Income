@@ -41,6 +41,7 @@ export class App {
     var self = this;
 
     var url = window.location.href;
+    console.log(url)
 
     if (url == "http://localhost:8080/results/") {
       this.ResultsListener();
@@ -166,8 +167,10 @@ export class App {
 
   // A LISTENER TO CONTROL EVENTS ON THE HOME PAGE
   HomeListener() {
-    if (document.referrer == "http://localhost:8080/results") {
+    console.log(document.referrer);
+    if (document.referrer == "http://localhost:8080/results/") {
       this.client = JSON.parse(localStorage.getItem('client'));
+      console.log(this.client)
       this.ReconstructTable();
       this.DepressTile(-1)
       this.i = this.client.assetHolder.length;
