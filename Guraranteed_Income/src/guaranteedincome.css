@@ -233,6 +233,13 @@ a:hover
   -webkit-touch-callout: none;
 }
 
+@media only screen and (max-width: 768 px) {
+  .message-header {
+    transform:translateX(-15%);
+
+  }
+}
+
 
 
 
