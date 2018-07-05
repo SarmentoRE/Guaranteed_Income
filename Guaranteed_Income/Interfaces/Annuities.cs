@@ -117,9 +117,10 @@ namespace Guaranteed_Income.Interfaces
             totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
 
             afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
+            afterTaxIncome = Math.Round(afterTaxIncome, 2);
         }
 
-        public double GetYearlyBreakdown(MonteCarlo carlo)
+        public List<List<double>> GetYearlyBreakdown(MonteCarlo carlo)
         {
             double currentAmount = initialAmount;
             List<List<double>> yearlyBreakdown = new List<List<double>>();
@@ -132,12 +133,13 @@ namespace Guaranteed_Income.Interfaces
 
             if (var == false)
             {
-                for (int i = 0; i < yearsToRetirement; i++)
+                currentYear.Add(currentAmount);
+                for (int i = 1; i < yearsToRetirement; i++)
                 {
                     currentAmount += lumpSumAtRetirement / yearsToRetirement;
                     currentYear.Add(currentAmount);
                 }
-
+                retirementAmount = new PaymentCalculator(currentAmount, rate, yearsOfPayments).GetPayments();
                 for (int i = 0; i < yearsOfPayments; i++)
                 {
                     currentAmount -= distributionsBeforeTax;
@@ -171,7 +173,7 @@ namespace Guaranteed_Income.Interfaces
                     yearlyBreakdown.Add(currentYear);
                 }
             }
-            return Math.Round(afterTaxIncome,2);
+            return yearlyBreakdown;
         }
     }
 }

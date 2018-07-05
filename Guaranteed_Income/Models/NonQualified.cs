@@ -6,10 +6,14 @@ namespace Guaranteed_Income.Models
 {
     public class NonQualified
     {
-        public double fixedIm;
-        public double fixedDef;
-        public double varIm;
-        public double varDef;
+        public List<List<double>> fixedIm;
+        public List<List<double>> fixedDef;
+        public List<List<double>> varIm;
+        public List<List<double>> varDef;
+        public double fixedImYearly;
+        public double fixedDefYearly;
+        public double varImYearly;
+        public double varDefYearly;
         private NonDefFix nonDefFix;
         private NonDefVar nonDefVar;
         private NonImFix nonImFix;
@@ -26,6 +30,11 @@ namespace Guaranteed_Income.Models
             fixedDef = nonDefFix.GetYearlyBreakdown(carlo);
             varIm = nonImVar.GetYearlyBreakdown(carlo);
             varDef = nonDefVar.GetYearlyBreakdown(carlo);
+
+            fixedImYearly = nonImFix.afterTaxIncome;
+            fixedDefYearly = nonDefFix.afterTaxIncome;
+            varImYearly = nonImVar.afterTaxIncome;
+            varDefYearly = nonDefVar.afterTaxIncome;
         }
     }
 }

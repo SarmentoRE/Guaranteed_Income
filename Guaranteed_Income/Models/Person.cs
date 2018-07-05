@@ -24,7 +24,7 @@ namespace Guaranteed_Income.Models
         {
             income = model.income;
             age = model.age;
-            //concerns = model.concerns.Select(x => (Concerns)Enum.Parse(typeof(Concerns), x, true)).ToList();
+            //concerns = model.concerns.BoolToRiders
             gender = (Gender)Enum.Parse(typeof(Gender), model.gender, true);
             filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus), model.filingStatus, true);
             retirementDate = model.retirementDate.Substring(0,4);
