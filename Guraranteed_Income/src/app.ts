@@ -48,13 +48,6 @@ export class App {
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
       this.HomeListener();
     }
-    // this.SendData();
-    this.Validate();
-
-
-
-    // document.getElementById("retireDateInput").addEventListener("blur", function(){self.ShowElement("retireDate","retireDateInput")})
-    // document.getElementById("genderInput").addEventListener("blur", function(){self.ShowElement("gender","genderInput")})
   }
 
   Start() {
@@ -71,36 +64,6 @@ export class App {
         || e.keyCode == 8 || e.keyCode == 9)) {
         return false;
       }
-    }
-  }
-
-  ConstantRun() {
-    var self = this;
-    var element = document.getElementById("final")
-    element.onkeyup = function (event) {
-      self.SendData();
-    };
-  }
-
-  ShowElement(elementOne, elementTwo) {
-    var link = document.getElementById(elementOne);
-    var refer = document.getElementById(elementTwo)
-    link.style.display = "block";
-    refer.style.display = "none";
-  }
-
-  HideElement(elementOne) {
-    var link = document.getElementById(elementOne);
-    link.classList.remove("is-active");
-  }
-
-  ToggleMenu() {
-    var menu = document.getElementById("menu");
-    if (menu.style.display == "none") {
-      menu.style.display = "block";
-    }
-    else {
-      menu.style.display = "none";
     }
   }
 
@@ -201,20 +164,6 @@ export class App {
     }
   }
 
-  ReversalResults(elementOne, elementTwo) {
-    var link = document.getElementById(elementOne);
-    var header = document.getElementById(elementTwo);
-
-    if (link.style.display == "none") {
-      link.style.display = "block";
-      header.style.display = "none";
-    }
-    else {
-      link.style.display = "none";
-      header.style.display = "block";
-    }
-  }
-
   // A LISTENER TO CONTROL EVENTS ON THE HOME PAGE
   HomeListener() {
     if (document.referrer == "http://localhost:8080/results") {
@@ -282,7 +231,6 @@ export class App {
   // A LISTENER TO CONTROL EVENTS ON THE RESULTS PAGE
   ResultsListener() {
     var self = this;
-
     this.results = JSON.parse(localStorage.getItem('results'));
     this.client = JSON.parse(localStorage.getItem('client'))
     window.onload = function () {

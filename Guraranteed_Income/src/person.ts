@@ -3,8 +3,8 @@ export default class Person {
   gender : string = "male";
   income : number;
   age : number;
-  retirementDate = "2035"
-  deathDate = "2055"
+  retirementDate;
+  deathDate;
   filingStatus : string = "single";
   concerns = [false, false, false, false]
   assetHolder = [];
