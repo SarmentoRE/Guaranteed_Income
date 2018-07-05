@@ -2,7 +2,7 @@ import { RouterConfiguration, Router, Redirect } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
 import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
-
+import { inject } from 'aurelia-framework';
 
 
 export class App {
@@ -301,7 +301,6 @@ export class App {
 
   }
 
-
   // THIS FUNCTION CONTROLS THE TILES AND BOOLEAN FOR DISPLAYING THE RIDERS
   DepressTile(number) {
     //RIDERS
@@ -530,6 +529,13 @@ export class App {
     }
   }
 
+  ReconstructTable() {
+    var table = document.getElementById("appendThis");
+    for (var e = 0; e < this.client.htmlHolder.length; e++) {
+      table.innerHTML += this.client.htmlHolder[e];
+    }
+  }
+
   DetermineScroll(direction) {
     if (direction == -1) {
       this.iter--;
@@ -553,13 +559,6 @@ export class App {
     window.location.href = jumpIDs[this.iter];
   }
 
-  ReconstructTable() {
-    var table = document.getElementById("appendThis");
-    for (var e = 0; e < this.client.htmlHolder.length; e++) {
-      table.innerHTML += this.client.htmlHolder[e];
-    }
-  }
-
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
   SendData() {
     var self = this;
@@ -575,13 +574,13 @@ export class App {
       self.results = await response.json();
     }
 
-    function Redirect() {
-      console.log("seen");
+    var Redirect = () => {
       localStorage.setItem('results', JSON.stringify(self.results));
       localStorage.setItem('client', JSON.stringify(self.client));
       var url = window.location.href;
       if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
         window.location.href = "http://localhost:8080/results/#"
+        // this.router.navigate("/results")
       }
       return 1;
     }
