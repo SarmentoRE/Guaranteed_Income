@@ -1,9 +1,7 @@
 import { RouterConfiguration, Router, Redirect } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
-import { Script } from 'vm';
 import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
-import { resolveTxt } from 'dns';
 
 
 
