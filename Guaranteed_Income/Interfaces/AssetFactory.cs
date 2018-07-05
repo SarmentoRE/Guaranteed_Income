@@ -20,14 +20,16 @@ namespace Guaranteed_Income.Models
                 double additions = double.Parse(assets.additions[0]);
                 double currentValue = double.Parse(assets.amounts[0]);
 
-                additions += Math.Min((double.Parse(assets.matching[0]) * additions), (double.Parse(assets.caps[0]) * income * double.Parse(assets.matching[0])));
+                additions += Math.Min(((double.Parse(assets.matching[0])/100) * additions), ((double.Parse(assets.caps[0])/100) * income * (double.Parse(assets.matching[0])/100)));
 
                 for (int i = yearsToRetirement; i > 0; i--)
                 {
-                    currentValue += additions;
                     currentValue += (currentValue * rate);
+                    currentValue += additions;
                 }
-                yearlyIncome = Math.Round((currentValue / (double)yearsOfRetirement), 2);
+
+                PaymentCalculator calculator = new PaymentCalculator(currentValue, rate, yearsOfRetirement);
+                yearlyIncome = calculator.GetPayments();
             }
             catch(ArgumentOutOfRangeException e)
             {
