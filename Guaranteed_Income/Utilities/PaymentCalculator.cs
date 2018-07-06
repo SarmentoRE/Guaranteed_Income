@@ -18,6 +18,7 @@ namespace Guaranteed_Income.Utilities
         public double GetPayments()
         {
             var paymentAmount = (rate * initialAmount) / (1 - Math.Pow(1 + rate, periods * -1));
+
             return paymentAmount;
         }
     }

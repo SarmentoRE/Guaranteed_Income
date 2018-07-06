@@ -162,7 +162,7 @@ namespace Guaranteed_Income.Interfaces
             List<List<double>> yearlyBreakdown = new List<List<double>>();
             List<double> currentYear = new List<double>();
 
-            double currentAmount = 0;
+            double currentAmount = initialAmount;
             double carloRate;
 
             if (DB)
@@ -195,7 +195,7 @@ namespace Guaranteed_Income.Interfaces
                 {
                     currentAmount = rider.benifitBase;
                 }
-                for (int i = 0; i < yearsOfPayments; i++)
+                for (int i = 0; i < yearsAfterRetirement; i++)
                 {
                     currentAmount += currentAmount * rate;
                     if (glwb)
@@ -212,19 +212,20 @@ namespace Guaranteed_Income.Interfaces
                     }
                     currentYear.Add(currentAmount);
                 }
+                yearlyBreakdown.Add(currentYear);
             }
             if (DB)
             {
                 leftOverMoney = totalExpectedReturn - (distributionsBeforeTax * yearsOfPayments);
             }
-            FinishStock(stock);
+            
             return yearlyBreakdown;
         }
 
         private List<double> VariableCalc(double carloRate)
         {
             List<double> currentYear = new List<double>();
-            double currentAmount = 0;
+            double currentAmount = initialAmount;
 
             lumpSumAtRetirement = new FutureValue(initialAmount, carloRate, yearsToRetirement).GetFutureValue();
             currentYear.Add(initialAmount);
@@ -234,7 +235,8 @@ namespace Guaranteed_Income.Interfaces
                 currentYear.Add(currentAmount);
             }
             distributionsBeforeTax = new PaymentCalculator(currentAmount, carloRate, yearsOfPayments).GetPayments();
-            for (int j = 0; j < yearsOfPayments; j++)
+
+            for (int j = 0; j < yearsAfterRetirement; j++)
             {
                 currentAmount += currentAmount * carloRate;
                 if(gmwb || glwb)
@@ -244,13 +246,14 @@ namespace Guaranteed_Income.Interfaces
                 else
                 {
                     currentAmount -= distributionsBeforeTax;
+                    currentAmount = Math.Max(0, currentAmount);
                 }
                 currentYear.Add(currentAmount);
             }
             return currentYear;
         }
 
-        private void FinishStock(Brokerage stock)
+        public static void FinishStock(Brokerage stock)
         {
             double currentAmmount75 = stock.amountAtRetirement75;
             double currentAmmount90 = stock.amountAtRetirement90;

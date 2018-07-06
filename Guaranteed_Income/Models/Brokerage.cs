@@ -47,8 +47,8 @@ namespace Guaranteed_Income.Models
 
             if (yearsOfLife == null) yearsOfLife = yearsOfPayments;
       
-            growth75 = (amountAtRetirement75 - confident75[0]) / confident75[0];
-            growth90 = (amountAtRetirement90 - confident90[0]) / confident90[0];
+            growth75 = ((amountAtRetirement75 / confident75[0])-1) / (person.retirementDate - DateTime.Now.Year);
+            growth90 = ((amountAtRetirement90 / confident90[0])-1) / (person.retirementDate - DateTime.Now.Year);
 
             withdrawl75 = new PaymentCalculator(amountAtRetirement75, growth75, yearsOfPayments).GetPayments();
             withdrawl90 = new PaymentCalculator(amountAtRetirement90, growth90, yearsOfPayments).GetPayments();

@@ -14,7 +14,7 @@ namespace Guaranteed_Income.Models
         private Person person;
         private MonteCarlo carlo;
         private double expectedReturn = 0.0992;
-        private double standardDeviation = 0.1468;
+        private double standardDeviation = 0.0468;
         private double time;
 
         public OutputModel()

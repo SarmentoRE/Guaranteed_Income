@@ -467,6 +467,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -474,7 +475,7 @@ export class App {
             }
           }]
         },
-        tooltips: {
+        tooltips: {      
           mode: "x-axis",
           callbacks: {
             label: function (tooltipItems, data) {
@@ -499,7 +500,7 @@ export class App {
     this.selected = "Fixed Deferred"
     this.selectedVal = this.results.qualified.fixedDefYearly;
     var years = [];
-    for (var z = 0; z < this.results.brokerage.confident50.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
@@ -553,6 +554,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -647,6 +649,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -741,6 +744,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -826,6 +830,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -911,6 +916,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -1005,6 +1011,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;
@@ -1099,6 +1106,7 @@ export class App {
         scales: {
           yAxes: [{
             ticks: {
+              beginAtZero: true,
               // Include a dollar sign in the ticks
               callback: function (value, index, values) {
                 return '$' + value;

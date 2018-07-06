@@ -1,4 +1,5 @@
-﻿using Guaranteed_Income.Models.Annuity;
+﻿using Guaranteed_Income.Interfaces;
+using Guaranteed_Income.Models.Annuity;
 using Guaranteed_Income.Services;
 using System.Collections.Generic;
 
@@ -6,7 +7,6 @@ namespace Guaranteed_Income.Models
 {
     public class Qualified
     {
-
         public List<List<double>> fixedIm;
         public List<List<double>> fixedDef;
         public List<List<double>> varIm;
@@ -36,6 +36,7 @@ namespace Guaranteed_Income.Models
             fixedDefYearly = qualDefFix.afterTaxIncome;
             varImYearly = qualImVar.afterTaxIncome;
             varDefYearly = qualDefVar.afterTaxIncome;
+            Annuities.FinishStock(stock);
         }
     }
 }
