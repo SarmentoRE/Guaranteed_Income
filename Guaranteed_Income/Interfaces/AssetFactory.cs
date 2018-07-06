@@ -9,11 +9,11 @@ namespace Guaranteed_Income.Models
         public double yearlyIncome { get; set; }
         private const double rate = 0.03;
 
-        public AssetFactory(AssetModel assets, string retirementDate, string deathDate, double income)
+        public AssetFactory(AssetModel assets, int retirementDate, int deathDate, double income)
         {
             int currentYear = DateTime.Now.Year;
-            int yearsToRetirement = Int32.Parse(retirementDate) - currentYear;
-            int yearsOfRetirement = Int32.Parse(deathDate) - Int32.Parse(retirementDate);
+            int yearsToRetirement = retirementDate - currentYear;
+            int yearsOfRetirement = deathDate - retirementDate;
 
             try
             {

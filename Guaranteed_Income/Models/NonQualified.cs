@@ -19,17 +19,17 @@ namespace Guaranteed_Income.Models
         private NonImFix nonImFix;
         private NonImVar nonImVar;
 
-        public NonQualified(MonteCarlo carlo, Person person)
+        public NonQualified(Brokerage stock, Person person)
         {
-            nonDefFix = new NonDefFix(person);
-            nonDefVar = new NonDefVar(person);
-            nonImFix = new NonImFix(person);
-            nonImVar = new NonImVar(person);
+            nonDefFix = new NonDefFix(person, stock);
+            nonDefVar = new NonDefVar(person, stock);
+            nonImFix = new NonImFix(person, stock);
+            nonImVar = new NonImVar(person, stock);
 
-            fixedIm = nonImFix.GetYearlyBreakdown(carlo);
-            fixedDef = nonDefFix.GetYearlyBreakdown(carlo);
-            varIm = nonImVar.GetYearlyBreakdown(carlo);
-            varDef = nonDefVar.GetYearlyBreakdown(carlo);
+            fixedIm = nonImFix.yearlyBreakdown;
+            fixedDef = nonDefFix.yearlyBreakdown;
+            varIm = nonImVar.yearlyBreakdown;
+            varDef = nonDefVar.yearlyBreakdown;
 
             fixedImYearly = nonImFix.afterTaxIncome;
             fixedDefYearly = nonDefFix.afterTaxIncome;

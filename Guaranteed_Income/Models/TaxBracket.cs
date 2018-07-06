@@ -23,7 +23,7 @@ namespace Guaranteed_Income.Models
             stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome, state);
         }
 
-        public TaxBracket(double income, FilingStatus status, State state, int age, List<double> rate, List<double> bracket)
+        public TaxBracket(double income, FilingStatus status, State state, int age, List<double> rate, List<double> bracket, double additional)
         {
             CalculateStandardDeduction(status, state, age); //find what the deductions are
 
@@ -34,7 +34,7 @@ namespace Guaranteed_Income.Models
             double stateTaxableIncome = (Double)Math.Max((income - stateDeduction), 0);
 
             federalYearlyTax = CalculateYearlyFederalTax(federalTaxableIncome); //TAX THEM
-            stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome, state);
+            stateYearlyTax = CalculateYearlyStateTax(stateTaxableIncome + additional, state);
         }
 
         private double CalculateYearlyFederalTax(double income)

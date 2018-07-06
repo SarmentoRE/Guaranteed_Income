@@ -9,7 +9,7 @@ namespace Guaranteed_Income.Models.Annuity
 {
     public class NonDefFix : Annuities
     {
-        public NonDefFix(Person person) : base(person)
+        public NonDefFix(Person person, Brokerage stock) : base(person)
         {
             NonQualified();
             Deferred();            

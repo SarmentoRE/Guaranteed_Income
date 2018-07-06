@@ -8,7 +8,7 @@ namespace Guaranteed_Income.Models.Annuity
 {
     public class QualImVar : Annuities
     {
-        public QualImVar(Person person) : base(person)
+        public QualImVar(Person person, Brokerage stock) : base(person)
         {
             Qualified();
             Immediate();

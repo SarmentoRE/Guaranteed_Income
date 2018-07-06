@@ -8,7 +8,7 @@ namespace Guaranteed_Income.Models.Annuity
 {
     public class NonImFix : Annuities
     {
-        public NonImFix(Person person) : base(person)
+        public NonImFix(Person person, Brokerage stock) : base(person)
         {
             NonQualified();
             Immediate();            
