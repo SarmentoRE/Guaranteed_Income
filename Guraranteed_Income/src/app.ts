@@ -18,6 +18,8 @@ export class App {
     this.router = router;
   }
 
+  
+
   client = new Person();
   myLineChart;
   myLineChart2;
@@ -35,7 +37,6 @@ export class App {
   results;
   selected = "initial";
   selectedNQ = "initial";
-
   selectedVal = "initial";
   selectedNQVal = "initial";
 
@@ -43,6 +44,8 @@ export class App {
     var self = this;
     this.Validate()
     var url = window.location.href;
+    var w = window.innerWidth;
+
     console.log(url)
 
     if (url == "http://localhost:8080/results/") {
@@ -51,6 +54,93 @@ export class App {
     else if (url == "http://localhost:8080/" || url == "http://localhost:8080/home") {
       this.HomeListener();
     }
+
+    var fillBetweenLinesPlugin = {
+      afterDatasetsDraw: function (chart) {
+          var ctx = chart.chart.ctx;
+          var xaxis = chart.scales['x-axis-0'];
+          var yaxis = chart.scales['y-axis-0'];
+          var datasets = chart.data.datasets;
+          ctx.save();
+  
+          for (var d = 0; d < datasets.length; d++) {
+              var dataset = datasets[d];
+              if (dataset.fillBetweenSet == undefined) {
+                  continue;
+              }
+  
+              // get meta for both data sets
+              var meta1 = chart.getDatasetMeta(d);
+              var meta2 = chart.getDatasetMeta(dataset.fillBetweenSet);
+              
+              // do not draw fill if one of the datasets is hidden
+              if (meta1.hidden || meta2.hidden) continue;
+              
+              // create fill areas in pairs
+              for (var p = 0; p < meta1.data.length-1;p++) {
+                // if null skip
+                if (dataset.data[p] == null || dataset.data[p+1] == null) continue;
+                
+                ctx.beginPath();
+                
+                // trace line 1
+                var curr = meta1.data[p];
+                var next = meta1.data[p+1];
+                ctx.moveTo(curr._view.x, curr._view.y);
+                ctx.lineTo(curr._view.x, curr._view.y);
+                if (curr._view.steppedLine === true) {
+                  ctx.lineTo(next._view.x, curr._view.y);
+                  ctx.lineTo(next._view.x, next._view.y);
+                }
+                else if (next._view.tension === 0) {
+                  ctx.lineTo(next._view.x, next._view.y);
+                }
+                else {
+                    ctx.bezierCurveTo(
+                      curr._view.controlPointNextX,
+                      curr._view.controlPointNextY,
+                      next._view.controlPointPreviousX,
+                      next._view.controlPointPreviousY,
+                      next._view.x,
+                      next._view.y
+                    );
+                }
+                
+                // connect dataset1 to dataset2
+                var curr = meta2.data[p+1];
+                var next = meta2.data[p];
+                ctx.lineTo(curr._view.x, curr._view.y);
+  
+                // trace BACKWORDS set2 to complete the box
+                if (curr._view.steppedLine === true) {
+                  ctx.lineTo(curr._view.x, next._view.y);
+                  ctx.lineTo(next._view.x, next._view.y);
+                }
+                else if (next._view.tension === 0) {
+                  ctx.lineTo(next._view.x, next._view.y);
+                }
+                else {
+                  // reverse bezier
+                  ctx.bezierCurveTo(
+                    curr._view.controlPointPreviousX,
+                    curr._view.controlPointPreviousY,
+                    next._view.controlPointNextX,
+                    next._view.controlPointNextY,
+                    next._view.x,
+                    next._view.y
+                  );
+                }
+  
+                // close the loop and fill with shading
+                ctx.closePath();
+                ctx.fillStyle = dataset.fillBetweenColor || "rgba(0,0,0,0.1)";
+                ctx.fill();
+              } // end for p loop
+          }
+      } // end afterDatasetsDraw
+  }; // end fillBetweenLinesPlugin
+  
+  Chart.pluginService.register(fillBetweenLinesPlugin);
   }
 
   Start() {
@@ -336,19 +426,19 @@ export class App {
           type: "line",
           bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          backgroundColor: 'rgba(73, 128, 74, 0.6)',
           fill: true,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "bar",
-          backgroundColor: "#C70039",
+          backgroundColor: "#AB2F52",
           fill: true
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "bar",
-          backgroundColor: "#A3392E",
+          backgroundColor: "#E88554",
           fill: true
         }
         ]
@@ -405,29 +495,32 @@ export class App {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
           data: this.results.qualified.fixedDef[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#C70039",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#A3392E",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 1,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
       },
@@ -468,6 +561,11 @@ export class App {
             }
           }
         },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
       }
     });
   }
@@ -491,19 +589,19 @@ export class App {
           type: "line",
           bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          backgroundColor: 'rgba(73, 128, 74, 0.6)',
           fill: true,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "bar",
-          backgroundColor: "#C70039",
+          backgroundColor: "#AB2F52",
           fill: true
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "bar",
-          backgroundColor: "#A3392E",
+          backgroundColor: "#E88554",
           fill: true
         }
         ]
@@ -569,19 +667,19 @@ export class App {
           type: "line",
           bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          backgroundColor: 'rgba(73, 128, 74, 0.6)',
           fill: true,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "bar",
-          backgroundColor: "#C70039",
+          backgroundColor: "#AB2F52",
           fill: true
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "bar",
-          backgroundColor: "#A3392E",
+          backgroundColor: "#E88554",
           fill: true
         }
         ]
@@ -637,29 +735,32 @@ export class App {
       years[z] = 2018 + z;
     }
     this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
-          data: this.results.nonQualified.fixedIm[0],
+          data: this.results.nonQualified.fixedDef[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill: false,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#C70039",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          bezierCurve: false,
+          borderColor: '#5E005E',
+          fill: false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#A3392E",
-          fill: true
+          type: "line",
+          bezierCurve: false,
+          pointRadius: 0,
+          borderColor: "#222222",
+          fill: false
         }
         ]
       },
@@ -700,6 +801,11 @@ export class App {
             }
           }
         },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
       }
     });
 
@@ -724,19 +830,19 @@ export class App {
           type: "line",
           bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          backgroundColor: 'rgba(73, 128, 74, 0.6)',
           fill: true,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "bar",
-          backgroundColor: "#C70039",
+          backgroundColor: "#AB2F52",
           fill: true
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "bar",
-          backgroundColor: "#A3392E",
+          backgroundColor: "#E88554",
           fill: true
         }
         ]
@@ -801,19 +907,19 @@ export class App {
           type: "line",
           bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          backgroundColor: 'rgba(73, 128, 74, 0.6)',
           fill: true,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "bar",
-          backgroundColor: "#C70039",
+          backgroundColor: "#AB2F52",
           fill: true
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "bar",
-          backgroundColor: "#A3392E",
+          backgroundColor: "#E88554",
           fill: true
         }
         ]
@@ -879,19 +985,19 @@ export class App {
           type: "line",
           bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          backgroundColor: 'rgba(73, 128, 74, 0.6)',
           fill: true,
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "bar",
-          backgroundColor: "#C70039",
+          backgroundColor: "#AB2F52",
           fill: true
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "bar",
-          backgroundColor: "#A3392E",
+          backgroundColor: "#E88554",
           fill: true
         }
         ]

@@ -12,7 +12,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
   </head>
 
-  <body>
+  <body id="mobileview">
     <section class="genInfo-hover" style="background-color: #49804A; height:25vh" id="generalInfo">
       <div class="message-header" click.delegate="Reversal('generalBody')" style="background-color:#49804A" id="generalHeader">
         <span style="font-size: 4vh; font-family:Fjalla One; transform:translateY(155%)">General Information</span>
@@ -48,26 +48,26 @@
           <span style="font-size: 3vh; font-family:Fjalla One;">When do you plan to retire?</span>
         </div>
         <div class="control has-icons-left has-icons-right">
-            <input class="input is-large" placeholder="2055" value.bind="client.retirementDate">
-            <span class="icon is-medium is-left">
-              <i class="fas fa-calendar-check"></i>
-            </span>
-            <span class="icon is-medium is-right">
-              <i class="fas fa-check"></i>
-            </span>
-          </div>
+          <input class="input is-large" placeholder="2055" value.bind="client.retirementDate">
+          <span class="icon is-medium is-left">
+            <i class="fas fa-calendar-check"></i>
+          </span>
+          <span class="icon is-medium is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </div>
         <div class="message-header" style="background-color:#49804A">
           <span style="font-size: 3vh; font-family:Fjalla One;">When can the money run out?</span>
         </div>
         <div class="control has-icons-left has-icons-right">
-            <input class="input is-large" placeholder="2067" value.bind="client.deathDate">
-            <span class="icon is-medium is-left">
-              <i class="fas fa-calendar-minus"></i>
-            </span>
-            <span class="icon is-medium is-right">
-              <i class="fas fa-check"></i>
-            </span>
-          </div>
+          <input class="input is-large" placeholder="2067" value.bind="client.deathDate">
+          <span class="icon is-medium is-left">
+            <i class="fas fa-calendar-minus"></i>
+          </span>
+          <span class="icon is-medium is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </div>
         <div class="message-header" style="background-color:#49804A">
           <span style="font-size: 3vh; font-family:Fjalla One;">How will you be filing?</span>
         </div>
@@ -109,17 +109,17 @@
         </div>
 
         <div class="message-header" style="background-color:#89cc66">
-            <span style="font-size: 3vh; font-family:Fjalla One;">How much can you contribute?</span>
-          </div>
-          <div class="control has-icons-left has-icons-right">
-            <input class="input is-large" placeholder="56918" value.bind="client.lumpSum">
-            <span class="icon is-medium is-left">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <span class="icon is-medium is-right">
-              <i class="fas fa-check"></i>
-            </span>
-          </div>
+          <span style="font-size: 3vh; font-family:Fjalla One;">How much can you contribute?</span>
+        </div>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-large" placeholder="56918" value.bind="client.lumpSum">
+          <span class="icon is-medium is-left">
+            <i class="fas fa-dollar-sign"></i>
+          </span>
+          <span class="icon is-medium is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </div>
 
 
 
@@ -263,16 +263,5 @@
       <i class="fa fa-arrow-alt-circle-right fa-4x" style="color:hsl(204, 86%, 53%);float:right;" id="submitArrow"></i>
     </section>
   </body>
-
-
-
-
-
-
-
-
-
-
-
 
 </template>
