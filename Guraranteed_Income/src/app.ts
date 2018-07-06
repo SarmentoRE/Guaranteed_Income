@@ -2,7 +2,7 @@ import { RouterConfiguration, Router, Redirect } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
 import { Chart } from '../node_modules/chart.js/dist/Chart.js';
 import Person from "person";
-
+import { inject } from 'aurelia-framework';
 
 
 export class App {
@@ -33,11 +33,15 @@ export class App {
   ];
 
   results;
-  selected = "WHY";
+  selected = "initial";
+  selectedNQ = "initial";
+
+  selectedVal = "initial";
+  selectedNQVal = "initial";
 
   attached() {
     var self = this;
-
+    this.Validate()
     var url = window.location.href;
     console.log(url)
 
@@ -64,52 +68,6 @@ export class App {
         return false;
       }
     }
-  }
-
-  PopulateCharts() {
-    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-      type: 'line',
-      data: {
-        datasets: [{
-          data: [2478, 5267, 734, 784, 433]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Predicted world population (millions) in 2050'
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: false
-        }
-      }
-    });
-
-    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
-      type: 'line',
-      data: {
-        datasets: [{
-          data: [2478, 5267, 734, 784, 433]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Predicted world population (millions) in 2050'
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: false
-        }
-      }
-    });
-
-    this.ShowQFixedImm();
   }
 
   Reversal(elementOne) {
@@ -235,74 +193,13 @@ export class App {
     this.results = JSON.parse(localStorage.getItem('results'));
     this.client = JSON.parse(localStorage.getItem('client'))
     window.onload = function () {
+      console.log(self.results)
       self.PopulateCharts();
       self.DepressTile(-1);
     }
-
-    document.getElementById("tile1").addEventListener("mouseover",
-      function () {
-        var icon = document.getElementById("icon1");
-        var text = document.getElementById("fig1");
-        icon.style.display = "none";
-        text.style.display = "block";
-      })
-    document.getElementById("tile1").addEventListener("mouseout",
-      function () {
-        var icon = document.getElementById("icon1");
-        var text = document.getElementById("fig1");
-        icon.style.display = "block";
-        text.style.display = "none";
-      })
-
-    document.getElementById("tile2").addEventListener("mouseover",
-      function () {
-        var icon = document.getElementById("icon2");
-        var text = document.getElementById("fig2");
-        icon.style.display = "none";
-        text.style.display = "block";
-      })
-    document.getElementById("tile2").addEventListener("mouseout",
-      function () {
-        var icon = document.getElementById("icon2");
-        var text = document.getElementById("fig2");
-        icon.style.display = "block";
-        text.style.display = "none";
-      })
-
-    document.getElementById("tile3").addEventListener("mouseover",
-      function () {
-        var icon = document.getElementById("icon3");
-        var text = document.getElementById("fig3");
-        icon.style.display = "none";
-        text.style.display = "block";
-      })
-    document.getElementById("tile3").addEventListener("mouseout",
-      function () {
-        var icon = document.getElementById("icon3");
-        var text = document.getElementById("fig3");
-        icon.style.display = "block";
-        text.style.display = "none";
-      })
-
-    document.getElementById("tile4").addEventListener("mouseover",
-      function () {
-        var icon = document.getElementById("icon4");
-        var text = document.getElementById("fig4");
-        icon.style.display = "none";
-        text.style.display = "block";
-      })
-    document.getElementById("tile4").addEventListener("mouseout",
-      function () {
-        var icon = document.getElementById("icon4");
-        var text = document.getElementById("fig4");
-        icon.style.display = "block";
-        text.style.display = "none";
-      })
-
   }
 
-
-  // THIS FUNCTION CONTROLS THE TILES AND BOOLEAN FOR DISPLAYING THE RIDERS
+  // THIS FUNCTION CONTROLS THE TILES AND BOOLEAN FOR DISPLAYING THE RIDERS:
   DepressTile(number) {
     //RIDERS
     var tile1 = document.getElementById("tile1")
@@ -310,12 +207,9 @@ export class App {
     var tile3 = document.getElementById("tile3")
     var tile4 = document.getElementById("tile4")
 
-    for (var e = 0; e < 4; e++) {
-      console.log(this.client.concerns[e]);
-    }
-
     if (number < 5 && number > 0) {
       this.client.concerns[number - 1] = !this.client.concerns[number - 1]
+      localStorage.setItem('client', JSON.stringify(this.client));
     }
     else if (number > 4) {
       var graphButton = document.getElementById("tile" + number)
@@ -323,13 +217,25 @@ export class App {
         graphButton.style.backgroundColor = "#49804A"
       }
       else {
-        for (var e = 5; e < 13; e++) {
-          var otherTiles = document.getElementById("tile" + e)
-          console.log("tile" + e)
-          otherTiles.style.backgroundColor = "#49804A";
-          console.log("HERE")
+        if( number > 4 && number < 9) {
+          for (var e = 5; e < 9; e++) {
+            var otherTiles = document.getElementById("tile" + e)
+            console.log("tile" + e)
+            otherTiles.style.backgroundColor = "#49804A";
+            console.log("HERE")
+          }
+          graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
         }
-        graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
+        else {
+          for (var e = 9; e < 13; e++) {
+            var otherTiles = document.getElementById("tile" + e)
+            console.log("tile" + e)
+            otherTiles.style.backgroundColor = "#49804A";
+            console.log("HERE")
+          }
+          graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
+        }
+
 
       }
     }
@@ -363,32 +269,127 @@ export class App {
     }
   }
 
+  //THE GRAPHING FUNCTIONS FOLLOW:
+  PopulateCharts() {
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [2478, 5267, 734, 784, 433]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        }
+      }
+    });
+
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [2478, 5267, 734, 784, 433]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        }
+      }
+    });
+
+    this.ShowQFixedImm();
+    this.ShowNQFixedImm();
+  }
+
   ShowQFixedImm() {
     this.DepressTile(5);
     this.myLineChart.destroy();
     this.selected = "Fixed Immediate";
+    this.selectedVal = this.results.qualified.fixedImYearly;
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-
-      type: 'line',
+      type: 'bar',
       data: {
         labels: years,
         datasets: [{
-          data: this.results.brokerage.confident25,
-          label: "Confident 25",
-          borderColor: "#3e95cd",
-          fill: false
+          data: this.results.qualified.fixedIm[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
         }
         ]
       },
       options: {
         title: {
-          display: true,
-          text: 'Confidence Interval 25'
-        }
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
       }
     });
 
@@ -398,28 +399,75 @@ export class App {
     this.DepressTile(6);
     this.myLineChart.destroy();
     this.selected = "Fixed Deferred"
+    this.selectedVal = this.results.qualified.fixedDefYearly;
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident50.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-
-      type: 'line',
+      type: 'bar',
       data: {
         labels: years,
         datasets: [{
-          data: this.results.brokerage.confident50,
-          label: "Confident 50",
-          borderColor: "#3e95cd",
-          fill: false
+          data: this.results.qualified.fixedDef[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
         }
         ]
       },
       options: {
         title: {
-          display: true,
-          text: 'Confidence Interval 50'
-        }
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
       }
     });
   }
@@ -428,28 +476,75 @@ export class App {
     this.DepressTile(7);
     this.myLineChart.destroy();
     this.selected = "Variable Immediate";
+    this.selectedVal = this.results.qualified.varImYearly
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-
-      type: 'line',
+      type: 'bar',
       data: {
         labels: years,
         datasets: [{
+          data: this.results.qualified.varIm[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
           data: this.results.brokerage.confident75,
-          label: "Confident 75",
-          borderColor: "#3e95cd",
-          fill: false
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
         }
         ]
       },
       options: {
         title: {
-          display: true,
-          text: 'Confidence Interval 75'
-        }
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
       }
     });
 
@@ -459,28 +554,385 @@ export class App {
     this.DepressTile(8);
     this.myLineChart.destroy();
     this.selected = "Variable Deferred";
+    this.selectedVal = this.results.qualified.varDefYearly;
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-
-      type: 'line',
+      type: 'bar',
       data: {
         labels: years,
         datasets: [{
+          data: this.results.qualified.varDef[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
           data: this.results.brokerage.confident90,
-          label: "Confident 90",
-          borderColor: "#3e95cd",
-          fill: false
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
         }
         ]
       },
       options: {
         title: {
-          display: true,
-          text: 'Confidence Interval 90'
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
+      }
+    });
+  }
+  
+  ShowNQFixedImm() {
+    this.DepressTile(9);
+    this.myLineChart2.destroy();
+    this.selectedNQ = "Fixed Immediate";
+    this.selectedNQVal = this.results.nonQualified.fixedImYearly
+    var years = [];
+    for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [{
+          data: this.results.nonQualified.fixedIm[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
         }
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
+      }
+    });
+
+  }
+
+  ShowNQFixedDeff() {
+    this.DepressTile(10);
+    this.myLineChart2.destroy();
+    this.selectedNQ = "Fixed Deferred"
+    this.selectedNQVal = this.results.nonQualified.fixedDefYearly
+    var years = [];
+    for (var z = 0; z < this.results.brokerage.confident50.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [{
+          data: this.results.nonQualified.fixedDef[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
+        }
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
+      }
+    });
+  }
+
+  ShowNQVarImm() {
+    this.DepressTile(11);
+    this.myLineChart2.destroy();
+    this.selectedNQ = "Variable Immediate";
+    this.selectedNQVal = this.results.nonQualified.varImYearly
+    var years = [];
+    for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [{
+          data: this.results.nonQualified.varIm[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
+        }
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
+      }
+    });
+
+  }
+
+  ShowNQVarDeff() {
+    this.DepressTile(12);
+    this.myLineChart2.destroy();
+    this.selectedNQ = "Variable Deferred";
+    this.selectedNQVal = this.results.nonQualified.varDefYearly
+    var years = [];
+    for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [{
+          data: this.results.nonQualified.varDef[0],
+          label: "Annuities Income",
+          type: "line",
+          bezierCurve: true,
+          pointRadius: 0,
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          fill: true,
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "bar",
+          backgroundColor: "#C70039",
+          fill: true
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "bar",
+          backgroundColor: "#A3392E",
+          fill: true
+        }
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
       }
     });
   }
@@ -530,6 +982,13 @@ export class App {
     }
   }
 
+  ReconstructTable() {
+    var table = document.getElementById("appendThis");
+    for (var e = 0; e < this.client.htmlHolder.length; e++) {
+      table.innerHTML += this.client.htmlHolder[e];
+    }
+  }
+
   DetermineScroll(direction) {
     if (direction == -1) {
       this.iter--;
@@ -553,17 +1012,10 @@ export class App {
     window.location.href = jumpIDs[this.iter];
   }
 
-  ReconstructTable() {
-    var table = document.getElementById("appendThis");
-    for (var e = 0; e < this.client.htmlHolder.length; e++) {
-      table.innerHTML += this.client.htmlHolder[e];
-    }
-  }
-
   // THIS FUNCTION IS USED TO POST AND RECEIVE DATA
   SendData() {
     var self = this;
-    async function f () {
+    async function f() {
       const response = await fetch('http://localhost:64655/api/', {
         method: 'POST',
         headers: {
@@ -575,13 +1027,13 @@ export class App {
       self.results = await response.json();
     }
 
-    function Redirect() {
-      console.log("seen");
+    var Redirect = () => {
       localStorage.setItem('results', JSON.stringify(self.results));
       localStorage.setItem('client', JSON.stringify(self.client));
       var url = window.location.href;
       if (url == "http://localhost:8080/" || url == "http://localhost:8080/home" || url == "http://localhost:8080/#generalInfo" || url == "http://localhost:8080/#financesInfo") {
         window.location.href = "http://localhost:8080/results/#"
+        // this.router.navigate("/results")
       }
       return 1;
     }
