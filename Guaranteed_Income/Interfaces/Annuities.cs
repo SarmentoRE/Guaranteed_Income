@@ -191,13 +191,20 @@ namespace Guaranteed_Income.Interfaces
                     currentAmount += lumpSumAtRetirement / yearsToRetirement;
                     currentYear.Add(currentAmount);
                 }
-                
+                if (gmwb)
+                {
+                    currentAmount = rider.benifitBase;
+                }
                 for (int i = 0; i < yearsOfPayments; i++)
                 {
                     currentAmount += currentAmount * rate;
-                    if (gmwb || glwb)
+                    if (glwb)
                     {
                         currentAmount = Math.Max((currentAmount - distributionsBeforeTax), (rider.annualIncome));
+                    }
+                    else if (gmwb)
+                    {
+                        currentAmount -= rider.annualIncome;
                     }
                     else
                     {

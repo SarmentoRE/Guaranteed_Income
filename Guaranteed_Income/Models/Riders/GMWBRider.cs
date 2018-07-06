@@ -11,7 +11,7 @@ namespace Guaranteed_Income.Models.Riders
     {
         public double rollUpRate { get; } = 0.06;
         public double minimumPercentage { get; } = 0.04;
-        public double benifitBase { get; set; }
+        //public double benifitBase { get; set; }
         public double fee { get; } = 0.00525;
         //public double annualIncome { get; set; }
         private int accumulation = 5;
