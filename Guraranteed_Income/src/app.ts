@@ -413,33 +413,36 @@ export class App {
     this.selected = "Fixed Immediate";
     this.selectedVal = this.results.qualified.fixedImYearly;
     var years = [];
-    for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
           data: this.results.qualified.fixedIm[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(73, 128, 74, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#AB2F52",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#E88554",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 1,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
       },
@@ -480,6 +483,11 @@ export class App {
             }
           }
         },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
       }
     });
 
@@ -580,187 +588,41 @@ export class App {
       years[z] = 2018 + z;
     }
     this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
           data: this.results.qualified.varIm[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(73, 128, 74, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
         }, {
-          data: this.results.brokerage.confident75,
-          label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#AB2F52",
-          fill: true
-        }, {
-          data: this.results.brokerage.confident90,
-          label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#E88554",
-          fill: true
-        }
-        ]
-      },
-      options: {
-        title: {
-          display: false,
-          fontFamily: "Fjalla One",
-          text: 'Income',
-          fontSize: 1,
-          fontWeight: 100,
-          fontColor: "#222222",
-        },
-        labels: {
-          display: false,
-          fontSize: 1,
-          fontFamily: "Fjalla One",
-          fontColor: "#222222",
-        },
-        legend: {
-          display: false,
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              // Include a dollar sign in the ticks
-              callback: function (value, index, values) {
-                return '$' + value;
-              }
-            }
-          }]
-        },
-        tooltips: {
-          mode: "x-axis",
-          callbacks: {
-            label: function (tooltipItems, data) {
-              var dataset = data.datasets[tooltipItems.datasetIndex];
-              return dataset.label + ':  $' + tooltipItems.yLabel;
-            }
-          }
-        },
-      }
-    });
-
-  }
-
-  ShowQVarDeff() {
-    this.DepressTile(8);
-    this.myLineChart.destroy();
-    this.selected = "Variable Deferred";
-    this.selectedVal = this.results.qualified.varDefYearly;
-    var years = [];
-    for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
-      years[z] = 2018 + z;
-    }
-    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
-      type: 'bar',
-      data: {
-        labels: years,
-        datasets: [{
-          data: this.results.qualified.varDef[0],
-          label: "Annuities Income",
-          type: "line",
-          bezierCurve: true,
-          pointRadius: 0,
-          backgroundColor: 'rgba(73, 128, 74, 0.6)',
-          fill: true,
-        }, {
-          data: this.results.brokerage.confident75,
-          label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#AB2F52",
-          fill: true
-        }, {
-          data: this.results.brokerage.confident90,
-          label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#E88554",
-          fill: true
-        }
-        ]
-      },
-      options: {
-        title: {
-          display: false,
-          fontFamily: "Fjalla One",
-          text: 'Income',
-          fontSize: 1,
-          fontWeight: 100,
-          fontColor: "#222222",
-        },
-        labels: {
-          display: false,
-          fontSize: 1,
-          fontFamily: "Fjalla One",
-          fontColor: "#222222",
-        },
-        legend: {
-          display: false,
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              // Include a dollar sign in the ticks
-              callback: function (value, index, values) {
-                return '$' + value;
-              }
-            }
-          }]
-        },
-        tooltips: {
-          mode: "x-axis",
-          callbacks: {
-            label: function (tooltipItems, data) {
-              var dataset = data.datasets[tooltipItems.datasetIndex];
-              return dataset.label + ':  $' + tooltipItems.yLabel;
-            }
-          }
-        },
-      }
-    });
-  }
-  
-  ShowNQFixedImm() {
-    this.DepressTile(9);
-    this.myLineChart2.destroy();
-    this.selectedNQ = "Fixed Immediate";
-    this.selectedNQVal = this.results.nonQualified.fixedImYearly
-    var years = [];
-    for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
-      years[z] = 2018 + z;
-    }
-    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
-      type: 'line',
-      data: {
-        labels: years,
-        datasets: [{
-          data: this.results.nonQualified.fixedDef[0],
+          data: this.results.qualified.varIm[1],
           label: "Annuities Income",
           type: "line",
           pointRadius: 0,
           borderColor: 'rgba(73, 128, 74)',
-          fill: false,
+          fill:false,
+          fillBetweenSet: 0,
+          fillBetweenColor: "rgba(73, 128, 74, 0.5)",
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
           type: "line",
           pointRadius: 0,
-          bezierCurve: false,
           borderColor: '#5E005E',
-          fill: false
+          fill:false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
           type: "line",
-          bezierCurve: false,
           pointRadius: 0,
-          borderColor: "#222222",
-          fill: false
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 2,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
       },
@@ -808,42 +670,53 @@ export class App {
         }
       }
     });
-
   }
 
-  ShowNQFixedDeff() {
-    this.DepressTile(10);
-    this.myLineChart2.destroy();
-    this.selectedNQ = "Fixed Deferred"
-    this.selectedNQVal = this.results.nonQualified.fixedDefYearly
+  ShowQVarDeff() {
+    this.DepressTile(8);
+    this.myLineChart.destroy();
+    this.selected = "Variable Deferred";
+    this.selectedVal = this.results.qualified.varDefYearly;
     var years = [];
-    for (var z = 0; z < this.results.brokerage.confident50.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
       years[z] = 2018 + z;
     }
-    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
-      type: 'bar',
+    this.myLineChart = new Chart(document.getElementById("line-chart-q"), {
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
-          data: this.results.nonQualified.fixedDef[0],
+          data: this.results.qualified.varDef[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(73, 128, 74, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
+        }, {
+          data: this.results.qualified.varDef[1],
+          label: "Annuities Income",
+          type: "line",
+          pointRadius: 0,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false,
+          fillBetweenSet: 0,
+          fillBetweenColor: "rgba(73, 128, 74, 0.5)",
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#AB2F52",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#E88554",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 2,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
       },
@@ -884,6 +757,181 @@ export class App {
             }
           }
         },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
+      }
+    });
+  }
+  
+  ShowNQFixedImm() {
+    this.DepressTile(9);
+    this.myLineChart2.destroy();
+    this.selectedNQ = "Fixed Immediate";
+    this.selectedNQVal = this.results.nonQualified.fixedImYearly
+    var years = [];
+    for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{
+          data: this.results.qualified.fixedIm[0],
+          label: "Annuities Income",
+          type: "line",
+          pointRadius: 0,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 2,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
+        }
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
+      }
+    });
+  }
+
+  ShowNQFixedDeff() {
+    this.DepressTile(10);
+    this.myLineChart2.destroy();
+    this.selectedNQ = "Fixed Deferred"
+    this.selectedNQVal = this.results.nonQualified.fixedDefYearly
+    var years = [];
+    for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
+      years[z] = 2018 + z;
+    }
+    this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{
+          data: this.results.nonQualified.fixedDef[0],
+          label: "Annuities Income",
+          type: "line",
+          pointRadius: 0,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
+        }, {
+          data: this.results.brokerage.confident75,
+          label: "Brokerage (75% Confidence)",
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
+        }, {
+          data: this.results.brokerage.confident90,
+          label: "Brokerage (90% Confidence)",
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 2,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
+        }
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          fontFamily: "Fjalla One",
+          text: 'Income',
+          fontSize: 1,
+          fontWeight: 100,
+          fontColor: "#222222",
+        },
+        labels: {
+          display: false,
+          fontSize: 1,
+          fontFamily: "Fjalla One",
+          fontColor: "#222222",
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return '$' + value;
+              }
+            }
+          }]
+        },
+        tooltips: {
+          mode: "x-axis",
+          callbacks: {
+            label: function (tooltipItems, data) {
+              var dataset = data.datasets[tooltipItems.datasetIndex];
+              return dataset.label + ':  $' + tooltipItems.yLabel;
+            }
+          }
+        },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
       }
     });
   }
@@ -898,29 +946,41 @@ export class App {
       years[z] = 2018 + z;
     }
     this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
           data: this.results.nonQualified.varIm[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(73, 128, 74, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
+        }, {
+          data: this.results.nonQualified.varIm[1],
+          label: "Annuities Income",
+          type: "line",
+          pointRadius: 0,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false,
+          fillBetweenSet: 0,
+          fillBetweenColor: "rgba(73, 128, 74, 0.5)",
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#AB2F52",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#E88554",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 2,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
       },
@@ -961,9 +1021,13 @@ export class App {
             }
           }
         },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
       }
     });
-
   }
 
   ShowNQVarDeff() {
@@ -976,29 +1040,41 @@ export class App {
       years[z] = 2018 + z;
     }
     this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
           data: this.results.nonQualified.varDef[0],
           label: "Annuities Income",
           type: "line",
-          bezierCurve: true,
           pointRadius: 0,
-          backgroundColor: 'rgba(73, 128, 74, 0.6)',
-          fill: true,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false
+        }, {
+          data: this.results.nonQualified.varDef[1],
+          label: "Annuities Income",
+          type: "line",
+          pointRadius: 0,
+          borderColor: 'rgba(73, 128, 74)',
+          fill:false,
+          fillBetweenSet: 0,
+          fillBetweenColor: "rgba(73, 128, 74, 0.5)",
         }, {
           data: this.results.brokerage.confident75,
           label: "Brokerage (75% Confidence)",
-          type: "bar",
-          backgroundColor: "#AB2F52",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: '#5E005E',
+          fill:false
         }, {
           data: this.results.brokerage.confident90,
           label: "Brokerage (90% Confidence)",
-          type: "bar",
-          backgroundColor: "#E88554",
-          fill: true
+          type: "line",
+          pointRadius: 0,
+          borderColor: "#5E005E",
+          fill:false,
+          fillBetweenSet: 2,
+          fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
       },
@@ -1039,6 +1115,11 @@ export class App {
             }
           }
         },
+        elements: {
+          line: {
+            tension: 0
+          }
+        }
       }
     });
   }

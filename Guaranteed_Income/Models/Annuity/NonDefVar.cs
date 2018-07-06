@@ -14,6 +14,7 @@ namespace Guaranteed_Income.Models.Annuity
             Deferred();            
             Variable();
             CalculateData();
+            GetYearlyBreakdown(stock);
         }
     }
 }

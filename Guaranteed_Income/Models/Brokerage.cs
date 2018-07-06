@@ -29,6 +29,7 @@ namespace Guaranteed_Income.Models
         {
             this.carlo = carlo;
             this.person = person;
+            GenerateOutput();
         }
 
 
