@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guaranteed_Income.Models.Asset
+namespace Guaranteed_Income.Interfaces
 {
-    public class _401k
+    public abstract class IRider
     {
-
     }
 }

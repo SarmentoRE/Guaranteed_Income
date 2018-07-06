@@ -11,10 +11,10 @@ namespace Guaranteed_Income.Services
     {
         private static Mutex mutex = new Mutex();
         public List<List<double>> trialsList = new List<List<double>> { };
-        private double currentValue;
-        private double expectedReturn;
-        private double standardDeviation;
-        private double time; //how many days,months, or years
+        public double currentValue { get; set; }
+        public double expectedReturn { get; set; }
+        public double standardDeviation { get; set; }
+        public double time { get; set; } //how many days,months, or years
         public static int trials = 10000; //how many trials
 
 
@@ -47,7 +47,6 @@ namespace Guaranteed_Income.Services
             {
                 change = trialValue * ((expectedReturn) + (standardDeviation * (SafeRandom.NextDouble(-3.0, 3.0))));
                 trialValue += change;
-
                 trial.Add(trialValue);
             }
             trial = trial.Select(x => Math.Round(x, 2)).ToList();

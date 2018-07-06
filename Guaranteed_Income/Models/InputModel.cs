@@ -12,7 +12,7 @@ namespace Guaranteed_Income.Models
         [Required]
         public string gender { get; set; }
 
-        public List<String> concerns { get; set; }
+        public List<bool> concerns { get; set; }
 
         [Required]
         public double income { get; set; }

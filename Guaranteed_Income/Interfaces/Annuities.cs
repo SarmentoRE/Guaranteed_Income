@@ -1,4 +1,5 @@
 ﻿using Guaranteed_Income.Models;
+using Guaranteed_Income.Models.Riders;
 using Guaranteed_Income.Services;
 using Guaranteed_Income.Utilities;
 using System;
@@ -30,14 +31,18 @@ namespace Guaranteed_Income.Interfaces
         public double yearsOfPayments { get; set; }
         public double afterTaxIncome { get; set; }
         public int yearsToRetirement { get; set; }
+        public double leftOverMoney { get; set; } = 0;
         private Person person { get; set; }
         private bool var;
-        private bool qual;
+        public bool imm;
+        public bool qual;
+        public bool glwb;
+        public bool DB;
 
         public Annuities(Person person)
         {
             int currentYear = DateTime.Now.Year;
-            yearsToRetirement = Int32.Parse(person.retirementDate) - currentYear;
+            yearsToRetirement = person.retirementDate - currentYear;
 
             irsLife = LifeExpectancy.GetLifeExpectancy(person.age, person.gender);
             annuityLife = LifeExpectancy.GetLifeExpectancy(person.age + defferedTime, person.gender);
@@ -45,18 +50,22 @@ namespace Guaranteed_Income.Interfaces
             initialAmount = person.lumpSum;
             accumulationYears = Math.Max(yearsToRetirement, defferedTime);
             effectiveRate = (person.taxBracket.stateYearlyTax + person.taxBracket.federalYearlyTax) / person.income;
-            yearsAfterRetirement = (Int32.Parse(person.deathDate) - Int32.Parse(person.retirementDate));
+            yearsAfterRetirement = (person.deathDate - person.retirementDate);
             this.person = person;
+
+            CalculateRiders();
         }
 
         public void CalculateData()
         {
-            rate -= extraFees;
 
+            rate -= extraFees;
+ 
             distributionsBeforeTax = new PaymentCalculator(lumpSumAtRetirement, rate, yearsOfPayments).GetPayments();
             totalExpectedReturn = distributionsBeforeTax * yearsOfPayments;
             exclusionRatio = 0;
             if (qual == false) exclusionRatio = initialAmount / totalExpectedReturn;
+            CalculateRiders();
             yearlyTaxable = (1 - exclusionRatio) * distributionsBeforeTax;
             yearlyNonTaxable = distributionsBeforeTax - yearlyTaxable;
             CalculateTaxes();
@@ -78,12 +87,14 @@ namespace Guaranteed_Income.Interfaces
         {
             yearsOfPayments = Math.Min((int)annuityLife, (int)retireLife);
             lumpSumAtRetirement = new FutureValue(initialAmount, rate, accumulationYears).GetFutureValue();
+            imm = false;
         }
 
         public void Immediate()
         {
             yearsOfPayments = (int)irsLife;
             lumpSumAtRetirement = initialAmount;
+            imm = true;
         }
 
         public void Fixed()
@@ -120,60 +131,49 @@ namespace Guaranteed_Income.Interfaces
             afterTaxIncome = Math.Round(afterTaxIncome, 2);
         }
 
+        public void CalculateRiders()
+        {
+            if (person.concerns[0])
+            {
+
+            }
+            if(person.concerns[1])
+            {
+                GLWBRider rider = new GLWBRider(person, this);
+            }
+            if (person.concerns[2])
+            {
+
+            }
+            if (person.concerns[3])
+            {
+
+            }
+        }
+
         public List<List<double>> GetYearlyBreakdown(MonteCarlo carlo)
         {
-            double currentAmount = initialAmount;
-            List<List<double>> yearlyBreakdown = new List<List<double>>();
-            Confidence confidence = new Confidence(carlo.trialsList);
-            List<int> intervals = new List<int> { 25, 50, 75, 90 };
-            List<double> currentYear = new List<double>();
-            double carloRate;
-            List<double> currentInterval = new List<double>();
-            double retirementAmount;
 
-            if (var == false)
-            {
-                currentYear.Add(currentAmount);
-                for (int i = 1; i < yearsToRetirement; i++)
-                {
-                    currentAmount += lumpSumAtRetirement / yearsToRetirement;
-                    currentYear.Add(currentAmount);
-                }
-                retirementAmount = new PaymentCalculator(currentAmount, rate, yearsOfPayments).GetPayments();
-                for (int i = 0; i < yearsOfPayments; i++)
-                {
-                    currentAmount -= distributionsBeforeTax;
-                    currentYear.Add(currentAmount);
-                }
-
-                yearlyBreakdown.Add(currentYear);
+            if (DB) {
+               yearsOfPayments -= 5;
+               leftOverMoney = totalExpectedReturn - (distributionsBeforeTax * yearsOfPayments);
             }
-            else if (var)
+            if (glwb)
             {
-                for (int j = 0; j < intervals.Count; j++)
+                yearsOfPayments += 5;
+            }
+
+            if (var)
+            {
+                for(int i = 0; i < yearsOfPayments; i++)
                 {
-                    currentInterval = confidence.FindInterval(intervals[j]);
-                    carloRate = ((currentInterval[currentInterval.Count - 1] / currentInterval[0]) - 1) / currentInterval.Count;
-                    currentAmount = initialAmount;
 
-                    for (int i = 0; i < yearsToRetirement; i++)
-                    {
-                        currentAmount = currentAmount * (1 + (.6 * rate + .4 * carloRate));
-                        currentYear.Add(currentAmount);
-                    }
-
-                    retirementAmount = new PaymentCalculator(currentAmount, (.6 * rate + .4 * carloRate), yearsOfPayments).GetPayments();
-
-                    for (int i = 0; i < yearsOfPayments; i++)
-                    {
-                        currentAmount -= retirementAmount;
-                        currentYear.Add(currentAmount);
-                    }
-
-                    yearlyBreakdown.Add(currentYear);
                 }
             }
-            return yearlyBreakdown;
+            else
+            {
+
+            }
         }
     }
 }
