@@ -298,8 +298,16 @@ export class App {
     var tile4 = document.getElementById("tile4")
 
     if (number < 5 && number > 0) {
+      for (var e = 0; e < this.client.concerns.length; e++) {
+        if (this.client.concerns[e] == true) {
+          this.client.concerns[e] = false;
+        }
+      }
       this.client.concerns[number - 1] = !this.client.concerns[number - 1]
       localStorage.setItem('client', JSON.stringify(this.client));
+      this.SendData()
+      this.ShowNQFixedImm();
+      this.ShowQFixedImm();
     }
     else if (number > 4) {
       var graphButton = document.getElementById("tile" + number)
@@ -310,21 +318,18 @@ export class App {
         if( number > 4 && number < 9) {
           for (var e = 5; e < 9; e++) {
             var otherTiles = document.getElementById("tile" + e)
-            console.log("tile" + e)
             otherTiles.style.backgroundColor = "#49804A";
-            console.log("HERE")
           }
           graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
         }
         else {
           for (var e = 9; e < 13; e++) {
             var otherTiles = document.getElementById("tile" + e)
-            console.log("tile" + e)
             otherTiles.style.backgroundColor = "#49804A";
-            console.log("HERE")
           }
           graphButton.style.backgroundColor = "hsl(204, 86%, 53%)";
         }
+
 
 
       }
@@ -776,7 +781,7 @@ export class App {
     this.selectedNQ = "Fixed Immediate";
     this.selectedNQVal = this.results.nonQualified.fixedImYearly
     var years = [];
-    for (var z = 0; z < this.results.brokerage.confident25.length; z++) {
+    for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
     }
     this.myLineChart2 = new Chart(document.getElementById("line-chart-nq"), {
@@ -804,7 +809,7 @@ export class App {
           pointRadius: 0,
           borderColor: "#5E005E",
           fill:false,
-          fillBetweenSet: 2,
+          fillBetweenSet: 1,
           fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
@@ -890,7 +895,7 @@ export class App {
           pointRadius: 0,
           borderColor: "#5E005E",
           fill:false,
-          fillBetweenSet: 2,
+          fillBetweenSet: 1,
           fillBetweenColor: "rgb(94, 0, 94, 0.5)",
         }
         ]
