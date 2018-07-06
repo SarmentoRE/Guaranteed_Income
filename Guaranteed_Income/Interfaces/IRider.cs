@@ -7,5 +7,6 @@ namespace Guaranteed_Income.Interfaces
 {
     public abstract class IRider
     {
+        public double annualIncome { get; set; }
     }
 }

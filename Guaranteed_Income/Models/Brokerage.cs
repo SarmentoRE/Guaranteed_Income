@@ -1,5 +1,6 @@
 ﻿using Guaranteed_Income.Services;
 using Guaranteed_Income.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace Guaranteed_Income.Models
@@ -14,28 +15,90 @@ namespace Guaranteed_Income.Models
         public double withdrawl90 { get; set; }
         public double amountAtRetirement75 { get; set; }
         public double amountAtRetirement90 { get; set; }
+        public double growth75 { get; set; }
+        public double growth90 { get; set; }
+        public double? yearsOfLife { get; set; } = null;
+        public double afterTaxIncome { get; set; }
+        public double exclusionRatio { get; set; }
+        public double yearlyTaxable { get; set; }
+        public double distributionsBeforeTax { get; set; }
+        public double yearlyNonTaxable { get; set; }
+        private Person person;
 
-        public Brokerage(MonteCarlo carlo)
+        public Brokerage(MonteCarlo carlo, Person person)
         {
             this.carlo = carlo;
-            GenerateOutput();
+            this.person = person;
         }
 
 
-        private void GenerateOutput()
+        public void GenerateOutput()
         {
             Confidence confidence = new Confidence(carlo.trialsList);
-            double growth75;
-            double growth90;
-
             confident75 = confidence.FindInterval(75);
             confident90 = confidence.FindInterval(90);
             amountAtRetirement75 = confident75[confident75.Count - 1];
             amountAtRetirement90 = confident90[confident90.Count - 1];
+            int yearsOfPayments = (person.deathDate - person.retirementDate);
+            double currentAmmount75 = amountAtRetirement75;
+            double currentAmmount90 = amountAtRetirement90;
+            double totalAmount;
 
-            growth75 = (amountAtRetirement75 - confident75[0])/confident75[0];
+            if (yearsOfLife == null) yearsOfLife = yearsOfPayments;
+      
+            growth75 = (amountAtRetirement75 - confident75[0]) / confident75[0];
             growth90 = (amountAtRetirement90 - confident90[0]) / confident90[0];
 
+            withdrawl75 = new PaymentCalculator(amountAtRetirement75, growth75, yearsOfPayments).GetPayments();
+            withdrawl90 = new PaymentCalculator(amountAtRetirement90, growth90, yearsOfPayments).GetPayments();
+
+            totalAmount = withdrawl75 * yearsOfPayments;
+            exclusionRatio = person.lumpSum / totalAmount;
+        }
+
+        public void CalculateTaxes()
+        {
+            List<double> rate = new List<double>{ 0,.15,.20};
+            List<double> bracket = new List<double>();
+            switch (person.filingStatus)
+            {
+                case FilingStatus.Joint:
+                     bracket = new List<double>{ 0, 77400, 480050 };
+                    break;
+                case FilingStatus.Married:
+                    bracket = new List<double> { 0, 38700, 240025 };
+                    break;
+                case FilingStatus.HeadOfHousehold:
+                    bracket = new List<double> { 0, 51850, 453350 };
+                    break;
+                case FilingStatus.Single:
+                    bracket = new List<double> { 0, 38700, 426700 };
+                    break;
+            }
+            double totalYearlyTax;
+            double taxable;
+            yearlyTaxable = (1 - exclusionRatio) * withdrawl75;
+            yearlyNonTaxable = withdrawl75 - yearlyTaxable;
+            if (person.assetType == AssetType.RIRA || person.assetType == AssetType.R401k)
+            {
+                taxable = yearlyTaxable;
+                yearlyNonTaxable += person.assetIncome;
+            }
+            else
+            {
+                taxable = yearlyTaxable + person.assetIncome;
+            }
+
+            TaxBracket tax = new TaxBracket(taxable, person.filingStatus, person.state, (person.age + (DateTime.Now.Year - person.retirementDate)), rate, bracket, person.assetIncome);
+            totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
+
+            afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
+            afterTaxIncome = Math.Round(afterTaxIncome, 2);
+        }
+
+        private int yearsToRetirement(object p)
+        {
+            throw new NotImplementedException();
         }
     }
 }

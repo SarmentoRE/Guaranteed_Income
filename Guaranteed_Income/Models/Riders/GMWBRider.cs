@@ -13,7 +13,7 @@ namespace Guaranteed_Income.Models.Riders
         public double minimumPercentage { get; } = 0.04;
         public double benifitBase { get; set; }
         public double fee { get; } = 0.00525;
-        public double annualIncome { get; set; }
+        //public double annualIncome { get; set; }
         private int accumulation = 5;
 
         public GMWBRider(Person person, Annuities annuity)

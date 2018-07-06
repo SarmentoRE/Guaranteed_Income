@@ -20,17 +20,17 @@ namespace Guaranteed_Income.Models
         private QualImFix qualImFix;
         private QualImVar qualImVar;
 
-        public Qualified(MonteCarlo carlo, Person person)
+        public Qualified(Brokerage stock, Person person)
         {
-            qualDefFix = new QualDefFix(person);
-            qualDefVar = new QualDefVar(person);
-            qualImFix = new QualImFix(person);
-            qualImVar = new QualImVar(person);
+            qualDefFix = new QualDefFix(person, stock);
+            qualDefVar = new QualDefVar(person, stock);
+            qualImFix = new QualImFix(person, stock);
+            qualImVar = new QualImVar(person, stock);
 
-            fixedIm = qualImFix.GetYearlyBreakdown(carlo);
-            fixedDef = qualDefFix.GetYearlyBreakdown(carlo);
-            varIm = qualImVar.GetYearlyBreakdown(carlo);
-            varDef = qualDefVar.GetYearlyBreakdown(carlo);
+            fixedIm = qualImFix.yearlyBreakdown;
+            fixedDef = qualDefFix.yearlyBreakdown;
+            varIm = qualImVar.yearlyBreakdown;
+            varDef = qualDefVar.yearlyBreakdown;
 
             fixedImYearly = qualImFix.afterTaxIncome;
             fixedDefYearly = qualDefFix.afterTaxIncome;

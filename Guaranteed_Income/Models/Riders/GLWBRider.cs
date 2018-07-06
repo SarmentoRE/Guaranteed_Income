@@ -13,7 +13,7 @@ namespace Guaranteed_Income.Models.Riders
         public double rollUp { get; } = 0.06;
         public double benifitBase { get; set; }
         public double lifetimeWithdrawlRate { get; set; }
-        public double annualIncome { get; set; }
+        //public double annualIncome { get; set; }
         public double fee { get; } = 0.0075;
         private int accumulation = 5;
 

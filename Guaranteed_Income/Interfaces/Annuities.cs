@@ -32,12 +32,15 @@ namespace Guaranteed_Income.Interfaces
         public double afterTaxIncome { get; set; }
         public int yearsToRetirement { get; set; }
         public double leftOverMoney { get; set; } = 0;
+        public List<List<double>> yearlyBreakdown { get; set; } = new List<List<double>>();
         private Person person { get; set; }
+        public IRider rider { get; set; }
         private bool var;
         public bool imm;
         public bool qual;
         public bool glwb;
         public bool DB;
+        public bool gmwb;
 
         public Annuities(Person person)
         {
@@ -60,14 +63,12 @@ namespace Guaranteed_Income.Interfaces
         {
 
             rate -= extraFees;
- 
+
             distributionsBeforeTax = new PaymentCalculator(lumpSumAtRetirement, rate, yearsOfPayments).GetPayments();
             totalExpectedReturn = distributionsBeforeTax * yearsOfPayments;
             exclusionRatio = 0;
             if (qual == false) exclusionRatio = initialAmount / totalExpectedReturn;
             CalculateRiders();
-            yearlyTaxable = (1 - exclusionRatio) * distributionsBeforeTax;
-            yearlyNonTaxable = distributionsBeforeTax - yearlyTaxable;
             CalculateTaxes();
         }
 
@@ -75,7 +76,7 @@ namespace Guaranteed_Income.Interfaces
         {
             initialAmount = initialAmount * (1 - effectiveRate);
             qual = false;
-           
+
         }
 
         public void Qualified()
@@ -114,6 +115,8 @@ namespace Guaranteed_Income.Interfaces
         {
             double totalYearlyTax;
             double taxable;
+            yearlyTaxable = (1 - exclusionRatio) * distributionsBeforeTax;
+            yearlyNonTaxable = distributionsBeforeTax - yearlyTaxable;
             if (person.assetType == AssetType.RIRA || person.assetType == AssetType.R401k)
             {
                 taxable = yearlyTaxable;
@@ -137,43 +140,124 @@ namespace Guaranteed_Income.Interfaces
             {
 
             }
-            if(person.concerns[1])
+            if (person.concerns[1])
             {
                 GLWBRider rider = new GLWBRider(person, this);
+                this.rider = rider;
             }
             if (person.concerns[2])
             {
-
+                GMWBRider rider = new GMWBRider(person, this);
+                this.rider = rider;
             }
             if (person.concerns[3])
             {
-
+                DBRider rider = new DBRider(person, this);
+                this.rider = rider;
             }
         }
 
-        public List<List<double>> GetYearlyBreakdown(MonteCarlo carlo)
+        public List<List<double>> GetYearlyBreakdown(Brokerage stock)
         {
+            List<List<double>> yearlyBreakdown = new List<List<double>>();
+            List<double> currentYear = new List<double>();
 
-            if (DB) {
-               yearsOfPayments -= 5;
-               leftOverMoney = totalExpectedReturn - (distributionsBeforeTax * yearsOfPayments);
+            double currentAmount = 0;
+            double carloRate;
+
+            if (DB)
+            {
+                yearsOfPayments -= 5;
             }
             if (glwb)
             {
                 yearsOfPayments += 5;
             }
-
+            stock.yearsOfLife = yearsOfPayments;
             if (var)
             {
-                for(int i = 0; i < yearsOfPayments; i++)
-                {
-
-                }
+                carloRate = ((rate * 0.6) + (stock.growth75*0.4));
+                yearlyBreakdown.Add(VariableCalc(carloRate));
+                CalculateTaxes();
+                carloRate = ((rate * 0.6) + (stock.growth90 * 0.4));
+                yearlyBreakdown.Add(VariableCalc(carloRate));
+                
             }
             else
             {
-
+                currentYear.Add(initialAmount);
+                for(int i = 0; i< yearsToRetirement; i++)
+                {
+                    currentAmount += lumpSumAtRetirement / yearsToRetirement;
+                    currentYear.Add(currentAmount);
+                }
+                
+                for (int i = 0; i < yearsOfPayments; i++)
+                {
+                    currentAmount += currentAmount * rate;
+                    if (gmwb || glwb)
+                    {
+                        currentAmount = Math.Max((currentAmount - distributionsBeforeTax), (rider.annualIncome));
+                    }
+                    else
+                    {
+                        currentAmount -= distributionsBeforeTax;
+                    }
+                    currentYear.Add(currentAmount);
+                }
             }
+            if (DB)
+            {
+                leftOverMoney = totalExpectedReturn - (distributionsBeforeTax * yearsOfPayments);
+            }
+            FinishStock(stock);
+            return yearlyBreakdown;
+        }
+
+        private List<double> VariableCalc(double carloRate)
+        {
+            List<double> currentYear = new List<double>();
+            double currentAmount = 0;
+
+            lumpSumAtRetirement = new FutureValue(initialAmount, carloRate, yearsToRetirement).GetFutureValue();
+            currentYear.Add(initialAmount);
+            for (int j = 0; j < yearsToRetirement; j++)
+            {
+                currentAmount += lumpSumAtRetirement / yearsToRetirement;
+                currentYear.Add(currentAmount);
+            }
+            distributionsBeforeTax = new PaymentCalculator(currentAmount, carloRate, yearsOfPayments).GetPayments();
+            for (int j = 0; j < yearsOfPayments; j++)
+            {
+                currentAmount += currentAmount * carloRate;
+                if(gmwb || glwb)
+                {
+                    currentAmount = Math.Max((currentAmount - distributionsBeforeTax), (rider.annualIncome));
+                }
+                else
+                {
+                    currentAmount -= distributionsBeforeTax;
+                }
+                currentYear.Add(currentAmount);
+            }
+            return currentYear;
+        }
+
+        private void FinishStock(Brokerage stock)
+        {
+            double currentAmmount75 = stock.amountAtRetirement75;
+            double currentAmmount90 = stock.amountAtRetirement90;
+            for (int i = 0; i < stock.yearsOfLife; i++)
+            {
+                currentAmmount75 += currentAmmount75 * stock.growth75;
+                currentAmmount75 -= stock.withdrawl75;
+                currentAmmount90 += currentAmmount90 * stock.growth90;
+                currentAmmount90 -= stock.withdrawl90;
+
+                stock.confident75.Add(currentAmmount75);
+                stock.confident90.Add(currentAmmount90);
+            }
+
         }
     }
 }

@@ -27,9 +27,9 @@ namespace Guaranteed_Income.Models
             if (person.concerns[1]) expectedReturn = -0.0992;
             time = (person.retirementDate - DateTime.Now.Year);
             carlo = new MonteCarlo(person.lumpSum, expectedReturn, standardDeviation, time);
-            brokerage = new Brokerage(carlo);
-            qualified = new Qualified(carlo, person);
-            nonQualified = new NonQualified(carlo, person);
+            brokerage = new Brokerage(carlo, person);
+            qualified = new Qualified(brokerage, person);
+            nonQualified = new NonQualified(brokerage, person);
         }
     }
 }
