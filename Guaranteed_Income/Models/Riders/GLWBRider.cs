@@ -24,11 +24,13 @@ namespace Guaranteed_Income.Models.Riders
             if (annuity.imm) growthYears = 0; 
             FutureValue future = new FutureValue(annuity.initialAmount, rollUp , growthYears);
             benifitBase = future.GetFutureValue();
+            if (annuity.imm) benifitBase = annuity.initialAmount;
             lifetimeWithdrawlRate = (LifeExpectancy.glwbTable[person.age+growthYears]);
 
             annualIncome = lifetimeWithdrawlRate * benifitBase;
             annualIncome = annualIncome * (1 - fee);
             annuity.distributionsBeforeTax = annualIncome;
+
 
             if (annuity.qual)
             {

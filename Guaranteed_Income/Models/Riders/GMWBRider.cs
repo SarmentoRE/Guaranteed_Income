@@ -20,12 +20,13 @@ namespace Guaranteed_Income.Models.Riders
         {
             int growthYears = Math.Max(accumulation, person.retirementDate - DateTime.Now.Year);
             if (annuity.imm) growthYears = 0;
-            FutureValue future = new FutureValue(annuity.initialAmount, minimumPercentage, growthYears);
+            FutureValue future = new FutureValue(annuity.initialAmount, rollUpRate, growthYears);
             benifitBase = future.GetFutureValue();
 
             annualIncome = benifitBase * minimumPercentage;
             annualIncome = annualIncome * (1 - fee);
             annuity.distributionsBeforeTax = annualIncome;
+            annuity.gmwb = true;
 
             annuity.yearsOfPayments = (int)(benifitBase / annualIncome);
 
