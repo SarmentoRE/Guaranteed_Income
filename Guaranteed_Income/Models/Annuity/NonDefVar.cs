@@ -15,6 +15,10 @@ namespace Guaranteed_Income.Models.Annuity
             Variable();
             CalculateData();
             yearlyBreakdown = GetYearlyBreakdown(stock);
+            afterTaxIncome = distributionsBeforeTax * (1 - taxRate) + yearlyNonTaxable;
+            afterTaxIncome = Math.Round(afterTaxIncome, 2);
+            assetValue = Math.Max(person.assetIncome * (1 - taxRate), 0);
+            Math.Round(assetValue, 2);
         }
     }
 }

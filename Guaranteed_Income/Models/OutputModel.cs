@@ -25,13 +25,13 @@ namespace Guaranteed_Income.Models
         public OutputModel(InputModel input)
         {
             person = new Person(input);
-            if (person.concerns[2]) expectedReturn = -0.0992;
+            if (person.concerns[2]) expectedReturn = -0.05;
             time = (person.retirementDate - DateTime.Now.Year);
             carlo = new MonteCarlo(person.lumpSum, expectedReturn, standardDeviation, time);
             brokerage = new Brokerage(carlo, person);
             qualified = new Qualified(brokerage, person);
             nonQualified = new NonQualified(brokerage, person);
-            assetIncome = person.assetIncome;
+            assetIncome = Math.Round(person.assetIncome ,2);
         }
     }
 }
