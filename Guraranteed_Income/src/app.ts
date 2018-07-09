@@ -306,8 +306,6 @@ export class App {
       this.client.concerns[number - 1] = !this.client.concerns[number - 1]
       localStorage.setItem('client', JSON.stringify(this.client));
       this.SendData()
-      this.ShowNQFixedImm();
-      this.ShowQFixedImm();
     }
     else if (number > 4) {
       var graphButton = document.getElementById("tile" + number)
@@ -1235,6 +1233,8 @@ export class App {
         window.location.href = "http://localhost:8080/results/#"
         // this.router.navigate("/results")
       }
+      this.ShowNQFixedImm();
+      this.ShowQFixedImm();
       return 1;
     }
 
