@@ -10,6 +10,7 @@ namespace Guaranteed_Income.Models
         public Brokerage brokerage;
         public Qualified qualified;
         public NonQualified nonQualified;
+        public double assetIncome;
 
         private Person person;
         private MonteCarlo carlo;
@@ -30,6 +31,7 @@ namespace Guaranteed_Income.Models
             brokerage = new Brokerage(carlo, person);
             qualified = new Qualified(brokerage, person);
             nonQualified = new NonQualified(brokerage, person);
+            assetIncome = person.assetIncome;
         }
     }
 }
