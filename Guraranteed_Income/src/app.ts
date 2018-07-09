@@ -411,7 +411,6 @@ export class App {
     this.ShowQFixedImm();
     this.ShowNQFixedImm();
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
   }
 
   ShowQFixedImm() {
@@ -420,7 +419,7 @@ export class App {
     this.selected = "Fixed Immediate";
     this.selectedVal = this.results.qualified.fixedImYearly;
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.qualified.fixedImAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
@@ -510,7 +509,7 @@ export class App {
     this.selected = "Fixed Deferred"
     this.selectedVal = this.results.qualified.fixedDefYearly;
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.qualified.fixedDefAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
@@ -599,7 +598,7 @@ export class App {
     this.selected = "Variable Immediate";
     this.selectedVal = this.results.qualified.varImYearly
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.qualified.varImAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
@@ -697,7 +696,7 @@ export class App {
     this.selected = "Variable Deferred";
     this.selectedVal = this.results.qualified.varDefYearly;
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.qualified.varDefAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
@@ -795,7 +794,7 @@ export class App {
     this.selectedNQ = "Fixed Immediate";
     this.selectedNQVal = this.results.nonQualified.fixedImYearly
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.nonQualified.fixedImAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
@@ -806,7 +805,7 @@ export class App {
       data: {
         labels: years,
         datasets: [{
-          data: this.results.qualified.fixedIm[0],
+          data: this.results.nonQualified.fixedIm[0],
           label: "Annuities Income",
           type: "line",
           pointRadius: 0,
@@ -884,7 +883,7 @@ export class App {
     this.selectedNQ = "Fixed Deferred"
     this.selectedNQVal = this.results.nonQualified.fixedDefYearly
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.nonQualified.fixedDefAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
@@ -973,7 +972,7 @@ export class App {
     this.selectedNQ = "Variable Immediate";
     this.selectedNQVal = this.results.nonQualified.varImYearly
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.nonQualified.varImAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
@@ -1071,7 +1070,7 @@ export class App {
     this.selectedNQ = "Variable Deferred";
     this.selectedNQVal = this.results.nonQualified.varDefYearly
     this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
-    this.assetIncome = this.results.assetIncome;
+    this.assetIncome = this.results.nonQualified.varDefAsset;
 
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
