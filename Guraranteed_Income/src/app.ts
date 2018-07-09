@@ -39,6 +39,7 @@ export class App {
   selectedNQ = "initial";
   selectedVal = "initial";
   selectedNQVal = "initial";
+  brokerageWithdrawl = "initial";
 
   attached() {
     var self = this;
@@ -408,6 +409,7 @@ export class App {
 
     this.ShowQFixedImm();
     this.ShowNQFixedImm();
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
   }
 
   ShowQFixedImm() {
@@ -415,6 +417,8 @@ export class App {
     this.myLineChart.destroy();
     this.selected = "Fixed Immediate";
     this.selectedVal = this.results.qualified.fixedImYearly;
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -502,6 +506,8 @@ export class App {
     this.myLineChart.destroy();
     this.selected = "Fixed Deferred"
     this.selectedVal = this.results.qualified.fixedDefYearly;
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -588,6 +594,8 @@ export class App {
     this.myLineChart.destroy();
     this.selected = "Variable Immediate";
     this.selectedVal = this.results.qualified.varImYearly
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -683,6 +691,8 @@ export class App {
     this.myLineChart.destroy();
     this.selected = "Variable Deferred";
     this.selectedVal = this.results.qualified.varDefYearly;
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
       years[z] = 2018 + z;
@@ -778,6 +788,8 @@ export class App {
     this.myLineChart2.destroy();
     this.selectedNQ = "Fixed Immediate";
     this.selectedNQVal = this.results.nonQualified.fixedImYearly
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -864,6 +876,8 @@ export class App {
     this.myLineChart2.destroy();
     this.selectedNQ = "Fixed Deferred"
     this.selectedNQVal = this.results.nonQualified.fixedDefYearly
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -950,6 +964,8 @@ export class App {
     this.myLineChart2.destroy();
     this.selectedNQ = "Variable Immediate";
     this.selectedNQVal = this.results.nonQualified.varImYearly
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident75.length; z++) {
       years[z] = 2018 + z;
@@ -1045,6 +1061,8 @@ export class App {
     this.myLineChart2.destroy();
     this.selectedNQ = "Variable Deferred";
     this.selectedNQVal = this.results.nonQualified.varDefYearly
+    this.brokerageWithdrawl = this.results.brokerage.withdrawl75;
+
     var years = [];
     for (var z = 0; z < this.results.brokerage.confident90.length; z++) {
       years[z] = 2018 + z;

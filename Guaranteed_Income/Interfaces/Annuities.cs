@@ -176,40 +176,27 @@ namespace Guaranteed_Income.Interfaces
             stock.yearsOfLife = yearsOfPayments;
             if (var)
             {
-                carloRate = ((rate * 0.6) + (stock.growth75*0.4));
+                carloRate = ((rate * 0.6) + (stock.growth75 * 0.4));
                 yearlyBreakdown.Add(VariableCalc(carloRate));
                 CalculateTaxes();
                 carloRate = ((rate * 0.6) + (stock.growth90 * 0.4));
                 yearlyBreakdown.Add(VariableCalc(carloRate));
-                
+
             }
             else
             {
                 currentYear.Add(initialAmount);
-                for(int i = 0; i< yearsToRetirement; i++)
+                for (int i = 0; i < yearsToRetirement; i++)
                 {
                     currentAmount += lumpSumAtRetirement / yearsToRetirement;
                     currentYear.Add(currentAmount);
                 }
-                if (gmwb)
-                {
-                    currentAmount = rider.benifitBase;
-                }
                 for (int i = 0; i < yearsAfterRetirement; i++)
                 {
                     currentAmount += currentAmount * rate;
-                    if (glwb)
-                    {
-                        currentAmount = Math.Max((currentAmount - distributionsBeforeTax), (rider.annualIncome));
-                    }
-                    else if (gmwb)
-                    {
-                        currentAmount -= rider.annualIncome;
-                    }
-                    else
-                    {
-                        currentAmount -= distributionsBeforeTax;
-                    }
+
+                    currentAmount -= distributionsBeforeTax;
+
                     currentYear.Add(currentAmount);
                 }
                 yearlyBreakdown.Add(currentYear);
@@ -218,7 +205,7 @@ namespace Guaranteed_Income.Interfaces
             {
                 leftOverMoney = totalExpectedReturn - (distributionsBeforeTax * yearsOfPayments);
             }
-            
+
             return yearlyBreakdown;
         }
 
@@ -239,9 +226,11 @@ namespace Guaranteed_Income.Interfaces
             for (int j = 0; j < yearsAfterRetirement; j++)
             {
                 currentAmount += currentAmount * carloRate;
-                if(gmwb || glwb)
+                if (gmwb || glwb)
                 {
+                    currentAmount -= distributionsBeforeTax;
                     currentAmount = Math.Max((currentAmount - distributionsBeforeTax), (rider.annualIncome));
+                   
                 }
                 else
                 {
@@ -264,6 +253,10 @@ namespace Guaranteed_Income.Interfaces
                 currentAmmount90 += currentAmmount90 * stock.growth90;
                 currentAmmount90 -= stock.withdrawl90;
 
+                currentAmmount75 = Math.Max(0, currentAmmount75);
+                currentAmmount90 = Math.Max(0, currentAmmount90);
+                currentAmmount75 = Math.Round(currentAmmount75, 2);
+                currentAmmount90 = Math.Round(currentAmmount90, 2);
                 stock.confident75.Add(currentAmmount75);
                 stock.confident90.Add(currentAmmount90);
             }
