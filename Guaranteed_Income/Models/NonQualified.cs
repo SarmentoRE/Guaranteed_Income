@@ -14,6 +14,10 @@ namespace Guaranteed_Income.Models
         public double fixedDefYearly;
         public double varImYearly;
         public double varDefYearly;
+        public double fixedImAsset;
+        public double fixedDefAsset;
+        public double varImAsset;
+        public double varDefAsset;
         private NonDefFix nonDefFix;
         private NonDefVar nonDefVar;
         private NonImFix nonImFix;
@@ -35,6 +39,11 @@ namespace Guaranteed_Income.Models
             fixedDefYearly = nonDefFix.afterTaxIncome;
             varImYearly = nonImVar.afterTaxIncome;
             varDefYearly = nonDefVar.afterTaxIncome;
+
+            fixedDefAsset = nonDefFix.assetValue;
+            fixedImAsset = nonImFix.assetValue;
+            varDefAsset = nonDefVar.assetValue;
+            varImAsset = nonImVar.assetValue;
         }
     }
 }

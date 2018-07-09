@@ -15,6 +15,10 @@ namespace Guaranteed_Income.Models
         public double fixedDefYearly;
         public double varImYearly;
         public double varDefYearly;
+        public double fixedImAsset;
+        public double fixedDefAsset;
+        public double varImAsset;
+        public double varDefAsset;
         private QualDefFix qualDefFix;
         private QualDefVar qualDefVar;
         private QualImFix qualImFix;
@@ -36,6 +40,12 @@ namespace Guaranteed_Income.Models
             fixedDefYearly = qualDefFix.afterTaxIncome;
             varImYearly = qualImVar.afterTaxIncome;
             varDefYearly = qualDefVar.afterTaxIncome;
+
+            fixedDefAsset = qualDefFix.assetValue;
+            fixedImAsset = qualImFix.assetValue;
+            varDefAsset = qualDefVar.assetValue;
+            varImAsset = qualImVar.assetValue;
+
             Annuities.FinishStock(stock);
         }
     }

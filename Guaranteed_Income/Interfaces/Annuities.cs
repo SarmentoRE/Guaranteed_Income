@@ -33,8 +33,10 @@ namespace Guaranteed_Income.Interfaces
         public int yearsToRetirement { get; set; }
         public double leftOverMoney { get; set; } = 0;
         public List<List<double>> yearlyBreakdown { get; set; } = new List<List<double>>();
+        public double taxRate { get; set; }
         private Person person { get; set; }
         public IRider rider { get; set; }
+        public double assetValue { get; set; }
         private bool var;
         public bool imm;
         public bool qual;
@@ -102,7 +104,6 @@ namespace Guaranteed_Income.Interfaces
         {
             extraFees = 0;
             var = false;
-
         }
 
         public void Variable()
@@ -130,7 +131,8 @@ namespace Guaranteed_Income.Interfaces
             TaxBracket tax = new TaxBracket(taxable, person.filingStatus, person.state, (person.age + yearsToRetirement));
             totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
 
-            afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
+            taxRate = totalYearlyTax / yearlyTaxable;
+            afterTaxIncome = (taxable * (1-taxRate)) + yearlyNonTaxable;
             afterTaxIncome = Math.Round(afterTaxIncome, 2);
         }
 
@@ -162,7 +164,7 @@ namespace Guaranteed_Income.Interfaces
             List<List<double>> yearlyBreakdown = new List<List<double>>();
             List<double> currentYear = new List<double>();
 
-            double currentAmount = initialAmount;
+            double currentAmount = 80000;
             double carloRate;
 
             if (DB)
@@ -185,13 +187,16 @@ namespace Guaranteed_Income.Interfaces
             }
             else
             {
-                currentYear.Add(initialAmount);
-                for (int i = 0; i < yearsToRetirement; i++)
+                currentYear.Add(currentAmount);
+                if (imm == false)
                 {
-                    currentAmount += lumpSumAtRetirement / yearsToRetirement;
-                    currentYear.Add(currentAmount);
+                    for (int i = 0; i < yearsToRetirement; i++)
+                    {
+                        currentAmount += (lumpSumAtRetirement - 80000) / yearsToRetirement;
+                        currentYear.Add(currentAmount);
+                    }
                 }
-                for (int i = 0; i < yearsAfterRetirement; i++)
+                for (int i = 0; i < yearsOfPayments; i++)
                 {
                     currentAmount += currentAmount * rate;
 
@@ -216,14 +221,17 @@ namespace Guaranteed_Income.Interfaces
 
             lumpSumAtRetirement = new FutureValue(initialAmount, carloRate, yearsToRetirement).GetFutureValue();
             currentYear.Add(initialAmount);
-            for (int j = 0; j < yearsToRetirement; j++)
+            if (imm == false)
             {
-                currentAmount += lumpSumAtRetirement / yearsToRetirement;
-                currentYear.Add(currentAmount);
+                for (int j = 0; j < yearsToRetirement; j++)
+                {
+                    currentAmount += lumpSumAtRetirement / yearsToRetirement;
+                    currentYear.Add(currentAmount);
+                }
             }
             distributionsBeforeTax = new PaymentCalculator(currentAmount, carloRate, yearsOfPayments).GetPayments();
-
-            for (int j = 0; j < yearsAfterRetirement; j++)
+            if (glwb) { yearsOfPayments += 100;}
+            for (int j = 0; j < yearsOfPayments; j++)
             {
                 currentAmount += currentAmount * carloRate;
                 if (gmwb || glwb)
