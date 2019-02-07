@@ -27,8 +27,7 @@ namespace Guaranteed_Income.Models.Riders
             annuity.distributionsBeforeTax = new PaymentCalculator(annuity.lumpSumAtRetirement, annuity.rate, annuity.yearsOfPayments).GetPayments();
             annuity.totalExpectedReturn = annuity.distributionsBeforeTax * annuity.yearsOfPayments;
             annuity.exclusionRatio = 0;
-            if (annuity.qual == false) annuity.exclusionRatio = annuity.initialAmount / annuity.totalExpectedReturn;
-            
+            if (annuity.qual == false) annuity.exclusionRatio = annuity.initialAmount / annuity.totalExpectedReturn;            
         }
     }
 }

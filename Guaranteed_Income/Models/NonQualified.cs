@@ -18,17 +18,17 @@ namespace Guaranteed_Income.Models
         public double fixedDefAsset;
         public double varImAsset;
         public double varDefAsset;
-        private NonDefFix nonDefFix;
-        private NonDefVar nonDefVar;
-        private NonImFix nonImFix;
-        private NonImVar nonImVar;
+        private AnnuityFactory nonDefFix;
+        private AnnuityFactory nonDefVar;
+        private AnnuityFactory nonImFix;
+        private AnnuityFactory nonImVar;
 
         public NonQualified(Brokerage stock, Person person)
         {
-            nonDefFix = new NonDefFix(person, stock);
-            nonDefVar = new NonDefVar(person, stock);
-            nonImFix = new NonImFix(person, stock);
-            nonImVar = new NonImVar(person, stock);
+            nonDefFix = new AnnuityFactory(AnnuityTax.Nonqualified, AnnuityTime.Deferred, AnnuityRate.Fixed, person, stock);
+            nonDefVar = new AnnuityFactory(AnnuityTax.Nonqualified, AnnuityTime.Deferred, AnnuityRate.Variable, person, stock);
+            nonImFix = new AnnuityFactory(AnnuityTax.Nonqualified, AnnuityTime.Immediate, AnnuityRate.Fixed, person, stock);
+            nonImVar = new AnnuityFactory(AnnuityTax.Nonqualified, AnnuityTime.Immediate, AnnuityRate.Variable, person, stock);
 
             fixedIm = nonImFix.yearlyBreakdown;
             fixedDef = nonDefFix.yearlyBreakdown;

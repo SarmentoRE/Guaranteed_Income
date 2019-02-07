@@ -61,7 +61,7 @@ namespace Guaranteed_Income.Interfaces
             CalculateRiders();
         }
 
-        public void CalculateData()
+        public void CalculateData(AnnuityTax tax, Brokerage stock)
         {
 
             rate -= extraFees;
@@ -72,13 +72,19 @@ namespace Guaranteed_Income.Interfaces
             if (qual == false) exclusionRatio = initialAmount / totalExpectedReturn;
             CalculateRiders();
             CalculateTaxes();
+
+            yearlyBreakdown = GetYearlyBreakdown(stock);
+            if(tax.Equals(AnnuityTax.Nonqualified)) afterTaxIncome = distributionsBeforeTax * (1 - taxRate) + yearlyNonTaxable;
+            else afterTaxIncome = distributionsBeforeTax * (1 - taxRate);
+            afterTaxIncome = Math.Round(afterTaxIncome, 2);
+            assetValue = Math.Max(person.assetIncome * (1 - taxRate), 0);
+            Math.Round(assetValue, 2);
         }
 
         public void NonQualified()
         {
             initialAmount = initialAmount * (1 - effectiveRate);
             qual = false;
-
         }
 
         public void Qualified()
@@ -214,6 +220,7 @@ namespace Guaranteed_Income.Interfaces
             return yearlyBreakdown;
         }
 
+        //calculates how much money a variable annuity will payout for a given year
         private List<double> VariableCalc(double carloRate)
         {
             List<double> currentYear = new List<double>();
