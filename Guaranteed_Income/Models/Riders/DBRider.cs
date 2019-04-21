@@ -10,9 +10,7 @@ namespace Guaranteed_Income.Models.Riders
     public class DBRider : IRider
     {
         public double rollUp { get; } = 0.06;
-        public double benifitBase { get; set; }
         public double lifetimeWithdrawlRate { get; set; }
-        //public double annualIncome { get; set; }
         public double fee { get; } = 0.0065;
         private int accumulation = 5;
 
@@ -20,14 +18,17 @@ namespace Guaranteed_Income.Models.Riders
         {
             annuity.DB = true;
             int growthYears = Math.Max(accumulation, person.retirementDate - DateTime.Now.Year);
-            if (annuity.imm) growthYears = 0;
 
-            annuity.rate = annuity.rate - annuity.extraFees - fee;
+            if (annuity.annuityTime == AnnuityTime.Immediate)
+                growthYears = 0;
 
-            annuity.distributionsBeforeTax = new PaymentCalculator(annuity.lumpSumAtRetirement, annuity.rate, annuity.yearsOfPayments).GetPayments();
+            annuity.rate -= (annuity.extraFees + fee);
+            annuity.distributionsBeforeTax = PaymentCalculator.GetPayments(annuity.lumpSumAtRetirement, annuity.rate, annuity.yearsOfPayments);
             annuity.totalExpectedReturn = annuity.distributionsBeforeTax * annuity.yearsOfPayments;
             annuity.exclusionRatio = 0;
-            if (annuity.qual == false) annuity.exclusionRatio = annuity.initialAmount / annuity.totalExpectedReturn;            
+
+            if (annuity.annuityTax == AnnuityTax.Qualified)
+                annuity.exclusionRatio = annuity.initialAmount / annuity.totalExpectedReturn;            
         }
     }
 }

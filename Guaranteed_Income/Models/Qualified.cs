@@ -1,6 +1,4 @@
 ﻿using Guaranteed_Income.Interfaces;
-using Guaranteed_Income.Models.Annuity;
-using Guaranteed_Income.Services;
 using System.Collections.Generic;
 
 namespace Guaranteed_Income.Models

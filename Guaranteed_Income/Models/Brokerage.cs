@@ -50,8 +50,8 @@ namespace Guaranteed_Income.Models
             growth75 = ((amountAtRetirement75 / confident75[0])-1) / (person.retirementDate - DateTime.Now.Year);
             growth90 = ((amountAtRetirement90 / confident90[0])-1) / (person.retirementDate - DateTime.Now.Year);
 
-            withdrawl75 = Math.Round(new PaymentCalculator(amountAtRetirement75, growth75, yearsOfPayments+1).GetPayments(),2);
-            withdrawl90 = Math.Round(new PaymentCalculator(amountAtRetirement90, growth90, yearsOfPayments+1).GetPayments(),2);
+            withdrawl75 = Math.Round(PaymentCalculator.GetPayments(amountAtRetirement75, growth75, yearsOfPayments+1),2);
+            withdrawl90 = Math.Round(PaymentCalculator.GetPayments(amountAtRetirement90, growth90, yearsOfPayments+1),2);
 
             totalAmount = withdrawl75 * yearsOfPayments;
             exclusionRatio = person.lumpSum / totalAmount;
@@ -92,9 +92,11 @@ namespace Guaranteed_Income.Models
 
             TaxBracket tax = new TaxBracket(taxable, person.filingStatus, person.state, (person.age + (DateTime.Now.Year - person.retirementDate)), rate, bracket, person.assetIncome);
             totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
-
             afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
             afterTaxIncome = Math.Round(afterTaxIncome, 2);
         }
     }
 }
+
+
+

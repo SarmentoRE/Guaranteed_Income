@@ -1,8 +1,6 @@
 ﻿using Guaranteed_Income.Interfaces;
+using Guaranteed_Income.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Guaranteed_Income.Models
 {
@@ -10,79 +8,55 @@ namespace Guaranteed_Income.Models
     {
         public AnnuityFactory(AnnuityTax tax, AnnuityTime time, AnnuityRate rate, Person person, Brokerage stock) : base(person)
         {
-            //Set up annuity details based on type
-            switch (tax)
-            {
-                case AnnuityTax.Nonqualified:
-                    NonQualified();
-                    switch (time)
-                    {
-                        case AnnuityTime.Deferred:
-                            Deferred();
-                            switch (rate)
-                            {
-                                //Non-qualified deferred fixed annuity
-                                case AnnuityRate.Fixed:
-                                    Fixed();
-                                    break;
-                                //Non-qualified deferred variable annuity
-                                case AnnuityRate.Variable:
-                                    Variable();
-                                    break;
-                            }
-                            break;
-                        case AnnuityTime.Immediate:
-                            Immediate();
-                            switch (rate)
-                            {
-                                //Non-qualified immediate fixed annuity
-                                case AnnuityRate.Fixed:
-                                    Fixed();
-                                    break;
-                                //Non-qualified immediate variable annuity
-                                case AnnuityRate.Variable:
-                                    Variable();
-                                    break;
-                            }
-                            break;
-                    }
-                    break;
-                case AnnuityTax.Qualified:
-                    Qualified();
-                    switch (time)
-                    {
-                        case AnnuityTime.Deferred:
-                            Deferred();
-                            switch (rate)
-                            {
-                                //qualified deferred fixed annuity
-                                case AnnuityRate.Fixed:
-                                    Fixed();
-                                    break;
-                                //qualified deferred variable annuity
-                                case AnnuityRate.Variable:
-                                    Variable();
-                                    break;
-                            }
-                            break;
-                        case AnnuityTime.Immediate:
-                            Immediate();
-                            switch (rate)
-                            {
-                                //qualified immediate fixed annuity
-                                case AnnuityRate.Fixed:
-                                    Fixed();
-                                    break;
-                                //qualified immediate variable annuity
-                                case AnnuityRate.Variable:
-                                    Variable();
-                                    break;
-                            }
-                            break;
-                    }                 
-                    break;
-            }
-            CalculateData(tax, stock);
+            annuityTax = tax;
+            annuityTime = time;
+            annuityRate = rate;
+
+            //Set up annuity details based on tax type
+            if (tax == AnnuityTax.Nonqualified) NonQualified();
+            else if (tax == AnnuityTax.Qualified) Qualified();
+
+            //Set up annuity details based on time
+            if (time == AnnuityTime.Deferred) Deferred();
+            else if (time == AnnuityTime.Immediate) Immediate();
+
+            //Set up annuity details based on rate
+            if (rate == AnnuityRate.Fixed) Fixed();
+            else if (rate == AnnuityRate.Variable) Variable();
+
+            CalculateBrokerageData(stock);
+        }
+
+        public void NonQualified()
+        {
+            initialAmount = initialAmount * (1 - effectiveRate);
+        }
+
+        public void Qualified()
+        {
+            //nothing special currently happens for qualified, but this is here just in case it changes in the future
+        }
+
+        public void Deferred()
+        {
+            yearsOfPayments = Math.Min((int)annuityLife, (int)retireLife);
+            lumpSumAtRetirement = FutureValue.GetFutureValue(initialAmount, rate, accumulationYears);
+        }
+
+        public void Immediate()
+        {
+            yearsOfPayments = (int)irsLife;
+            lumpSumAtRetirement = initialAmount;
+        }
+
+        public void Fixed()
+        {
+            extraFees = 0;
+        }
+
+        public void Variable()
+        {
+            extraFees = 0.025;
         }
     }
 

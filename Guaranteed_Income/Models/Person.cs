@@ -10,7 +10,7 @@ namespace Guaranteed_Income.Models
         public double income { get; set; }
         public int age { get; set; }
         public Gender gender { get; set; }
-        //public List<IRider> riders { get; set; } //subject to change heavily 
+        public List<IRider> riders { get; set; } //subject to change heavily 
         public FilingStatus filingStatus { get; set; }
         public int retirementDate { get; set; }
         public int deathDate { get; set; }

@@ -5,20 +5,9 @@ using System.Threading.Tasks;
 
 namespace Guaranteed_Income.Utilities
 {
-    public class FutureValue
+    public static class FutureValue
     {
-        public double cashFlow { get; set; }
-        public double rate { get; set; }
-        public double periods { get; set; }
-
-        public FutureValue(double cashFlow, double rate, double periods)
-        {
-            this.cashFlow = cashFlow;
-            this.rate = rate;
-            this.periods = periods;
-        }
-
-        public double GetFutureValue()
+        public static double GetFutureValue(double cashFlow, double rate, double periods)
         {
             double value = cashFlow;
             for (int i = 0; i < periods; i++)

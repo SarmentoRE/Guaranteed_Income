@@ -16,30 +16,41 @@ namespace Guaranteed_Income.Models.Riders
         //public double annualIncome { get; set; }
         public double fee { get; } = 0.0075;
         private int accumulation = 5;
+        private int growthYears;
 
         public GLWBRider(Person person, Annuities annuity)
-        {
+        {          
             annuity.glwb = true;
-            int growthYears = Math.Max(accumulation, person.retirementDate - DateTime.Now.Year);
-            if (annuity.imm) growthYears = 0; 
-            FutureValue future = new FutureValue(annuity.initialAmount, rollUp , growthYears);
-            benifitBase = future.GetFutureValue();
-            if (annuity.imm) benifitBase = annuity.initialAmount;
-            lifetimeWithdrawlRate = (LifeExpectancy.glwbTable[person.age+growthYears]);
 
-            annualIncome = lifetimeWithdrawlRate * benifitBase;
-            annualIncome = annualIncome * (1 - fee);
+            if (annuity.annuityTime == AnnuityTime.Immediate)
+            {
+                growthYears = 0;
+                benifitBase = annuity.initialAmount;
+            }
+            else
+            {
+                growthYears = Math.Max(accumulation, person.retirementDate - DateTime.Now.Year);
+                benifitBase = FutureValue.GetFutureValue(annuity.initialAmount, rollUp, growthYears);
+            }
+
+            //Limits should be imposed on the user to not allow glwb if they are out of the range annuities allow
+            try
+            {
+                lifetimeWithdrawlRate = (LifeExpectancy.glwbTable[person.age + growthYears]);
+            }
+            catch (IndexOutOfRangeException exception)
+            {
+                Console.WriteLine(exception);
+                lifetimeWithdrawlRate = 0;
+            }
+
+            annualIncome = (lifetimeWithdrawlRate * benifitBase) * (1 - fee);
             annuity.distributionsBeforeTax = annualIncome;
 
-
-            if (annuity.qual)
-            {
+            if (annuity.annuityTax == AnnuityTax.Qualified)
                 annuity.exclusionRatio = annuity.initialAmount / benifitBase;
-            }
-            else if(annuity.qual == false)
-            {
+            else
                 annuity.exclusionRatio = 0;
-            }
         }
     }
 }

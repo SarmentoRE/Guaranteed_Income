@@ -91,7 +91,7 @@ namespace Guaranteed_Income.Models
                     }
                     break;
 
-                case FilingStatus.Single:                    
+                case FilingStatus.Single:
                     rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
                     bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 500000 };
                     federalDeduction = 12000;
@@ -105,7 +105,7 @@ namespace Guaranteed_Income.Models
                     }
                     break;
 
-                case FilingStatus.HeadOfHousehold:                   
+                case FilingStatus.HeadOfHousehold:
                     rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
                     bracket = new List<double> { 0, 13600, 51800, 82500, 157500, 200000, 500000 };
                     federalDeduction = 18000;
@@ -119,7 +119,7 @@ namespace Guaranteed_Income.Models
                     }
                     break;
 
-                case FilingStatus.Married:                    
+                case FilingStatus.Married:
                     rate = new List<double> { 0.10, 0.12, 0.22, 0.24, 0.32, 0.35, 0.37 };
                     bracket = new List<double> { 0, 9525, 38700, 82500, 157500, 200000, 300000 };
                     federalDeduction = 12000;

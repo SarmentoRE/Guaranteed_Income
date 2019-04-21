@@ -7,17 +7,14 @@ namespace Guaranteed_Income.Controllers
     [Route("api")]
     public class HomeController : Controller
     {
+        /* Test
         [HttpGet]
         public JsonResult Get()
         {
-            //MonteCarlo x = new MonteCarlo(30000, 0.0083, .0424, 360);
-            //MonteCompare comparer = new MonteCompare();
-            //StoParallelMergeSort<List<double>> mergeSort = new StoParallelMergeSort<List<double>>(comparer);
-            //mergeSort.Sort(x.trialsList);
-            //return "Done";
             OutputModel output = new OutputModel();
             return Json(output);
         }
+        */
 
         [HttpPost]
         public JsonResult Post([FromBody] InputModel request)

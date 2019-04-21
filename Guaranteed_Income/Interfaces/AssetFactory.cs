@@ -28,11 +28,11 @@ namespace Guaranteed_Income.Models
                     currentValue += additions;
                 }
 
-                PaymentCalculator calculator = new PaymentCalculator(currentValue, rate, yearsOfRetirement);
-                yearlyIncome = calculator.GetPayments();
+                yearlyIncome = PaymentCalculator.GetPayments(currentValue, rate, yearsOfRetirement);
             }
-            catch(ArgumentOutOfRangeException e)
+            catch(ArgumentOutOfRangeException exception)
             {
+                Console.WriteLine(exception);
                 yearlyIncome = 0;
             }
         }

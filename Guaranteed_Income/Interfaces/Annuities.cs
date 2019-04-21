@@ -16,7 +16,6 @@ namespace Guaranteed_Income.Interfaces
         public double accumulationYears { get; set; }
         public double lumpSumAtRetirement { get; set; }
         public double extraFees { get; set; }
-        public double addedRider { get; set; }
         public int yearsAfterRetirement { get; set; }
         public double distributionsBeforeTax { get; set; }
         public double exclusionRatio { get; set; }
@@ -37,9 +36,9 @@ namespace Guaranteed_Income.Interfaces
         private Person person { get; set; }
         public IRider rider { get; set; }
         public double assetValue { get; set; }
-        private bool var;
-        public bool imm;
-        public bool qual;
+        public AnnuityRate annuityRate { get; set; }
+        public AnnuityTax annuityTax { get; set; }
+        public AnnuityTime annuityTime { get; set; }
         public bool glwb;
         public bool DB;
         public bool gmwb;
@@ -49,9 +48,11 @@ namespace Guaranteed_Income.Interfaces
             int currentYear = DateTime.Now.Year;
             yearsToRetirement = person.retirementDate - currentYear;
 
+            //Calculate life expectancy based on different real world methods
             irsLife = LifeExpectancy.GetLifeExpectancy(person.age, person.gender);
             annuityLife = LifeExpectancy.GetLifeExpectancy(person.age + defferedTime, person.gender);
             retireLife = LifeExpectancy.GetLifeExpectancy(person.age + yearsToRetirement, person.gender);
+
             initialAmount = person.lumpSum;
             accumulationYears = Math.Max(yearsToRetirement, defferedTime);
             effectiveRate = (person.taxBracket.stateYearlyTax + person.taxBracket.federalYearlyTax) / person.income;
@@ -61,61 +62,26 @@ namespace Guaranteed_Income.Interfaces
             CalculateRiders();
         }
 
-        public void CalculateData(AnnuityTax tax, Brokerage stock)
+        public void CalculateBrokerageData(Brokerage stock)
         {
-
             rate -= extraFees;
 
-            distributionsBeforeTax = new PaymentCalculator(lumpSumAtRetirement, rate, yearsOfPayments).GetPayments();
+            distributionsBeforeTax = PaymentCalculator.GetPayments(lumpSumAtRetirement, rate, yearsOfPayments);
             totalExpectedReturn = distributionsBeforeTax * yearsOfPayments;
+
+            //exclusion ratio is only non-zero if it a nonqualified annuity
             exclusionRatio = 0;
-            if (qual == false) exclusionRatio = initialAmount / totalExpectedReturn;
+            if (annuityTax == AnnuityTax.Nonqualified) exclusionRatio = initialAmount / totalExpectedReturn;
+
             CalculateRiders();
             CalculateTaxes();
 
             yearlyBreakdown = GetYearlyBreakdown(stock);
-            if(tax.Equals(AnnuityTax.Nonqualified)) afterTaxIncome = distributionsBeforeTax * (1 - taxRate) + yearlyNonTaxable;
+            if(annuityTax == AnnuityTax.Nonqualified) afterTaxIncome = distributionsBeforeTax * (1 - taxRate) + yearlyNonTaxable;
             else afterTaxIncome = distributionsBeforeTax * (1 - taxRate);
             afterTaxIncome = Math.Round(afterTaxIncome, 2);
             assetValue = Math.Max(person.assetIncome * (1 - taxRate), 0);
             Math.Round(assetValue, 2);
-        }
-
-        public void NonQualified()
-        {
-            initialAmount = initialAmount * (1 - effectiveRate);
-            qual = false;
-        }
-
-        public void Qualified()
-        {
-            qual = true;
-        }
-
-        public void Deferred()
-        {
-            yearsOfPayments = Math.Min((int)annuityLife, (int)retireLife);
-            lumpSumAtRetirement = new FutureValue(initialAmount, rate, accumulationYears).GetFutureValue();
-            imm = false;
-        }
-
-        public void Immediate()
-        {
-            yearsOfPayments = (int)irsLife;
-            lumpSumAtRetirement = initialAmount;
-            imm = true;
-        }
-
-        public void Fixed()
-        {
-            extraFees = 0;
-            var = false;
-        }
-
-        public void Variable()
-        {
-            extraFees = 0.025;
-            var = true;
         }
 
         public void CalculateTaxes()
@@ -182,7 +148,7 @@ namespace Guaranteed_Income.Interfaces
                 yearsOfPayments += 5;
             }
             stock.yearsOfLife = yearsOfPayments;
-            if (var)
+            if (annuityRate == AnnuityRate.Variable)
             {
                 carloRate = ((rate * 0.6) + (stock.growth75 * 0.4));
                 yearlyBreakdown.Add(VariableCalc(carloRate));
@@ -194,7 +160,7 @@ namespace Guaranteed_Income.Interfaces
             else
             {
                 currentYear.Add(currentAmount);
-                if (imm == false)
+                if (annuityTime == AnnuityTime.Deferred)
                 {
                     for (int i = 0; i < yearsToRetirement; i++)
                     {
@@ -226,9 +192,9 @@ namespace Guaranteed_Income.Interfaces
             List<double> currentYear = new List<double>();
             double currentAmount = initialAmount;
 
-            lumpSumAtRetirement = new FutureValue(initialAmount, carloRate, yearsToRetirement).GetFutureValue();
+            lumpSumAtRetirement = FutureValue.GetFutureValue(initialAmount, carloRate, yearsToRetirement);
             currentYear.Add(initialAmount);
-            if (imm == false)
+            if (annuityTime == AnnuityTime.Deferred)
             {
                 for (int j = 0; j < yearsToRetirement; j++)
                 {
@@ -236,7 +202,7 @@ namespace Guaranteed_Income.Interfaces
                     currentYear.Add(currentAmount);
                 }
             }
-            distributionsBeforeTax = new PaymentCalculator(currentAmount, carloRate, yearsOfPayments).GetPayments();
+            distributionsBeforeTax = PaymentCalculator.GetPayments(currentAmount, carloRate, yearsOfPayments);
             if (glwb) { yearsOfPayments += 100;}
             for (int j = 0; j < yearsOfPayments; j++)
             {
