@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Guarenteed_Income.tests
+namespace Guaranteed_Income.tests
 {
     [TestClass]
-    public class AnnuityTests
+    public class TaxTests
     {
         [TestMethod]
         public void TestMethod1()
