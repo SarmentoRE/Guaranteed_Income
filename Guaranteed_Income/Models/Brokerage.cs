@@ -59,23 +59,6 @@ namespace Guaranteed_Income.Models
 
         public void CalculateTaxes()
         {
-            List<double> rate = new List<double>{ 0,.15,.20};
-            List<double> bracket = new List<double>();
-            switch (person.filingStatus)
-            {
-                case FilingStatus.Joint:
-                     bracket = new List<double>{ 0, 77400, 480050 };
-                    break;
-                case FilingStatus.Married:
-                    bracket = new List<double> { 0, 38700, 240025 };
-                    break;
-                case FilingStatus.HeadOfHousehold:
-                    bracket = new List<double> { 0, 51850, 453350 };
-                    break;
-                case FilingStatus.Single:
-                    bracket = new List<double> { 0, 38700, 426700 };
-                    break;
-            }
             double totalYearlyTax;
             double taxable;
             yearlyTaxable = (1 - exclusionRatio) * withdrawl75;
@@ -90,13 +73,9 @@ namespace Guaranteed_Income.Models
                 taxable = yearlyTaxable + person.assetIncome;
             }
 
-            TaxBracket tax = new TaxBracket(taxable, person.filingStatus, person.state, (person.age + (DateTime.Now.Year - person.retirementDate)), rate, bracket, person.assetIncome);
-            totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
+            totalYearlyTax = Tax.GetCapitolGainsTax(person.income, person.filingStatus, person.state, (person.age + (DateTime.Now.Year - person.retirementDate)), person.assetIncome);
             afterTaxIncome = (taxable - totalYearlyTax) + yearlyNonTaxable;
             afterTaxIncome = Math.Round(afterTaxIncome, 2);
         }
     }
 }
-
-
-

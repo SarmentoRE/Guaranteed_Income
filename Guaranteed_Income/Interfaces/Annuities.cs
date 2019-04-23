@@ -55,7 +55,7 @@ namespace Guaranteed_Income.Interfaces
 
             initialAmount = person.lumpSum;
             accumulationYears = Math.Max(yearsToRetirement, defferedTime);
-            effectiveRate = (person.taxBracket.stateYearlyTax + person.taxBracket.federalYearlyTax) / person.income;
+            effectiveRate = Tax.GetEffectiveRate(person);
             yearsAfterRetirement = (person.deathDate - person.retirementDate);
             this.person = person;
 
@@ -69,16 +69,21 @@ namespace Guaranteed_Income.Interfaces
             distributionsBeforeTax = PaymentCalculator.GetPayments(lumpSumAtRetirement, rate, yearsOfPayments);
             totalExpectedReturn = distributionsBeforeTax * yearsOfPayments;
 
-            //exclusion ratio is only non-zero if it a nonqualified annuity
-            exclusionRatio = 0;
-            if (annuityTax == AnnuityTax.Nonqualified) exclusionRatio = initialAmount / totalExpectedReturn;
+            //exclusion ratio is only non-zero if it a nonqualified annuity   
+            if (annuityTax == AnnuityTax.Nonqualified)
+                exclusionRatio = initialAmount / totalExpectedReturn;
+            else
+                exclusionRatio = 0;
 
             CalculateRiders();
             CalculateTaxes();
 
             yearlyBreakdown = GetYearlyBreakdown(stock);
-            if(annuityTax == AnnuityTax.Nonqualified) afterTaxIncome = distributionsBeforeTax * (1 - taxRate) + yearlyNonTaxable;
-            else afterTaxIncome = distributionsBeforeTax * (1 - taxRate);
+            if(annuityTax == AnnuityTax.Nonqualified)
+                afterTaxIncome = distributionsBeforeTax * (1 - taxRate) + yearlyNonTaxable;
+            else
+                afterTaxIncome = distributionsBeforeTax * (1 - taxRate);
+
             afterTaxIncome = Math.Round(afterTaxIncome, 2);
             assetValue = Math.Max(person.assetIncome * (1 - taxRate), 0);
             Math.Round(assetValue, 2);
@@ -100,8 +105,7 @@ namespace Guaranteed_Income.Interfaces
                 taxable = yearlyTaxable + person.assetIncome;
             }
 
-            TaxBracket tax = new TaxBracket(taxable, person.filingStatus, person.state, (person.age + yearsToRetirement));
-            totalYearlyTax = tax.federalYearlyTax + tax.stateYearlyTax;
+            totalYearlyTax =  Tax.GetSpecialTax(taxable, person.filingStatus, person.state, (person.age + yearsToRetirement));
 
             taxRate = totalYearlyTax / yearlyTaxable;
             afterTaxIncome = (taxable * (1-taxRate)) + yearlyNonTaxable;

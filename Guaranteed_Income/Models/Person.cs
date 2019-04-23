@@ -14,7 +14,6 @@ namespace Guaranteed_Income.Models
         public FilingStatus filingStatus { get; set; }
         public int retirementDate { get; set; }
         public int deathDate { get; set; }
-        public TaxBracket taxBracket { get; set; }
         public double assetIncome { get; set; }
         public State state { get; set; } = State.Virginia;
         public List<bool> concerns { get; set; }
@@ -29,7 +28,6 @@ namespace Guaranteed_Income.Models
             filingStatus = (FilingStatus)Enum.Parse(typeof(FilingStatus), model.filingStatus, true);
             retirementDate = Int32.Parse(model.retirementDate.Substring(0,4));
             deathDate = Int32.Parse(model.deathDate.Substring(0, 4));
-            taxBracket = new TaxBracket(income, filingStatus, state, age);
             lumpSum = model.lumpSum;
             concerns = model.concerns;
             assetIncome = new AssetFactory(model.assets, retirementDate, deathDate, income).yearlyIncome;
