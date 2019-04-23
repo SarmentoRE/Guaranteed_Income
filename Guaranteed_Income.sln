@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guaranteed_Income", "Guaranteed_Income\Guaranteed_Income.csproj", "{2B4895FC-D493-4C7F-A433-4C4ED46067EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guaranteed_Income.tests", "Guaranteed_Income.tests\Guaranteed_Income.tests.csproj", "{94D46655-58A1-4C4D-AD96-D2391000EE24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guaranteed_Income.Tests", "Guaranteed_Income.tests\Guaranteed_Income.Tests.csproj", "{94D46655-58A1-4C4D-AD96-D2391000EE24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
